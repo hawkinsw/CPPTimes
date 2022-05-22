@@ -23,7 +23,7 @@ We started off with the first Daily Debug of the semester. Our program to debug 
 }</pre>
 </html>
 
-The first thing we noticed was a missing `;` at the end of _statement_ that printed the trivia fact about George Rieveschl. In C++, all statements, complete instructions that define a computation, must end in a semicolon. 
+The first thing we noticed was a missing `;` at the end of the _statement_ that printed the trivia fact about George Rieveschl. In C++, all statements, complete instructions that define a computation, must end in a semicolon. 
 
 The great thing about this error was that we could discover it with the help of the compiler. Any error that the compiler can detect is known as a _compile-time error_ because it is an error that happens, well, at compile time. Of course, this statement begs the question -- Just _what is_ compile time? Compile time is when the programmed is compiled. 
 
