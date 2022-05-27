@@ -1,6 +1,6 @@
 ## What's News
 
-After conquering the vagueries of quantum mechanics, physicists turned their attention to completely deciphering the behavior of mathematical operations in C++ programs. The years-long effort resulted in today's announcement from C++ Elucidation Research Network (CERN) that they have finally broken the code.
+After conquering the vagaries of quantum mechanics, physicists turned their attention to completely deciphering the behavior of mathematical operations in C++ programs. The years-long effort resulted in today's announcement from C++ Elucidation Research Network (CERN) that they have finally broken the code.
 
 ## Integer Division
 
