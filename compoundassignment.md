@@ -28,7 +28,7 @@ To save our fingers from fatigue, the designers of the C++ language gave us some
 
 </pre></body></html>
 
-The 3 line in both programs is equivalent and the latter is much shorter than the former! How cool is that?
+The third line in both programs is equivalent and the latter is much shorter than the former! How cool is that?
 
 The best part is that we can use compound assignment operators with all of our operations -- `-`, `/`, `*`, etc!
 
