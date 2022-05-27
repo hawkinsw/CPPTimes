@@ -1,6 +1,6 @@
 ## What's News
 
-In today's news, researchers uncover what happens when people take the advice to "Go big or go home" too seriously. But first, we start with mathematical proof that you can walk and chew gum at the same time.
+Mathematicians provide mathematical proof that you can walk and chew gum at the same time.
 
 ## Compound Assignment Operators
 
