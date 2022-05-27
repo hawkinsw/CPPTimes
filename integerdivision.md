@@ -49,7 +49,7 @@ So, how can you get around this obnoxious behavior and teach the computer to giv
 
 C++ cannot evaluate an expression when there the two operands of an operator have different types. So, when C++ sees an operator whose operands have different types, it goes through a process of attempting to coerce the two operands to the same type!
 
-The rules and mechanics of this process are fairly complex (and it is best to consult a reference any time you rely on that behavior [TODO]), but there is one that is easy to remember and very handy:
+The rules and mechanics of this process are fairly complex (and it is best to consult a [reference](https://en.cppreference.com/w/cpp/language/implicit_conversion) any time you rely on that behavior), but there is one that is easy to remember and very handy:
 
 > When C++ sees an operator whose operands are an `int` and a `double`, the operator with the `int` operand is "upgraded" to a `double`.
 
