@@ -126,4 +126,4 @@ which prints
 Three cubed: 27
 ```
 
-[Solidarity](https://en.wikipedia.org/wiki/Solidarity_(Polish_trade_union).
+Solidarity.
