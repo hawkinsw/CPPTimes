@@ -1,0 +1,252 @@
+### What's News
+
+Despite advances in the understanding of quantum mechanics, researchers at the world's leading institutes for science have finally boiled down the essence of matter into one of two states. Read on to find out about their amazing discovery!
+
+### Boolean
+
+Booleans are a concept and a type in C++. Named after their famous discover, George Boole, Booleans (and their C++ type `bool`) are either _true_ (`true`) or _false_ (`false`). 
+
+Any _type_ in C++, we know, has two characteristics: 
+
+1. A range of valid values; and
+2. Valid operations on those values.
+
+And `bool` is no different! Like `int`s who can hold all whole numbers (positive and negative), `bool` are limited in what they can hold. `bool`s are either `true` or `false` -- there is no middle ground!
+
+What is cool about George Boole's thinking was that he defined a set of operations that you can use to combine two Booleans and get another one (we'll come back to that in a second). What's even more awesome is that those operators closely reflect how logic works in real life! 
+
+We know that `bool`s can only hold `true` and `false`. We know that we have operators to combine two Booleans and get another. But, how do we get a Boolean value in the first place?
+
+The answer: _relational_ and _equality_ operators! An expression composed of operands and a relational or equality operator has a value (just like all expressions!). And, like every value in C++, it has a type! The value can be either `true` or `false` and the type is `bool`. I am sure that you aren't surprised!
+
+Let's look at the relational and equality operators in "C++ World" and how they compare to the ways that we compare values when we are in "Math World."
+
+| Meaning | Math World | C++ World |
+| --- | --- | --- |
+| Less than | ![](https://uc.instructure.com/equation_images/%253C) | `<` |
+| Less than or equal to | ![](https://uc.instructure.com/equation_images/%255Cle) | `<=` | 
+| Greater than | ![](https://uc.instructure.com/equation_images/%253E) | `>` |
+| Greater than or equal to | ![](https://uc.instructure.com/equation_images/%255Cge) | `>=` |
+| Equal to | ![](https://uc.instructure.com/equation_images/%253D) | `==` |
+| Not equal to | ![](https://uc.instructure.com/equation_images/%255Cne) | `!=` |
+
+The first four are the _relational_ operators and the final two are the _equality_ operators.
+
+Let's look at a few examples to make it clear:
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() { bool result{<font color=red>5</font> &lt; <font color=red>10</font>}; }
+
+</pre></body></html>
+
+`result` is `true`!
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() { bool result{<font color=red>10</font> &lt;= <font color=red>10</font>}; }
+
+</pre></body></html>
+
+`result` is `true`!
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() { bool result{<font color=red>10</font> &gt;= <font color=red>10</font>}; }
+
+</pre></body></html>
+
+`result` is `true`!
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() { bool result{<font color=red>10</font> == <font color=red>10</font>}; }
+
+</pre></body></html>
+
+`result` is `true`!
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() { bool result{<font color=red>10</font> != <font color=red>10</font>}; }
+
+</pre></body></html>
+
+`result` is `false`!
+
+
+Now, there's something really philosophical about `bool` in C++. Like C++ is able to _coerce_ an `int` into a `double` (or vice versa), C++ can convert values that are not `bool` into a `bool`. That's really powerful (as we'll see later!). Although the specifics are sometimes odd, the basic idea is that if you assign a value to a bool (from a type such as an `int` or a `double` or `char`) and that value is `0` (`0.0` or `'\0'`), then the `bool` is `false`. For _any other value_, the `bool` is `true`. For instance, 
+
+<html><head></head><body><pre>
+ 1 #include &lt;iostream&gt;
+ 2 
+ 3 <font color=green>int</font> main() {
+ 4   <font color=green>int</font> zero{<font color=red>0</font>};
+ 5   <font color=green>double</font> zero_point_zero{<font color=red>0.0</font>};
+ 6   <font color=green>char</font> null_character{<font color=red>'\0'</font>};
+ 7   <font color=green>char</font> letter_a{<font color=red>'a'</font>};
+ 8   <font color=green>int</font> five_hundred_one{<font color=red>501</font>};
+ 9   <font color=green>double</font> pi{<font color=red>3.14</font>};
+10 
+11   bool zero_bool = zero;
+12   bool zero_point_zero_bool = zero_point_zero;
+13   bool null_character_bool = null_character;
+14   bool letter_a_bool = letter_a_bool;
+15   bool five_hundred_one_bool = five_hundred_one;
+16   bool pi_bool = pi;
+17 
+18   <font color=green>return</font> <font color=red>0</font>;
+19 }
+
+</pre></body></html>
+
+`zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `true`! The others are `false`.
+
+Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc, there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or) and `!` (which means _not_). 
+
+The first two (`&&` and `||`) are binary operators (which mean that they two two operands, like `+`, and `-` do). The `!` is a unary operator, meaning that it only takes a single operand.
+
+Think about statements like:
+
+> It is raining and it is snowing.
+
+and
+
+> It is raining or it is snowing.
+
+Assume that we are in Cincinnati in June and I look outside. I see that it is raining, but there's no way that it's snowing. So, yes, it is _true_ that it is raining (we'll call that `raining` and say it is `true`) but, no, it is `false` that it is snowing (`snowing`). 
+
+The first statement is logically not true! So, we would say that it is `false`. The second statement, however, is `true`. So, in 
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() {
+4   bool is_raining_and_snowing = raining && snowing;
+5   bool is_raining_or_snowing = raining || snowing;
+6   <font color=green>return</font> <font color=red>0</font>;
+7 }
+
+</pre></body></html>
+
+`is_raining_and_snowing` is `true` and `is_raining_or_snowing` is `false`. 
+
+In an `||` expression, if either operand is `true`, then the expression is `true`.  In an `&&` expression, if both operands are `true`, then the expression is `true`. Otherwise, the expressions are `false`. 
+
+The `!` simply reverses the value of its (single) operand. For example,
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() {
+4   bool yes{true};
+5   bool no{!yes};
+6   <font color=green>return</font> <font color=red>0</font>;
+7 }
+
+</pre></body></html>
+
+`no` is `false`. To compute that, just replace `yes` with its value (`bool no{!true}`), flip `true` to `false` because of the `!` and you get `bool no{false};`. Pretty cool!
+
+So, we can calculate `true` and `false` values, but what good are they? Read on to find out!
+
+### If Statement
+
+So far our programs have been pretty boring. They may have calculated different values based on user input, but they performed the same set of operations no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can perform different operations! The general form of an `if` statement is
+
+<html>
+<pre><font color="#FCE94F">if</font> (boolean expression) {
+  some statements;
+}   </pre>
+</html>
+
+When _boolean expression_ is `true`, then `some statements` execute. When _boolean expression_ is `false`, _some statements_ do not execute. _some statements_ between `{}` are called a _block_. C++ programmers say that a block of code is conditionally executed by an `if` statement. C++ programmers also often say that a block of code is guarded by a conditional.
+
+<html><head></head><body><pre>
+ 1 #include &lt;iostream&gt;
+ 2 
+ 3 <font color=green>int</font> main() {
+ 4   <font color=green>int</font> five = <font color=red>5</font>;
+ 5   <font color=green>int</font> six = <font color=red>6</font>;
+ 6 
+ 7   <font color=green>if</font> (5 &lt; <font color=red>6</font>) {
+ 8     std::cout << <font color=red>"Five is less than 6!"</font>;
+ 9   }
+10 
+11   <font color=green>if</font> (five == six) {
+12     std::cout << <font color=red>"Huh, five is equal to 6!\\n"</font>;
+13   }
+14 }
+
+</pre></body></html>
+
+prints
+
+```
+Five is less than 6!
+```
+
+
+#### Be very careful: = and == are different!
+
+C++ tries to be very accomodating and will attempt to convert a value of any type to a `bool` when it is used in the place of _boolean expression_ in an `if` statement. Recall, above, how we talked about the ways that conversion happens!
+
+More importantly, remember how we talked about the fact that many things in C++ are expressions that you would not immediately realize? 
+
+Well, one of those hidden expressions in C++ is the `=` (assignment) operator! The value of expression `a = b` is the value of `b`! In other words,
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() {
+4   <font color=green>int</font> a = <font color=red>5</font>;
+5   <font color=green>int</font> b = <font color=red>6</font>;
+6 
+7   std::cout << <font color=red>"a = b: "</font> << (a = b) << <font color=red>"\n"</font>;
+8   <font color=green>return</font> <font color=red>0</font>;
+9 }
+
+</pre></body></html>
+
+prints
+
+```
+a = b: 6
+```
+
+I know, right?! These semantics make it possible to do things like
+
+`a = b = c = d = 5;`
+
+to set `a`, `b`, `c` and `d` all to the value `5`.
+
+Think closely and figure out why
+
+
+<html><head></head><body><pre>
+1 #include &lt;iostream&gt;
+2 
+3 <font color=green>int</font> main() {
+4   <font color=green>int</font> five = <font color=red>5</font>;
+5   <font color=green>int</font> six = <font color=red>6</font>;
+6   <font color=green>if</font> (five = six) {
+7     std::cout << <font color=red>"Huh, five is equal to 6!\\n"</font>;
+8   }
+9 }
+
+</pre></body></html>
+
+prints
+
+```
+Huh, five is equal to 6!
+```
+
+If you look closely, you will see that where I put _boolean expression_ in the `if` statement there is a `=` and not a `==`. The expression evaluates to the value in `six`. Remember earlier how we learned that anything that is not explicitly `false` and not something like `0` (etc) is true? Well, in this case, C++ evaluates whether the value of the expression `five = six` is 0 (it's not, it's the value in `six`), equates that to `true` and chooses to execute the block!
+
+Be very careful! _You will make this mistake!_  _I promise!_
