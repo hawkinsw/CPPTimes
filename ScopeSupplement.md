@@ -1,11 +1,11 @@
 Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, entices its customers who buy their publications off the rack in the Kroger checkout lanes with inserts. 
 
 ### Getting Healthy C++ in 2022 With Scopes
-As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at every `}`. 
+As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`. 
 
 We take advantage of scopes in order to limit the possibility that other developers writing code in other parts of the same program create/use variables with the same name as ours in ways that conflict. 
 
-If our compiler has taught us anything in the first few weeks of class, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent time. In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
+If our compiler has taught us anything in the first few weeks of class, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, time? In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
 
 No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, as long as you need two variables to represent time in different scopes, you can name them both `time` without worrying about conflicts. 
 
@@ -21,11 +21,11 @@ Consider the following, relatively simple C++ program:
   <font color="#87FFAF">int</font> alpha{<font color="#AD7FA8">1</font>};
   <font color="#87FFAF">int</font> beta{<font color="#AD7FA8">2</font>};
 
-  <font color="#FCE94F">if</font> (<font color="#AD7FA8">true</font>) {
+  <font color="#FCE94F">if</font> (alpha &lt; beta) {
     <font color="#87FFAF">int</font> first{<font color="#AD7FA8">10</font>};
     <font color="#87FFAF">int</font> second{<font color="#AD7FA8">20</font>};
 
-    <font color="#FCE94F">if</font> (<font color="#AD7FA8">true</font>) {
+    <font color="#FCE94F">if</font> (first &lt; second) {
       <font color="#87FFAF">int</font> tango{<font color="#AD7FA8">100</font>};
       <font color="#87FFAF">int</font> foxtrot{<font color="#AD7FA8">200</font>};
       <font color="#87FFAF">int</font> second{<font color="#AD7FA8">30</font>};
@@ -49,27 +49,26 @@ Let's add some color to improve our vision. These colors will represent each of 
 
 ![Each of the scopes in the `main` function annotated with colors.](./graphics/ScopesVisualizedOverview.png)
 
-There are three scopes in the `main` function -- the yellow scope, the pink scope and the blue scope. The yellow scope contains the pink scope. The pink scope contains the blue scope. Scopes can be infinitely nested and the scoping relationship is transitive (i.e., if scope _A_ contains scope _B_ and scope _B_ contains scope _B_, then scope A contains scope _C_.)! 
+There are three scopes in the `main` function -- the yellow scope, the pink scope and the blue scope. The yellow scope contains the pink scope. The pink scope contains the blue scope. Scopes can be infinitely nested and the scoping relationship is transitive (i.e., if scope _A_ contains scope _B_ and scope _B_ contains scope _C_, then scope A contains scope _C_.)! 
 
 `alpha`, and `beta` are local to the yellow scope. `tango` and `foxtrot` are local to the blue scope. Which variables are local to the pink scope? 
 
-Take special note of the fact that there is a `second` local to both the yellow _and_ the blue scope. Interesting! What are the semantics of this type of arrangement? Wait and see!
+Take special note of the fact that there is a `second` local to both the pink _and_ the blue scope. Interesting! What are the semantics of this type of arrangement? Wait and see!
 
 ### Dive, Dive, Dive
 
 Let's take a submarine 20,000 leagues under the C++ and make some observations using its periscope. 
 
-![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition1.png)
-
-Variables in a C++ program are either _in scope_ or _out of scope_. Variables that are _in scope_ are the ones that can be seen from the periscope of our submarine. It is an error to attempt to access/update a variable that is out of scope. 
+Variables in a C++ program are either _in scope_ or _out of scope_. Variables that are _in scope_ are the ones that can be seen from the periscope of our submarine. It is an error to attempt to access/update (read/write) a variable that is out of scope. 
 
 When using a physical periscope, you can only view in one direction. The same thing is true in C++. If you think about scopes increasing in depth from left-to-right, variables in the enclosing scopes are to the left. 
 
-![The variables in scope at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition1.png)
+| ![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition1.png) | ![The variables in scope at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition1.png) |
+| -- | -- |
 
-This image demonstrates visually that `alpha`, `beta`, `first`, `tango`, and `foxtrot` are all in scope, even though only a subset of those variables are local. At the time when the program is executing the code at the green arrow in the image above, the values of all of those variables may be accessed or modified.
+The image above right demonstrates visually that `alpha`, `beta`, `first`, `tango`, and `foxtrot` are all in scope, even though only a subset of those variables are local. At the time when the program is executing the code at the green arrow in the image above left, the values of all of those variables may be accessed or modified.
 
-What is there to make of the situation of the variable named `second`? Well, it's clear that the presence of the variable named `second` in the blue scope blocks the submarine's view of the variable named `second` in the pink scope! So, if the program accesses (reads or writes) `second` from inside the blue scope, it is the `second` in the blue scope whose value will be retrieved or updated. Two variables that have the same name that are both in scope at the same time are said to _shadow_ one another. The variable whose local scope is closest to the position of the program's execution will always (with a certain caveat) be the one that is accessed/updated. 
+What is there to make of the situation of the variable named `second`? Well, it's clear that the presence of the variable named `second` in the blue scope blocks the submarine's view of the variable named `second` in the pink scope! So, if the program accesses or updates `second` from inside the blue scope, it is the `second` in the blue scope whose value will be read or written. If there are two (or more) variables with the same name that are in scope at the same time, the variables are said to _shadow_ (or _hide_) one another. The variable whose declaration/definition is closest to the position of the program's execution will always (with a certain caveat) be the one that is accessed/updated (i.e., read/written). 
 
 The program's output so far is:
 
@@ -83,17 +82,19 @@ The program execution advances.
 
 ![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition2.png)
 
-The programmer here is updating the `beta` variable. But, `beta` is not local. Is this update legal? Yes, it is! `beta` is not local but it sure is in scope! 
+The programmer here is updating the `beta` variable. But, `beta` is not local -- it's declaration occurs in the yellow scope but the program is executing in the blue scope. Is this write to the variable legal? Yes, it is! `beta` is not local but it sure is in scope! 
 
-![The variables in scope (and their values) at the point when program execution is at the green line in the image above are the ones visible by the periscope. Notice that the value of `beta` in the yellow scope has changed.](./graphics/ScopesVisiblePosition2.png)
+![The variables in scope (and their values) at the point when program execution is at the green line in the image to the left are the ones visible by the periscope. Notice that the value of `beta` in the yellow scope has changed.](./graphics/ScopesVisiblePosition2.png)
 
 The program execution continues. 
 
-![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition3.png)
+![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition30.png)
 
 The value retrieved when the program accesses the variable `first` when it is paused at the line annotated in green in the figure above is relatively easy to calculate. There is, after all, only one `first` and it is local to the scope where execution is paused (pink). The value retrieved is `10`. 
 
 The situation is slightly more complicated with the `second` variable.
+
+![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition3.png)
 
 ![The variables in scope (and their values) at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition3.png)
 
