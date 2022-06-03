@@ -94,11 +94,10 @@ The value retrieved when the program accesses the variable `first` when it is pa
 
 The situation is slightly more complicated with the `second` variable.
 
-![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition3.png)
+| ![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition3.png) | ![The variables in scope (and their values) at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition3.png) |
+| -- | -- |
 
-![The variables in scope (and their values) at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition3.png)
-
-As we begin to resurface in our submarine, the scopes (and the variables and the space needed to store values in those variables contained therein) that we left below us (or to the right of us) no longer exist. Their vanishing act makes it easier to determine the value retrieved when `second` is accessed by the program as it executes the line of code annotated in green in the figure above. It is `20`! How could it be otherwise? The "other" `second` went up in a puff of smoke (to determine how smoke exists underwater is an exercise left to the reader!). 
+As we begin to resurface in our submarine, the scopes (and the variables and the space needed to store values in those variables contained therein) that we left below us (or to the right of us) no longer exist. Their vanishing act makes it easier to determine the value retrieved when `second` is accessed by the program as it executes the line of code annotated in green in the figure above left. It is `20`! How could it be otherwise? The "other" `second` went up in a puff of smoke (to determine how smoke exists underwater is an exercise left to the reader!). 
 
 At this point, the program's output is
 
