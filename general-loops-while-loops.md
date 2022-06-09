@@ -1,5 +1,5 @@
 ## What's News
-For decades and decades Western society has assumed that Einstein was correct when he said that ["Insanity is doing the same thing over and over and expecting different results."](https://www.scientificamerican.com/article/einstein-s-parable-of-quantum-insanity/) Today, historians announced that his famous observation may not be true after all.
+For decades and decades Western society has assumed that Einstein was correct. Not about what he said regarding quantum mechanics, but about what he said about doing the same thing repeatedly and expecting a different result: ["Insanity is doing the same thing over and over and expecting different results."](https://www.scientificamerican.com/article/einstein-s-parable-of-quantum-insanity/) Today, historians announced that his famous observation may not be true after all.
 
 ## Loops: Doing the Same Thing Over and Over Again
 
@@ -14,15 +14,14 @@ Or, if we are writing a game, we might need to calculate the total score based o
 2.  Start with the first round.
 3.  Add the current round's score to the total score.
 4.  While there are still rounds to score, advance to the next round and repeat (3). 
-    
 
-These are just two pseudocode examples of the many, many uses of _loops,_ programming structures that cause a group of statements to repeat. The group of statements to be repeated by a loop is called the _body_ of the loop. Programmers often say that the body is "in" a loop. We call every repetition of the body of the loop an _iteration_. Loops are an incredibly important tool for programmers -- almost as important as the if statement. There are three different loops: the `for` loop, the `while` loop and the `do...while` loop. Each of these loops exists for a reason and solves a particular type of problem. It is important to understand when to use each of the loops.
+These are just two pseudocode examples of the many, many uses of _loops,_ programming structures that cause a group of statements to repeat. The group of statements to be repeated by a loop is called the _body_ of the loop. Programmers often say that the body is "in" a loop. We call every repeated execution of the body of a loop an _iteration_. Loops are an incredibly important tool for programmers -- almost as important as the if statement. There are three different loops: the `for` loop, the `while` loop and the `do...while` loop. Each of these loops exists for a reason and solves a particular type of problem. It is important to understand when to use each of the loops.
 
 ### The `do...while` loop
 
 The `do ... while` loop is the oddball among the three types of loops. The `do...while` loop's syntax looks like this:
 
-![TODO](./graphics/The%20Do%20While%20Loop.png)
+![The general format of the `do ... while` loop.](./graphics/The%20Do%20While%20Loop.png)
 
 The placeholder `statement`s listed in green represent the body of the loop and can be any valid C++ code. The semantics of the `do...while` loop are relatively straightforward: Repeatedly execute the body while `expression` evaluates to `true`. Remember that the type of the value of `expression` does not necessarily need to be a `bool`. C++ will convert the value of `expression` to a `bool` if it is some other type (as long as such a conversion is possible!). When you rely on this behavior to control a loop, be sure to think about the algorithm that C++ uses to determine whether a value with non-`bool` type is `true` or `false`.
 
@@ -92,33 +91,82 @@ One of the adages about learning a language is that if you don't use your skills
 
 So, why don't we practice solving some real-world problems with our new tools!
 
-We'll start by using the `do ... while` loop to calculate
+We'll start by using the `do ... while` loop to calculate a student's lab grades. We will make several simplifying assumptions to make the calculations more straightforward:
 
-One of the nasty things about the do ... while loop that we wrote above was that we had to check for the condition (`grade != -1`) in multiple places. It would be nice if we could do that a single time and save ourselves some typing. We can do that with the while loop:
+1. The labs are all out of 100 points.
+2. The user enters their input without error.
+3. The user always enters at least one grade.
 
-include <iostream>
+<html><head></head><body><pre>
+ 1 #include &lt;iomanip&gt;
+ 2 #include &lt;iostream&gt;
+ 3 
+ 4 <font color=green>int</font> main() {
+ 5   <font color=green>double</font> current_score{<font color=red>0.0</font>};
+ 6   <font color=green>double</font> total_pts{<font color=red>0.0</font>};
+ 7   <font color=green>int</font> lab_num{<font color=red>0</font>};
+ 8 
+ 9   <font color=green>do</font> {
+10     std::cout << <font color=red>"Enter lab score (or -1 if there are no more scores): "</font>;
+11     std::cin >> current_score;
+12 
+13     <font color=green>if</font> (current_score >= <font color=red>0</font>) {
+14       total_pts += current_score;
+15       lab_num++;
+16     }
+17   } <font color=green>while</font> (current_score >= <font color=red>0</font>);
+18 
+19   <font color=green>auto</font> grade = (total_pts) / lab_num;
+20   std::cout << <font color=red>"Grade: "</font> << std::fixed << std::setprecision(2) << grade
+21             << <font color=red>"%\n"</font>;
+22 
+23   <font color=green>return</font> <font color=red>0</font>;
+24 }
 
-int main() {
-  int grade{-1};
-  int total{0};
-  int number\_of\_grades{0};
+</pre></body></html>
 
-  std::cout << "Please enter the first grade: ";
-  std::cin >> grade;
+In this version of the program we are using a `do ... while` loop. That is safe because we are allowed to assume (from above) that the user enters at least one valid grade for the student. 
 
-  while (grade != -1) {
-    total += grade;
-    number\_of\_grades++;
+Look closely at the code above and think about the problem that may arise if this assumption did not hold. That's right! You could end up with a situation where you have `lab_num` set to `0` and use it as the dividend in a mathematical operation. In "Math World", division by 0 is not allowed and that is no different in "C++ World." When performing floating-point division, the result of dividing by 0 is a specially defined value (almost 100% of the time *not* the value that you want) and when performing integer division, the result is an *exception* that will halt your program. In other words, neither is a good situation.
 
-    std::cout << "Please enter the next grade: ";
-    std::cin >> grade;
-  }
+Could we solve this problem by converting our code into a `while` loop? Maybe. It seems like solving the problem of potentially dividing by zero is something that we will have to deal with no matter whether we use `do ... while` loop or a `while` loop. So, is there something that we get from rewriting the solution above in terms of a `while` loop?
 
-  std::cout << "# of grades entered: " << number\_of\_grades << "\\n";
-  std::cout << "Total points accumulated: " << total << "\\n";
-  std::cout << "Average: " << static\_cast<double\>(total) / number\_of\_grades
-            << "\\n";
-}
+Yes, there is!
+
+
+One of the nasty things about the `do ... while` loop that we wrote above was that we had to check for the loop's termination condition (`grade < 0`) in multiple places. It would be nice if we could do that a single time and save ourselves some typing. The `while` loop is there to help us out! In order to make sure that we only have to check our termination condition in the loop a single time, we do what is called a _priming_ operation. The priming operation prepares the necessary variable(s) for the evaluation of the `while` loops condition for the first iteration. When converting between a `do ... while` and a `while` loop, the priming operation must set the state of the program in such a way that the loop will execute its body at least once! Why? Because that is *exactly* what the `do ... while` guarantees -- that the body of the loop will be executed exactly once!
+
+<html><head></head><body><pre>
+ 1 #include &lt;iomanip&gt;
+ 2 #include &lt;iostream&gt;
+ 3 
+ 4 <font color=green>int</font> main() {
+ 5   <font color=green>double</font> current_score{<font color=red>0.0</font>};
+ 6   <font color=green>double</font> total_pts{<font color=red>0.0</font>};
+ 7   <font color=green>int</font> lab_num{<font color=red>0</font>};
+ 8 
+ 9   std::cout << <font color=red>"Enter lab score (or -1 if there are no more scores): "</font>;
+10   std::cin >> current_score;
+11 
+12   <font color=green>while</font> (current_score >= <font color=red>0.0</font>) {
+13     total_pts += current_score;
+14     lab_num++;
+15     std::cout << <font color=red>"Enter lab score (or -1 if there are no more scores): "</font>;
+16     std::cin >> current_score;
+17   }
+18 
+19   <font color=green>auto</font> grade = (total_pts) / lab_num;
+20   std::cout << <font color=red>"Grade: "</font> << std::fixed << std::setprecision(2) << grade
+21             << <font color=red>"%\n"</font>;
+22 
+23   <font color=green>return</font> <font color=red>0</font>;
+24 }
+
+</pre></body></html>
+
+Look very closely at the version of the application written using the `while` loop and compare it with the version written using the `do ... while` loop. Although we meant to make the `while` loop an exact copy of the `do ... while` loop, we did so with a combination of different tools and different code behavior. In particular, in the `do ... while` loop the body always executed at least once. The body of the loop contains the code that prompts the user for input and reads their response. In the version of the program written using `while` loop reading the input from the user happens *both* inside *and* outside the loop. As a result, the `while` loop does actually perform the same operations the same number of times as the `do ... while` loop. We just needed to move them around slightly. 
+
+As you can start to see, the constructs for writing code that performs repeated operations are, in a sense, interchangeable. We will see that more completely as we begin to learn about the power  and utility of the `for` loop.
 
 Because the while loop checks the condition before (pre) it executes its body, it is called a _pre-test loop_. If the condition of the while loop is not true the first time that it is encountered, the body of the loop will never execute. Because it is not guaranteed to execute at least once, we cannot ask for user input only in the body of the loop. If we did, we would never get the user's first input! So, when a while loop is used to, for example, validate user input, we perform a _priming read_ that initializes the variable used in the loop condition. In the example above,
 
