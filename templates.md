@@ -17,7 +17,7 @@ Let’s translate this discussion into the world of the computer by defining a `
 1. The date the pizza was originally baked (as a `std::chrono::year_month_day`); and
 2. Whether the pizza has been sealed up after being stored (as a `bool`).
 
-We separate the declaration of the `Pizza` class from its implementation:
+As good C++ developers should, we separate the declaration of the `Pizza` class from its implementation:
 
 `pizza.h`:
 ```C++
@@ -109,7 +109,7 @@ and have one attribute:
 
 1. *sealed_date*: The date the contents were initially sealed in the Tupperware.
 
-The algorithm for both methods is relatively straightforward – for *getContents* the ADT will simply supply its contents and for *areContentsFresh* the ADT will simply invoke the `isFresh` method of its contents (using the *sealed_date* and `true` as the arguments to the member function). 
+The algorithms for both methods are relatively straightforward – for *getContents* the ADT will simply supply its contents and for *areContentsFresh* the ADT will simply invoke the `isFresh` method of its contents (using the *sealed_date* and `true` as the arguments to the member function). 
 
 We can follow the best practices of object-oriented design and *implement* a base class named `Tupperware` that is the data structure that implements the Tupperware ADT (Again, remember what our *Walls and Mirrors* authors say: a data structure is not the same as an ADT – the former implements the latter!). Then we can create derived classes for Tupperware that hold different types of items. 
 
@@ -148,7 +148,7 @@ But first, let's implement some Tupperware data structures that hold different t
 
 ## Tupperware for Pizza
 
-We will first code a data structure that implements the Tupperware ADT containing a pizza. We will it the `TupperwareForPizza` class.
+We will first code a data structure that implements the Tupperware ADT containing a pizza. We will call it the `TupperwareForPizza` class.
 
 ```C++
 class TupperwareForPizza : public Tupperware {
@@ -207,7 +207,7 @@ Yes, yes, I am starting to see it. What happens if we just obscure the words `Pi
 
 Well, what's amazing about our discovery is that the coincidence is really *no* coincidence at all! It's actually something called *generic programming*. The person who coined the term *generic programming* had this to say about the concept:
 
-> “By generic programming, we mean the definition of algorithms and data structures at an abstract​ or generic level, thereby accomplishing many related programming tasks simultaneously.”
+> "By generic programming, we mean the definition of algorithms and data structures at an abstract​ or generic level, thereby accomplishing many related programming tasks simultaneously."
 
 The two implementations that we have written so far of the Tupperware ADT are specific to the types of objects that they contain – pizza and batteries. However, Tupperware can hold other types of contents. We could put in turkey, markers, crayons, paint, rolls of tape, etc.
 
@@ -215,11 +215,11 @@ Well, if we continued down the path of making a specific implementation of the T
 
 ## Generic Programming With Templates
 
-In C++ we can utilize the theoretical concept of generic programming through templates. You can think of a template as a generic set of code that the compiler will use to “stamp out” particular versions of that code that are customized by a set of parameters. Because the process of stamping out specialized versions of the template involves parameters, this type of polymorphism is known as *parametric polymorphism*.
+In C++ we can utilize the theoretical concept of generic programming through templates. You can think of a template as a generic set of code that the compiler will use to "stamp out" particular versions of that code that are customized by a set of parameters. Because the differences between the forms of the classes ("many forms") is based on the template parameter, the process of stamping out specialized versions of the template involves parameters, this type of polymorphism is known as *parametric polymorphism*. There are similarities between parametric polymorphism and function overloading. The latter (known as *ad-hoc* polymorphism), however, is different because the functionality of each overloaded definition can be different. In parametric polymorphism, the functionality of every different form is identical -- it's just the types that change.
 
 > Note: You can write class and function templates. We will deal primarily with class templates in this course.
 
-Think back a few classes where we talked about how you instantiate objects from classes. Said another way, objects are instances of classes. In the same way, albeit with a slightly different syntax, you can instantiate class templates to get actual classes. Rephrasing, instantiations of class templates are instances of classes. How cool!
+Think back to when we talked about how you can instantiate objects from classes. Said another way, objects are instances of classes. In the same way, albeit with a slightly different syntax, you can instantiate class templates to get actual classes. Rephrasing, instantiations of class templates are instances of classes. How cool!
 
 I know that “instantiations of class templates” is not the most sublime of English phrases. However, that’s the best that the C++ standard can do for us.
 
@@ -280,7 +280,7 @@ Now *that* is cool. What have we accomplished?
 
 We have written a class template already but we haven't used it. Don't worry -- I know that you *all* have used class templates before but probably didn't realize it.
 
-In C++ journeys I bet that you all have written
+In your C++ journeys I bet that you all have written
 
 ```C++
 #include <vector>
@@ -294,7 +294,7 @@ int main() {
 
 (or at least something similar). Little did you know, but `std::vector<int>` is a way to instantiate the `std::vector` class template! Woah!
 
-So, let's write an application that uses our `Tupperware` class template:
+So, let's write an application that uses our class template:
 
 ```C++
 #include <chrono>
@@ -351,7 +351,7 @@ private:
 };
 ```
 
-In fact, that’s not very different than how the compiler actually deals with class templates during the compilation process. The compiler generates unique names for each instantiation of a class template and then (literally) duplicates the class definition of the class template and replaces the template parameters with the values given. 
+In fact, that’s not very different from how the compiler actually deals with class templates during the compilation process. The compiler generates unique names for each instantiation of a class template and then (literally) duplicates the class definition of the class template and replaces the template parameters with the values given. 
 
 I know, I know ... "Will, you say these things but never give us enough information to verify that you aren't lying!" 
 
@@ -366,11 +366,9 @@ Press the *play* button at the top for C++ Insights to work its magic and then l
 
 I *told* you!!
 
-The power of templates is incredible. Some people believe that they are hard to comprehend and use. Yes, the syntax is a bit odd and the semantics are sometimes hard to grasp, but those are complications and not complexities. You *can* be good at using templates and we will use them to our advantage throughout the course!
+The power of templates is incredible. Some people believe that they are hard to comprehend and use. Yes, the syntax is a bit odd and the semantics are sometimes hard to grasp, but those are complications and not complexities. You *can* be good at using templates.
 
 ## All Is Not Happy in the Land of C++
-
-Not Everything Is Generic
 
 If you look closely at the code in the `Tupperware` class template, we are making a very important assumption about the `ContentsType` type. What is it? We are assuming that the `ContentsType` type is itself a class and the class contains a member function named `isFresh()`.
 
