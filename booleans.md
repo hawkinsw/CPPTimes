@@ -34,78 +34,82 @@ The first four are the _relational_ operators and the final two are the _equalit
 
 Let's look at a few examples to make it clear:
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() { bool result{<font color=red>5</font> &lt; <font color=red>10</font>}; }
+```C++
+#include <iostream>
 
-</pre></body></html>
-
-`result` is `true`!
-
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() { bool result{<font color=red>10</font> &lt;= <font color=red>10</font>}; }
-
-</pre></body></html>
+int main() {
+  bool result{5 < 10}; 
+  return 0;
+}
+```
 
 `result` is `true`!
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() { bool result{<font color=red>10</font> &gt;= <font color=red>10</font>}; }
+```C++
+#include <iostream>
 
-</pre></body></html>
-
-`result` is `true`!
-
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() { bool result{<font color=red>10</font> == <font color=red>10</font>}; }
-
-</pre></body></html>
+int main() {
+  bool result{10 <= 10};
+  return 0;
+}
+```
 
 `result` is `true`!
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() { bool result{<font color=red>10</font> != <font color=red>10</font>}; }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  bool result{10 >= 10};
+  return 0;
+}
+```
+
+`result` is `true`!
+
+```C++
+int main() {
+  bool result{10 == 10};
+  return 0;
+}
+```
+`result` is `true`!
+
+```C++
+int main() {
+  bool result{10 != 10};
+  return 0;
+}
+```
 
 `result` is `false`!
 
 
 Now, there's something really philosophical about `bool` in C++. Like C++ is able to _coerce_ an `int` into a `double` (or vice versa), C++ can coerce values that are not `bool` into a `bool`. That's really powerful (as we'll see later!). Although the specifics are sometimes odd, the basic idea is that if you assign a value (from a type such as an `int` or a `double` or `char`) to a `bool` and that value is `0` (`0.0` or `'\0'`), then the `bool` is `false`. For _any other value_, the `bool` is `true`. For instance, 
 
-<html><head></head><body><pre>
- 1 #include &lt;iostream&gt;
- 2 
- 3 <font color=green>int</font> main() {
- 4   <font color=green>int</font> zero{<font color=red>0</font>};
- 5   <font color=green>double</font> zero_point_zero{<font color=red>0.0</font>};
- 6   <font color=green>char</font> null_character{<font color=red>'\0'</font>};
- 7   <font color=green>char</font> letter_a{<font color=red>'a'</font>};
- 8   <font color=green>int</font> five_hundred_one{<font color=red>501</font>};
- 9   <font color=green>double</font> pi{<font color=red>3.14</font>};
-10 
-11   bool zero_bool = zero;
-12   bool zero_point_zero_bool = zero_point_zero;
-13   bool null_character_bool = null_character;
-14   bool letter_a_bool = letter_a_bool;
-15   bool five_hundred_one_bool = five_hundred_one;
-16   bool pi_bool = pi;
-17 
-18   <font color=green>return</font> <font color=red>0</font>;
-19 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  int zero{0};
+  double zero_point_zero{0.0};
+  char null_character{'\0'};
+  char letter_a{'a'};
+  int five_hundred_one{501};
+  double pi{3.14};
 
-`zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `true`! The others are `false`.
+  bool zero_bool{zero};
+  bool zero_point_zero_bool{zero_point_zero};
+  bool null_character_bool{null_character};
+  bool letter_a_bool{letter_a};
+  bool five_hundred_one_bool{five_hundred_one};
+  bool pi_bool{pi};
+
+  return 0;
+}
+```
+
+`zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `false`! The others are `true`.
 
 Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc, there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or) and `!` (which means _not_). 
 
@@ -123,18 +127,16 @@ Assume that we are in Cincinnati in June and I look outside. I see that it is ra
 
 The first statement is logically not true! So, we would say that it is `false`. The second statement, however, is `true`. So, in 
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4   bool is_raining_and_snowing = raining && snowing;
-5   bool is_raining_or_snowing = raining || snowing;
-6   <font color=green>return</font> <font color=red>0</font>;
-7 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  bool is_raining_and_snowing{raining && snowing};
+  bool is_raining_or_snowing{raining || snowing};
+}
+```
 
-`is_raining_and_snowing` is `true` and `is_raining_or_snowing` is `false`. 
+`is_raining_and_snowing` is `false` and `is_raining_or_snowing` is `true`. 
 
 In an `||` expression, if either operand is `true`, then the expression is `true`.  In an `&&` expression, if both operands are `true`, then the expression is `true`. Otherwise, the expressions are `false`. 
 
@@ -171,16 +173,15 @@ The _not_ operator is different than the _and_ and the _or_ operators. The _not_
 
 Let's play computer and try to figure out the value of `no` in the following C++ code:
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4   bool yes{true};
-5   bool no{!yes};
-6   <font color=green>return</font> <font color=red>0</font>;
-7 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  bool yes{true};
+  bool no{!yes};
+  return 0;
+}
+```
 
 `no` is `false`. To compute that, just replace `yes` with its value (`bool no{!true}`), flip `true` to `false` because of the `!` and you get `bool no{false};`. Pretty cool!
 
@@ -198,24 +199,23 @@ So far our programs have been pretty boring. They may have calculated different 
 
 When _boolean expression_ is `true`, then `some statements` execute. When _boolean expression_ is `false`, _some statements_ do not execute. _some statements_ between `{}` are called a _block_. You can nest blocks of code inside one another without limit (some caveats apply to that statement)! C++ programmers say that a block of code is conditionally executed by an `if` statement. C++ programmers also often say that a block of code is guarded by a conditional.
 
-<html><head></head><body><pre>
- 1 #include &lt;iostream&gt;
- 2 
- 3 <font color=green>int</font> main() {
- 4   <font color=green>int</font> five = <font color=red>5</font>;
- 5   <font color=green>int</font> six = <font color=red>6</font>;
- 6 
- 7   <font color=green>if</font> (5 &lt; <font color=red>6</font>) {
- 8     std::cout << <font color=red>"Five is less than 6!\n"</font>;
- 9   }
-10 
-11   <font color=green>if</font> (five == six) {
-12     std::cout << <font color=red>"Huh, five is equal to 6!\n"</font>;
-13   }
-14 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  int five = 5;
+  int six = 6;
 
+  if (5 < 6) {
+    std::cout << "Five is less than 6!\n";
+  }
+
+  if (five == six) {
+    std::cout << "Huh, five is equal to 6!\n";
+  }
+  return 0;
+}
+```
 prints
 
 ```
@@ -232,18 +232,17 @@ More importantly, remember how we talked about the fact that many things in C++ 
 
 Well, one of those hidden expressions in C++ is the `=` (assignment) operator! The value of expression `a = b` is the value of `b`! In other words,
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4   <font color=green>int</font> a = <font color=red>5</font>;
-5   <font color=green>int</font> b = <font color=red>6</font>;
-6 
-7   std::cout << <font color=red>"a = b: "</font> << (a = b) << <font color=red>"\n"</font>;
-8   <font color=green>return</font> <font color=red>0</font>;
-9 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+  int a{5};
+  int b{6};
+
+  std::cout << "a = b: " << (a = b) << "\n";
+  return 0;
+}
+```
 
 prints
 
@@ -257,21 +256,22 @@ I know, right?! These semantics make it possible to do things like
 
 to set `a`, `b`, `c` and `d` all to the value `5`.
 
-Think closely and figure out why
+Now, think closely and figure out why
 
+```C++
+#include <iostream>
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4   <font color=green>int</font> five = <font color=red>5</font>;
-5   <font color=green>int</font> six = <font color=red>6</font>;
-6   <font color=green>if</font> (five = six) {
-7     std::cout << <font color=red>"Huh, five is equal to 6!\n"</font>;
-8   }
-9 }
+int main() {
+  int five{5};
+  int six{6};
 
-</pre></body></html>
+  if (five = six) {
+    std::cout << "Huh, five is equal to 6!\n";
+  }
+
+  return 0;
+}
+```
 
 prints
 
