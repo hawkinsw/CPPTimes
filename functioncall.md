@@ -27,7 +27,7 @@ To reiterate, abstraction is just a fancy term for hiding details. The person wh
 
 If I take medicine to control my headaches but it makes me dizzy, I would say that medicine has a side effect. Side effects are physical effects on your body that are unrelated to the medicine's purpose. But medicines aren't the only things that can have side effects -- functions can have side effects, too.
 
-To understand side effects, we have to recognize that programs' have _state_ when they are executing. A program's _state_ at a certain point of execution consists of the value of all the variables in memory at the time. In other words, a program's state is a combination of
+To understand side effects, we have to recognize that programs have _state_ when they are executing. A program's _state_ at a certain point of execution consists of the value of all the variables in memory at the time. In other words, a program's state is a combination of
 1. a point of execution in a program, and
 2. the contents of the program's variables at that point.
 
