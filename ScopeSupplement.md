@@ -1,11 +1,11 @@
 Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, entices its customers who buy their publications off the rack in the Kroger checkout lanes with inserts. 
 
-### Getting Healthy C++ in 2022 With Scopes
+### Getting Healthy C++ in 2023 With Scopes
 As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`. 
 
 We take advantage of scopes in order to limit the possibility that other developers writing code in other parts of the same program create/use variables with the same name as ours in ways that conflict. 
 
-If our compiler has taught us anything in the first few weeks of class, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, time? In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
+If our compiler has taught us anything, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, time? In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
 
 No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, as long as you need two variables to represent time in different scopes, you can name them both `time` without worrying about conflicts. 
 
@@ -15,35 +15,37 @@ This is incredibly powerful (from a software-engineering perspective), but can c
 Scopes are like many other things in C++ -- they nest. One scope can be nested within another scope. Programmers refer to layers of nesting as _depth_. Let's assume that we can name scopes. If there is a scope named _A_ that contains a scope named _B_ we will say that scope _B_ is more _deeply nested_ than scope _A_. It has a greater depth. We will play on this metaphor of depths and puns on see/sea in the remainder of this insert.
 
 Consider the following, relatively simple C++ program:
-<pre><font color="#5FD7FF">#include </font><font color="#AD7FA8">&lt;iostream&gt;</font>
 
-<font color="#87FFAF">int</font> main() {
-  <font color="#87FFAF">int</font> alpha{<font color="#AD7FA8">1</font>};
-  <font color="#87FFAF">int</font> beta{<font color="#AD7FA8">2</font>};
+```C++
+#include <iostream>
 
-  <font color="#FCE94F">if</font> (alpha &lt; beta) {
-    <font color="#87FFAF">int</font> first{<font color="#AD7FA8">10</font>};
-    <font color="#87FFAF">int</font> second{<font color="#AD7FA8">20</font>};
+int main() {
+  int alpha{1};
+  int beta{2};
 
-    <font color="#FCE94F">if</font> (first &lt; second) {
-      <font color="#87FFAF">int</font> tango{<font color="#AD7FA8">100</font>};
-      <font color="#87FFAF">int</font> foxtrot{<font color="#AD7FA8">200</font>};
-      <font color="#87FFAF">int</font> second{<font color="#AD7FA8">30</font>};
+  if (alpha < beta) {
+    int first{10};
+    int second{20};
 
-      std::cout &lt;&lt; <font color="#AD7FA8">&quot;(blue) foxtrot is &quot;</font> &lt;&lt; foxtrot &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
-      std::cout &lt;&lt; <font color="#AD7FA8">&quot;(blue) tango is &quot;</font> &lt;&lt; tango &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
-      std::cout &lt;&lt; <font color="#AD7FA8">&quot;(blue) second is &quot;</font> &lt;&lt; second &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
+    if (first < second) {
+      int tango{100};
+      int foxtrot{200};
+      int second{30};
 
-      beta = <font color="#AD7FA8">3</font>;
+      std::cout << "(blue) foxtrot is " << foxtrot << "\n";
+      std::cout << "(blue) tango is " << tango << "\n";
+      std::cout << "(blue) second is " << second << "\n";
+
+      beta = 3;
     }
-    std::cout &lt;&lt; <font color="#AD7FA8">&quot;(pink) first is &quot;</font> &lt;&lt; first &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
-    std::cout &lt;&lt; <font color="#AD7FA8">&quot;(pink) second is &quot;</font> &lt;&lt; second &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
+    std::cout << "(pink) first is " << first << "\n";
+    std::cout << "(pink) second is " << second << "\n";
   }
-  std::cout &lt;&lt; <font color="#AD7FA8">&quot;(yellow) alpha is &quot;</font> &lt;&lt; alpha &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
-  std::cout &lt;&lt; <font color="#AD7FA8">&quot;(yellow) beta is &quot;</font> &lt;&lt; beta &lt;&lt; <font color="#AD7FA8">&quot;</font><font color="#FFD7D7">\n</font><font color="#AD7FA8">&quot;</font>;
-  <font color="#FCE94F">return</font> <font color="#AD7FA8">0</font>;
+  std::cout << "(yellow) alpha is " << alpha << "\n";
+  std::cout << "(yellow) beta is " << beta << "\n";
+  return 0;
 }
-</pre>
+```
 
 Let's add some color to improve our vision. These colors will represent each of the three scopes in the `main` function. 
 
@@ -66,11 +68,11 @@ When using a physical periscope, you can only view in one direction. The same th
 | ![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition1.png) | ![The variables in scope at the point when program execution is at the green line in the image above are the ones visible by the periscope.](./graphics/ScopesVisiblePosition1.png) |
 | -- | -- |
 
-The image above right demonstrates visually that `alpha`, `beta`, `first`, `tango`, and `foxtrot` are all in scope, even though only a subset of those variables are local. At the time when the program is executing the code at the green arrow in the image above left, the values of all of those variables may be accessed or modified.
+The image above/right demonstrates visually that `alpha`, `beta`, `first`, `tango`, and `foxtrot` are all in scope, even though only a subset of those variables are local. At the time when the program is executing the code at the green arrow in the image above left, the values of all of those variables may be accessed or modified.
 
-What is there to make of the situation of the variable named `second`? Well, it's clear that the presence of the variable named `second` in the blue scope blocks the submarine's view of the variable named `second` in the pink scope! So, if the program accesses or updates `second` from inside the blue scope, it is the `second` in the blue scope whose value will be read or written. If there are two (or more) variables with the same name that are in scope at the same time, the variables are said to _shadow_ (or _hide_) one another. The variable whose declaration/definition is closest to the position of the program's execution will always (with a certain caveat) be the one that is accessed/updated (i.e., read/written). 
+What is there to make of the situation of the variable named `second`? Well, it's clear that the presence of the variable named `second` in the blue scope blocks the submarine's view of the variable named `second` in the pink scope! So, if the program accesses or updates `second` from inside the blue scope, it is the `second` in the blue scope whose value will be read or written. If there are two (or more) variables with the same name that are in scope at the same time, the variables are said to _shadow_ (or _hide_) one another. The variable whose declaration/definition is in the scope closest to the position of the program's execution will always (with a certain caveat) be the one that is accessed/updated (i.e., read/written). 
 
-The program's output so far is:
+At the green arrow, the program's output is:
 
 ```
 (blue) foxtrot is 200
@@ -133,7 +135,7 @@ The disappearance of the pink and (earlier) blue scopes does not undo the (much)
 
 Our three hour ocean tour in a submarine has (hopefully) exposed many of the quirks of variables and scopes in C++. The concepts that you are learning about scopes in C++ are generally applicable to other imperative and object-oriented programming languages (e.g., JavaScript, Python, Go, etc.). Obviously each language has its own take on the rules, the broad outlines are the same. Knowledge is power.
 
-### Take a Global Perspective on C++ Travel in 2022
+### Take a Global Perspective on C++ Travel in 2023
 There is such a thing as a _global_ scope in C++. It is a scope that exists entirely outside any `{`, `}` blocks. Every single other scope in your program exists within the global scope. 
 
 In other words, variables in the global scope are always in scope. As a result of their omnipresence, variables in the global scope can be can be accessed/modified from any position in your code. Taking advantage of the reach of global variables may seem tempting. But, do not fall victim to their siren song. It is almost always wrong to use a global variable.
@@ -142,17 +144,21 @@ Don't believe me? Think about this situation: You are writing a program that cal
 
 Your colleague takes over ownership of your pristine code several months later. They write some new code that is buggy -- _you_ are the only one who writes perfect code, of course! Their code is intended to determine whether a user is eligible for a loan depending on whether they have access to a liquid asset. They, however, make a typo in their code and write something like the following:
 
-<pre>  <font color="#87FFAF">bool</font> asset{<font color="#AD7FA8">false</font>};
+```C++
+...
 
-  <font color="#FCE94F">if</font> (ownsAHouse) {
-    assets = <font color="#AD7FA8">true</font>;
-  }
-</pre>
+bool asset{false};
+if (ownsAHouse) {
+  assets = true;
+}
+
+...
+```
 
 They clearly meant to update `asset` to `true` but instead they updated `assets`. There is no reason for the C++ compiler to alert the user about this mistake, is there?
 
 1. `assets` is in scope -- variables in the global scope are _always_ in scope.
-2. Though a semantically questionable operation, C++ will dutifully convert the value of `false` to `0` (remember _promotion_?) and, to put it euphemistically) reset your customer's assets. 
+2. Though a semantically questionable operation, C++ will dutifully convert the value of `false` to `0` (remember _promotion_?) and (to put it euphemistically) reset your customer's assets. 
 
 I can imagine that you do not want to answer to a boss who wonders why suddenly the bank's customers have lost all their money!
 
@@ -163,8 +169,9 @@ Paradoxically, there is a single case where using global variables is almost req
 
 For example, if you are writing code that makes calculations based on the value of pi (yummy!), it makes sense to declare a global variable:
 
-<pre><font color="#87FFAF">const</font> <font color="#87FFAF">double</font> PI = <font color="#AD7FA8">3.14159</font>;
-</pre>
+```C++
+const double PI{3.14159};
+```
 
 Using a constant global variable in these cases has several advantages:
 
