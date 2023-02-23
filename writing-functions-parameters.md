@@ -117,14 +117,17 @@ int main() {
 ```
 
 Just before the the invocation of the `get_age` function, the state of the local variables are as shown in the image below.
+
 ![](./graphics/Reference%20Parameters%20-%200.jpg)
 
 Upon invocation of the `get_age` function, the value of the `user_entered_age` argument is *copied* to the value of the `user_age` parameter. A new scope is created that will persist as long as the `get_age` function executes and you can think of that scope as demarcating the space used to store all the function's local variables, especially its `user_age` parameter.
+
 ![](./graphics/Reference%20Parameters%20-%201.jpg)
 
 ![](./graphics/Reference%20Parameters%20-%202.jpg)
 
 Once the user has entered their input and it has been processed by the `std::cin >> user_age;` statement, the values of the variables in memory are as shown below.
+
 ![](./graphics/Reference%20Parameters%20-%203.jpg)
 
 Finally, when `get_age` completes and execution passes back to the point in `main` where `get_age` was invoked, the `get_age` scope is vacated and the space allocated to the storage of the local variables *for this particular invocation of the function* are destroyed.
@@ -142,12 +145,14 @@ The situation just before the invocation of the updated definition of the `get_a
 ![](./graphics/Reference%20Parameters%20-%200.jpg)
 
 The moment that the function `get_age` is invoked, things take a turn for the different! Again, a new scope is created to provide space for the values of the variables local to the called function. This time, however, the scope contains `user_age` as simply a named alias for the variable named by the argument: `user_entered_age`. 
+
 ![](./graphics/Reference%20Parameters%20-%201r.jpg)
 
 ![](./graphics/Reference%20Parameters%20-%202r.jpg)
 
 
 Once the user has entered their input and it has been processed by the `std::cin >> user_age;` statement, the values of the variables in memory are as shown below.
+
 ![](./graphics/Reference%20Parameters%20-%203r.jpg)
 
 Note *very well* that the assignment to the `user_age` variable updates the value assigned to the `user_entered_age` in the scope of the `main` function *because it is just an alias (or reference) to that variable.* Any time the fictional operator inside our computer attempts to access the value of the `user_entered_age` variable during execution of the by-reference version of the `get_age` function, think about them walking through the portal to the other side as they read the value from memory. At the same time, any time the fictional operator inside our computer attempts to update the value of the `user_entered_age` variable during execution of the by-reference version of the `get_age` function, think about them walking through the portal to the other side as they place a new value in memory.
