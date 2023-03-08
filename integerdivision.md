@@ -1,6 +1,6 @@
 ## What's News
 
-After conquering the vagaries of quantum mechanics, physicists turned their attention to completely deciphering the behavior of mathematical operations in C++ programs. The years-long effort resulted in today's announcement from C++ Elucidation Research Network (CERN) that they have finally broken the code.
+After conquering the vagaries of quantum mechanics, physicists turned their attention to completely deciphering the behavior of mathematical operations in C++ programs. The years-long effort resulted in today's announcement from the C++ Elucidation Research Network (CERN) that they have finally broken the code.
 
 ## Integer Division
 
@@ -14,18 +14,19 @@ The answer is $2.5$, obviously!
 
 Let's see what that too-cool-for-school computer says:
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4 
-5   <font color=green>int</font> five{<font color=red>5</font>};
-6   <font color=green>int</font> two{<font color=red>2</font>};
-7   std::cout << <font color=red>"5/2: "</font> << (five / two) << <font color=red>"\n"</font>;
-8   <font color=green>return</font> <font color=red>0</font>;
-9 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+
+  int five{5};
+  int two{2};
+  std::cout << "5/2: " << (five / two) << "\n";
+  return 0;
+}
+```
+
+will print
 
 ```
 5/2: 2
@@ -35,9 +36,9 @@ Uhm, what?
 
 Just when you thought that you could get away from clutches of types in programming, they pull you right back in! The answer to this mystery lies in types.
 
-As you recall from previous discussions, _expressions_ are anything that has a value. More importantly (for this discussion), all values in C++ have a type! Never forget the definition of _type_: A range of valid values and the valid operations that you can perform on those values.
+Remember that _expressions_ are anything that has a value. More importantly (for this discussion), all values in C++ have a type! Never forget the definition of _type_: A range of valid values and the valid operations that you can perform on those values.
 
-All that said, `(five/two)` is an expression and it generates a value. Therefore, that value has a type. C++ determines the type of a value based on the composition of the expression that generates it! It just so happens that C++ specifies that when you have an operator (remember the definition?) whose operands are `int`s, the type of the value when that expression is evaluated is also an `int`. 
+Put that knowledge together and you can reason that ... `(five/two)` is an expression, it generates a value and, therefore, that value has a type. C++ determines the type of a value based on the composition of the expression that generates it! It just so happens that C++ specifies that when you have an operator (remember the definition?) whose operands are `int`s, the type of the value when that expression is evaluated is also an `int`. 
 
 Ah, so that's the rub!
 
@@ -59,20 +60,21 @@ So, all that's left is to convince C++ that either `five` or `two` is really a d
 
 ***N.B.***: This assumption does not hold in the opposite direction -- if you store $5.2$ in an `int` the meaning of $5.2$ will change! The variable will only store the $5$ -- where did the rest of our value go? Remember _truncation_?
 
-C++ gives us an awesome tool known as the `static_cast` that we can use to assure it that we can treat of a variable of one type as a variable of a different type. Of course there are rules about when it is safe to do this type of operation. Obviously we don't want to be able to tell C++ that a `std::string` is a `bool`. 
+C++ gives us an awesome tool known as the `static_cast` that we can use to assure the compiler that we can treat of a variable of one type as a variable of a different type. Of course there are rules about when it is safe to do this type of operation -- we don't want to be able to tell C++ that a `std::string` is a `bool`. 
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4 
-5   <font color=green>int</font> five{<font color=red>5</font>};
-6   <font color=green>int</font> two{<font color=red>2</font>};
-7   std::cout << <font color=red>"5/2: "</font> << (static_cast&lt;double&gt;(five) / two) << <font color=red>"\n"</font>;
-8   <font color=green>return</font> <font color=red>0</font>;
-9 }
+```C++
+#include <iostream>
 
-</pre></body></html>
+int main() {
+
+  int five{5};
+  int two{2};
+  std::cout << "5/2: " << (static_cast<double>(five) / two) << "\n";
+  return 0;
+}
+```
+
+will print
 
 ```
 5/2: 2.5
@@ -80,29 +82,29 @@ C++ gives us an awesome tool known as the `static_cast` that we can use to assur
 
 Yes, problem solved!
 
-In general, the `static_cast` looks like
+In general, the syntax for a `static_cast` looks like
 
-```
-static_cast<new type>(expression)
+```C++
+static_cast<new_type>(expression)
 ```
 
-when you want to tell C++ to _interpret_ the type of `expression` as `new type`. Note how we used the word _interpret_. A `static_cast` is itself an expression -- in other words, it has a type and a value. The type of the value of that expression is `new type` and the value is the value of `expression` as that type. _A `static_cast` does not change anything about the value or type of `expression`._
+when you want to tell C++ to _interpret_ the type of `expression` as `new type`. Note how we used the word _interpret_. A `static_cast` is itself an expression -- in other words, it has a type and a value. The type of the value of that expression is `new_type` and the value is the value of `expression` as that type. _A `static_cast` does not change anything about the value or type of `expression`._
 
 One final important caveat about `static_cast`. The `expression` is evaluated _before_ the `static_cast` occurs. Why is that important? 
 
 What is the output of the following program?
 
-<html><head></head><body><pre>
-1 #include &lt;iostream&gt;
-2 
-3 <font color=green>int</font> main() {
-4 
-5   <font color=green>int</font> five{<font color=red>5</font>};
-6   <font color=green>int</font> two{<font color=red>2</font>};
-7   std::cout << <font color=red>"5/2: "</font> << static_cast<<font color=green>double</font>>(five / two) << <font color=red>"\n"</font>;
-8   <font color=green>return</font> <font color=red>0</font>;
-9 }
-</pre></body></html>
+```C++
+#include <iostream>
+
+int main() {
+
+  int five{5};
+  int two{2};
+  std::cout << "5/2: " << static_cast<double>(five / two) << "\n";
+  return 0;
+}
+```
 
 ```
 5/2: 2
