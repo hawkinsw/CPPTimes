@@ -1,12 +1,6 @@
 ## What's News
 
-TODO
-
-## Once Upon A Time ...
-
-Now that we know the definitions of automatic and dynamic variables, we can classify the variables that we have been using so far as automatic. There *may* have been some magic dynamic variables used behind the scenes when we deployed variables with `std::string` and `std::vector` types but *we* have not yet had to work with dynamic variables.
-
-Just what is the syntax that C++ specifies so that programmers can create, modify, and destroy dynamic variables to build programs thar are responsive to external input (e.g., input from the user through a UI)?
+A new government report indicates that enrollment in computer-related majors at engineering colleges throughout the country is skyrocketing. Analysts and demographers all point to the same cause: enthusiasm among high-school graduates about entering a field where problem-solving skills are paramount.
 
 ## A Paused Program
 
