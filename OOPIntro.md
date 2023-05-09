@@ -284,7 +284,7 @@ If we were to use this version of the `Date` ADT in our code,
   d.setYear(2021);
   d.setYear(-10000);
 
-  std::cout << "d.getYear(): " << d.getYear() << "\\n";
+  std::cout << "d.getYear(): " << d.getYear() << "\n";
 ```
 the output would be 
 
@@ -314,19 +314,19 @@ class Date {
     return year;
   }
 
-  void setMonth(int new\_month) {
-    if (new\_month > 0 && new\_month < 13) {
-      month = new\_month;
+  void setMonth(int new_month) {
+    if (new_month > 0 && new_month < 13) {
+      month = new_month;
     }
   }
-  void setDay(int new\_day) {
-    if (new\_day > 0 && new\_day < 32) {
-      day = new\_day;
+  void setDay(int new_day) {
+    if (new_day > 0 && new_day < 32) {
+      day = new_day;
     }
   }
-  void setYear(int new\_year) {
-    if (new\_year > 0) {
-      year = new\_year;
+  void setYear(int new_year) {
+    if (new_year > 0) {
+      year = new_year;
     }
   }
 
@@ -474,7 +474,7 @@ Great, now the compiler will let us write
 
 ```C++
 Date d;
-std::cout << "d.getYear(): " << d.getMonth() << "\\n";
+std::cout << "d.getYear(): " << d.getMonth() << "\n";
 ```
 
 but the output will probably surprise you:
@@ -504,7 +504,7 @@ Now, if we write
 
 ```C++
 Date d;
-std::cout << "d.getYear(): " << d.getMonth() << "\\n";
+std::cout << "d.getYear(): " << d.getMonth() << "\n";
 ```
 
 we will get reasonable output:
