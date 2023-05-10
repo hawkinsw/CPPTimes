@@ -65,13 +65,15 @@ In the C++ program above, `dads_birthday` has the type of `Date`. That is just l
 int age{45};
 ```
 
-where `age` has the type `int`. Yes, we have the power to make our own types! How cool! When we write 
+where `age` has the type `int`. Yes, we have the power to make our own types and then declare and define variables that have that type! How cool! When we write
 
 ```C++
 Date dads_birthday{7, 18, 1948};
 ```
 
-we are *instantiating* an *instance* (yes, I know it's repetitive) of a `Date` type with the name `dads_birthday`. Alternately, we can call `dads_birthday` an *object* whose type is `Date`.
+we are *instantiating* an *instance* (yes, I know it's repetitive) of a `Date` type with the name `dads_birthday`. Alternately, we can call `dads_birthday` an *object* whose type is `Date`. Any developer who instantiates an instance of a class that implements an ADT is called a _user_ of that class and/or ADT.
+
+> Note: It is hard to overstate the importance of understanding the concept of _instantiation_ and recognizing the difference between a _type_ and an _instance_ (or _object_).
 
 When I build and run the program above, it will produce the following output:
 
