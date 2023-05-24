@@ -8,11 +8,13 @@ Let's mentally play the role of the computer executing the following program sto
 
 ![](./graphics/pointers-paused-program1.png)
 
-What has already happened? Well, we know that the program started executing at the top of the `main` function. Then, it executed the first statement,  an invocation of `function`. We recall from earlier lectures that invoking a function means that the program's execution is immediately transferred to the first statement of that invoked function. Therefore, the next step was to execute the declaration/definition of the `c1` and `c2` variables and assign them the initial values of `'Q'` and `'R'`, respectively! When the program's execution pauses at the red arrow, here's what the computer's memory may look like (conceptually):
+What has already happened? Well, we know that the program started executing at the top of the `main` function. Then, it executed the first statement,  an invocation of `function`. We recall from earlier editions of the C++ Times that invoking a function means that the program's execution is immediately transferred to the first statement of that invoked function. Therefore, the program's next step was to execute the declaration/definition of the `c1` and `c2` variables and assign them the initial values of `'Q'` and `'R'`, respectively! When the program's execution pauses at the red arrow, here's what the computer's memory may look like (conceptually):
 
 ![](./graphics/pointers-paused-program-memory1.png)
 
 Memory is visualized here as a two dimensional "spreadsheet" of cells, each of which holds a single byte. The byte at the top left of the diagram has address 0 and the byte at the bottom left has address 24 + 7 = 31 (add the value at the beginning of the row with the value at the beginning of the column).
+
+>Note: See the C++ Times special long-form reporting on variables in memory in [previous editions](./variables-memory.md).
 
 | Name | Scope | Type | Value | Address |
 | -- | -- | -- | -- | -- |
@@ -21,9 +23,9 @@ Memory is visualized here as a two dimensional "spreadsheet" of cells, each of w
 
 ## Express Yourself
 
-An expression is ... I'll wait ... anything that has a value. Remember? 
+An _expression_ is ... anything that has a value. Remember? 
 
-The C++ expression that gets the value of `c1` is just 
+The C++ expression that gets the value of the variable `c1` is just 
 
 ```C++
 c1
@@ -35,7 +37,7 @@ What's the expression to get the value of `c2`?
 c2
 ```
 
-I've told you that every variable in C++ has some associated space in memory where its value is stored. We've written (above) the expressions for how to retrieve the variable's value. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
+Recall that every variable in C++ has some associated space in memory where its value is stored and we can write expressions (like above) to get the variable's value. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
 
 ```C++
 &c1
@@ -47,9 +49,9 @@ and
 &c2
 ```
 
-evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operator like `+`, `-`) and takes, as an operand, anything that has an address (for our purposes, this is usually a variable).
+evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively, the addresses of those variables in the conceptual computer's memory. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operators like `+`, `-`) and takes, as an operand, anything that has an address (for our purposes, this is usually a variable).
 
-> I know this is confusing -- we learned earlier about using the `&` sigil to declare/define a reference variable. The following code snippet shows both uses of `&`:
+>Note: Yes, the use of `&` here may at first seem confusing -- we learned earlier about using the `&` sigil to declare/define a reference variable and the following code snippet shows both uses of `&`:
 
 ```C++
 #include <iostream>
@@ -66,13 +68,15 @@ int main() {
 } 
 ```
 
-> Although the confusion is palpable now, as you learn more about pointers, you will see how reference variables and pointers are closely related and, therefore, the reason for the language designer's have chosen to reuse the `&` for reference variables will make sense.
+> Although the confusion is palpable now, as you learn more about pointers, you will see how reference variables and pointers are closely related and, therefore, understand why the language designers have chosen to reuse the `&` for reference variables.
 
 ## Storing Addresses
 
 If we have expressions that evaluate to addresses of variables, it would be nice to be able to store them somewhere. But so far we do not have a _type_ that will hold such a value. We have types that hold integers, floating-point values and strings, but nothing that will hold an address of a variable.
 
-Don't worry! There is a type in C++ that we can use to declare a variable that holds the address of a variable. We call a variable that holds the address of another variable a _pointer to X_, where _X_ is the type of the variable being pointed to. Why? Because we can imagine a variable with a pointer-to-X type as one that "points" to the variable storing a value whose type is `X`. 
+Don't worry! There is a type in C++ that we can use to declare a variable that holds the address of another variable. We call a variable that holds the address of another variable a _pointer to X_, where _X_ is the type of the variable being pointed to. Why? Because we can imagine a variable with a pointer-to-X type as one that "points" to the variable storing a value whose type is `X`. 
+
+>Note: Because "points to" and "points at" end in a preposition and it's not nice to end sentences in prepositions, some people use the synonym "targets".
 
 Just to be extra clear, there is absolutely nothing odd or unusual about a variable that points to another variable -- it has a scope, value, type and *the pointer itself even has a place in memory*!
 
@@ -90,12 +94,12 @@ int main() {
 }
 ```
 
-In the snippet above, `ptr` has type *pointer to `char`* and it "points at" (also pronounced as "targets") variable `c1`. It is really important to be aware that there is no such type in C++ as "pointer" -- the type is an entire phrase *pointer to X* where *X* is some type. That means that the type of a pointer variable specifies
+In the snippet above, `ptr` has type *pointer to `char`* and it "points at" variable `c1`. It is really important to be aware that there is no such type in C++ as "pointer" -- the type is an entire phrase *pointer to X* where *X* is some type. That means that the type of a pointer variable specifies
 
 1.  that the variable is a pointer, _and_
 2.  the type of the variable at its target.
 
-That's important because a variable that is a "pointer to a `char`" can only point at `char` variables; a "pointer to an `int`" can only point at an `int`; and so on.
+That's important because a variable that is a "pointer to a `char`" can only point at `char`-typed variables; a "pointer to an `int`" can only point at an `int`-typed variable; and so on.
 
 The scope of `ptr` is the body of `function`. 
 
@@ -112,13 +116,13 @@ The variable's name? Nope! Not all variables have names and names are not unique
 
 ## Optional: The size of a `pointer to _type_` variable
 
-We know that all variables occupy space in memory. Just _how much_ space in memory do pointers to _type_ variables use? To answer this question requires some advanced calculations, but I think that we can handle it.
+We know that all variables occupy space in memory. Just _how much_ space in memory do pointers-to-`X`-type variables use? To answer this question requires some advanced calculations, but I think that we can handle it.
 
-Because the storage for variables can occur anywhere in memory, a pointer-to-type variable needs to be able to point to the address of every single byte of memory in the system. Therefore, the space allocated to storage for pointer-to-X type variables must contain enough space to represent each of those addresses.
+Because the storage for variables can occur anywhere in memory, a pointer-to-`X`-type variable needs to be able to store the address of every single byte of memory in the system. Therefore, the space allocated to storage for pointer-to-`X`-type variables must contain enough space to represent each of those addresses.
 
-Almost all of today's computers have more than 10 gigabytes of memory. Consider the tablet that I use in class -- it has 32 GB of RAM! In order to uniquely identify every byte of memory on my tablet, I would need 34,359,738,368 values. Now, here's the math!
+Almost all of today's computers have more than $10$ gigabytes of memory. Consider the tablet computer on which I am penning this column -- it has $32$ GB of RAM! In order to uniquely identify every byte of memory on my tablet, I would need $34,359,738,368$ values. Now, here's the math!
 
-As we learned earlier in the semester, the computer can only handle 1s and 0s. So, to represent decimals, we could assign 1, 2, 3, 4, 5, ... to a unique combination of a sequence of 1s and 0s. For example,
+The computer can only handle $1$s and $0$s. So, how can you use those two values to represent decimals? Let's assign $1$, $2$, $3$, $4$, $5$, ... to a unique combination of a sequence of $1$s and $0$s. For example,
 
 $$
 0000 = 0 \\
@@ -139,7 +143,7 @@ $$
 1111 = 15 \\
 $$
 
-If we count up the lines above, we can calculate that there are 16 unique combinations possible of 4 1s/0s that we can use to represent the numbers 0 through 15. Mathematically, for a sequence of $n$ 1s and 0s, there are $2^n$ different combinations (e.g., $2^4=(2*2*2*2)=16$). So, in order to represent 34,359,738,368 (the number of bytes of memory that my computer holds!) we would need
+Count up the lines above and note that there are 16 unique combinations possible of 4 `1`s/`0`s that can be used to represent the numbers $0$ through $15$. Mathematically, for a sequence of $n$ 1s and 0s, there are $2^n$ different combinations (e.g., $2^4=(2*2*2*2)=16$). So, in order to represent $34,359,738,368$ (the number of bytes of memory that my computer holds!) we would need
 
 $$
 2^n = 34359738368\\
@@ -147,9 +151,9 @@ n = log_2(34359738368)\\
 n = 35
 $$
 
-35 1s and 0s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of 64 1s/0s are better for representing addresses of bytes in memory! Every 1/0 combination is represented in hardware by a bit and, remember, there are 8 bits per byte so a pointer-to-X occupies $64 / 8 = 8$ bytes of space! How cool is that?
+$35$ $1$s and $0$s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of $64$ $1$s/$0$s are better for representing addresses of bytes in memory! Every $1$/$0$ combination is represented in hardware by a bit and, remember, there are $8$ bits per byte. So a pointer-to-`X`-type variable occupies $64 / 8 = 8$ bytes of space! How cool is that?
 
-### XXXXXXXXX
+## Reassigning Pointers
 Remember the program from above: 
 
 ```C++
@@ -185,13 +189,13 @@ I hope that the visualization and the table make it obvious that a pointer varia
 3.  Place in memory (an address), and
 4.  Value.
 
-What happens if the programmer writes
+What happens if the programmer inserts
 
 ```C++
 ptr = &c2;
 ```
 
-at the point of the red line in `function` after the existing code? What do the contents of the memory look like after that?
+just before the `return` statement in `function`? What do the contents of the memory look like after that?
 
 ![](./graphics/pointers-paused-program-memory3.png)
 
@@ -202,21 +206,21 @@ at the point of the red line in `function` after the existing code? What do the 
 | `c2` | `function` | `char` | `'R'` | `11` (`0xb`) |
 | `ptr` | `function` | `pointer to char` | `11` (`0xb`) | `24` (`0x18`) |
 
-This demonstrates the meaning of the assignment statement for pointers. Assigning a new address to a pointer changes which variable it points to. Just remember that pointers store addresses, so we must use the address of operator (`&`) on the target variable in the assignment! Frustratingly, failing to do so _may not_ cause a compilation error, but it will certainly lead to a runtime error!!
+This table demonstrates the meaning of the assignment statement for pointers. Assigning a new address to a pointer changes which variable it targets. Remember that pointers store addresses, so we must use the address-of operator (`&`) on the target variable in the assignment! Frustratingly, failing to do so _may not_ cause a compilation error, but it will certainly lead to a runtime error!!
 
-### Dereferencing Pointer-to-X Variables
+## Dereferencing Pointer-to-`X` Variables
 
 When I was growing up, there was a game called *Chutes and Ladders*.
 
 ![](./graphics/chutes-and-ladders.jpg)
 
-If you landed on a ladder, your character was able to climb to its top and advance through the board rapidly. If you landed on a chute (a slide), your character tumbled to its bottom and lost a tremendous number of places. Let's imagine that a pointer-to-X is like one of the spaces on the game board where there is an attached latter or slide -- the top of the ladder or the bottom of the chute is the pointer-to-X's target! Landing on a space with an attached chute or ladder is like using a pointer-to-X variable in an expression (e.g.,
+If you landed on a ladder, your character was able to climb to its top and advance through the board rapidly. If you landed on a chute (a slide), your character tumbled to its bottom and lost a tremendous number of places. Let's imagine that a pointer-to-`X` is like one of the spaces on the game board where there is an attached latter or slide -- the top of the ladder or the bottom of the chute is the pointer-to-`X`'s target! Landing on a space with an attached chute or ladder is like using a pointer-to-`X` variable in an expression (e.g.,
 
 ```C++
 ptr
 ```
 
-in the program above) but climbing up the ladder or sliding down the chute requires an additional "push". In C++ we call such a push a _dereference_ operation. An expression dereferencing a pointer-to-X evaluates to the value of the variable at the pointer-to-X's target! Like any operation in C++, the dereference operation is denoted by an operator (the `*`) that we call either the _dereference_ or _contents-of_ operator. It is a unary operator and takes a single operand: a pointer-to-X expression.
+in the program above) but climbing up the ladder or sliding down the chute requires an additional "push". In C++ we call such a push a _dereference_ operation. An expression dereferencing a pointer-to-`X` evaluates to the value of the variable at the pointer-to-`X`'s target! Like any operation in C++, the dereference operation is denoted by an operator (the `*`) that we call either the _dereference_ or _contents-of_ operator. It is a unary operator and takes a single operand: a pointer-to-`X`-type expression.
 
 
 Just before `function` completes its execution in the program above,
@@ -256,7 +260,7 @@ int main() {
 }
 ```
 
-Just before `function` completes its execution in the program above, 
+Just before `function` completes its execution in the program above, the variables have the following values:
 
 | | Expression | Value |
 | -- | -- | -- | 
@@ -267,11 +271,11 @@ Just before `function` completes its execution in the program above,
 | 5. |`&c2`|`11` |
 | 6. |`&ptr`|`27` |
 
-Using a dereferenced pointer-to-X variable as the place to store the value of an expression has the effect of updating the value of the variable the pointer-to-X targets! How cool!
+Using a dereferenced pointer-to-`X`-type variable as the place to store the value of an expression has the effect of updating the value of the variable the pointer-to-`X` targets! How cool!
 
 ## Nuts and Bolts
 
-What exactly is the syntax for declaring a pointer variable?
+What, precisely, is the syntax for declaring a pointer variable?
 
 ```C++
 <type> *<name>;
