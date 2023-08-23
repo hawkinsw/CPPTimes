@@ -1,4 +1,11 @@
+## The C++ Times: Class Introduction
+
+Hello! Welcome to the semester's first edition of the _C++ Times_. The _Times_ is a semi-regular publication from Curie, Inc., the publishing house that brings you such periodicals and newspapers as _Reinforced Concrete: A Journal of Civil Engineering Research_, the _Organic Chemistry Crier_ and the _ENED Enquirer_.
+
+You can contact the _Times_' editorial department any time at [hawkinwh@ucmail.uc.edu](hawkinwh@ucmail.uc.edu).
+
 ## What's News
+
 Student athletes who play fall sports are returning to their craft this week. They are working out in preseason training and competitions to make sure that they have nailed the basics. Thanks to NIL, athletes aren't the only ones who need to focus on the fundamentals -- computer scientists learning C++ can now become Tik Tok stars and earn enough cash to leave college debt free.
 
 ## Nail the Basics
