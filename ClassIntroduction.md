@@ -1,10 +1,3 @@
-## The C++ Times: Class Introduction
-
-Hello! Welcome to the semester's first edition of the _C++ Times_. The _Times_ is a semi-regular publication from Curie, Inc., the publishing house that brings you such periodicals and newspapers as _Reinforced Concrete: A Journal of Civil Engineering Research_, the _Organic Chemistry Crier_ and the _ENED Enquirer_.
-
-You can contact the _Times_' editorial department any time at [hawkinwh@ucmail.uc.edu](hawkinwh@ucmail.uc.edu).
-
-Our first meeting was largely consumed by discussion about the administrative details of the semester. We discussed the course's weekly schedule, the means of assessment, how to get access to the textbook. etc. 
 
 ### Important Reminders
 
