@@ -17,7 +17,7 @@ Because the entire process is called compilation but one of the three steps is n
 In the preprocessing phase, your source code is searched for lines of code starting with a #. These lines are known as preprocessor directives and tell the preprocessor to perform a certain action. The most common processor directive you will see is the #include preprocessor directive. This directive instructs the preprocessor to replace that line of code with the contents of another file (the one named within the < and >). We saw what that looks like during our demonstration.
 
 #### Compilation
-In the compilation step, our code (after it has been preprocessed) is converted into code that the compiler can execute natively (known as object code and stored in object files). Unfortunately, however, that code is missing some very important supporting information. That missing information is itself code (known as runtime libraries) that the compiler can execute and provides operations for doing low-level operations like accessing/storing files, communicating over the Internet, etc.
+In the compilation step, our code (after it has been preprocessed) is converted into code that the computer can execute natively (known as object code and stored in object files). Unfortunately, however, that code is missing some very important supporting information. That missing information is itself code (known as runtime libraries) that the compiler can execute and provides operations for doing low-level operations like accessing/storing files, communicating over the Internet, etc.
 
 
 #### Linking
