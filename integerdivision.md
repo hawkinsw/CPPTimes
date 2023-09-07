@@ -110,6 +110,6 @@ int main() {
 5/2: 2
 ```
 
-What? Think about it! The first thing that C++ does is evaluate the expression `5/2`. Those are two `int`s and, well, we are right back where we started. The value of that expression is $2$ and it's type is `int`! It is only then that the `static_cast` does it job and tell C++ to interpret the `int` $2$ as a `double`.
+What? Think about it! The first thing that C++ does is evaluate the expression `5/2`. Those are two `int`s and, well, we are right back where we started. The value of that expression is $2$ and it's type is `int`! It is only then that the `static_cast` does its job and tells C++ to interpret the `int` $2$ as a `double`.
 
 Be very careful!
