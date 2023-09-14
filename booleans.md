@@ -4,7 +4,7 @@ Despite advances in the understanding of quantum mechanics, researchers at the w
 
 ### Boolean
 
-Booleans are a concept and a type in C++. Named after their famous discover, George Boole, Booleans (and their C++ type `bool`) are either _true_ (`true`) or _false_ (`false`). Booleans remind me of the phrase Yoda made famous: "Do or do not. There is no try." Booleans are similar: True or False. There is no maybe.
+Booleans are a conceptual thing and a technical thing in C++. Named after their famous discover, George Boole, Booleans (and their C++ type `bool`) are either _true_ (`true`) or _false_ (`false`). Booleans remind me of the phrase Yoda made famous: "Do or do not. There is no try." Booleans are similar: True or False. There is no maybe.
 
 Like all _types_ in C++ we know, `bool`s have two characteristics:
 
@@ -23,12 +23,12 @@ Let's look at the relational and equality operators in "C++ World" and how they 
 
 | Meaning | Math World | C++ World |
 | --- | --- | --- |
-| Less than | ![](https://uc.instructure.com/equation_images/%253C) | `<` |
-| Less than or equal to | ![](https://uc.instructure.com/equation_images/%255Cle) | `<=` | 
-| Greater than | ![](https://uc.instructure.com/equation_images/%253E) | `>` |
-| Greater than or equal to | ![](https://uc.instructure.com/equation_images/%255Cge) | `>=` |
-| Equal to | ![](https://uc.instructure.com/equation_images/%253D) | `==` |
-| Not equal to | ![](https://uc.instructure.com/equation_images/%255Cne) | `!=` |
+| Less than | $\lt$ | `<` |
+| Less than or equal to | $\leq$ | `<=` | 
+| Greater than | $\gt$ | `>` |
+| Greater than or equal to | $\geq$ | `>=` |
+| Equal to | $=$ | `==` |
+| Not equal to | $\ne$ | `!=` |
 
 The first four are the _relational_ operators and the final two are the _equality_ operators.
 
@@ -111,9 +111,9 @@ int main() {
 
 `zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `false`! The others are `true`.
 
-Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc, there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or) and `!` (which means _not_). 
+Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc, there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or_) and `!` (which means _not_). 
 
-The first two (`&&` and `||`) are binary operators (which mean that they two two operands, like `+`, and `-` do). The `!` is a unary operator, meaning that it only takes a single operand.
+The first two (`&&` and `||`) are binary operators (which mean that they take two operands, like `+`, and `-` do). The `!` is a unary operator, meaning that it only takes a single operand.
 
 Think about statements like:
 
@@ -128,9 +128,9 @@ Assume that we are in Cincinnati in June and I look outside. I see that it is ra
 The first statement is logically not true! So, we would say that it is `false`. The second statement, however, is `true`. So, in 
 
 ```C++
-#include <iostream>
-
 int main() {
+  bool raining{true};
+  bool snowing{false};
   bool is_raining_and_snowing{raining && snowing};
   bool is_raining_or_snowing{raining || snowing};
 }
@@ -140,9 +140,9 @@ int main() {
 
 In an `||` expression, if either operand is `true`, then the expression is `true`.  In an `&&` expression, if both operands are `true`, then the expression is `true`. Otherwise, the expressions are `false`. 
 
-The `!` simply reverses the value of its (single) operand. For example,
+The `!` simply reverses the value of its (single) operand.
 
-There is a cool chart that we can write that describes completely the values for combinations of Boolean values using the _and_, _or_ and _not_ operators. The chart is called a truth table. Here is the truth table for the _and_ operator:
+There is a cool chart that we can write that describes completely the values for combinations of Boolean values using the _and_, _or_ and _not_ operators. The chart is called a _truth table_. Here is the truth table for the _and_ operator:
 
 | _a_ | _b_ | _a_ `&&` _b_ |
 | -- | -- | -- |
@@ -191,13 +191,12 @@ So, we can calculate `true` and `false` values, but what good are they? Read on 
 
 So far our programs have been pretty boring. They may have calculated different values based on user input, but they performed the same set of operations no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can perform different operations! Although conceptually very simple, the power of this selective computation is infinite! The general form of an `if` statement is
 
-<html>
-<pre><font color="#FCE94F">if</font> (boolean expression) {
+```C++
+if (boolean expression) {
   some statements;
-}   </pre>
-</html>
-
-When _boolean expression_ is `true`, then `some statements` execute. When _boolean expression_ is `false`, _some statements_ do not execute. _some statements_ between `{}` are called a _block_. You can nest blocks of code inside one another without limit (some caveats apply to that statement)! C++ programmers say that a block of code is conditionally executed by an `if` statement. C++ programmers also often say that a block of code is guarded by a conditional.
+} 
+```
+When _boolean expression_ is `true`, then `some statements` execute. When _boolean expression_ is `false`, _some statements_ do not execute. _some statements_ between `{}` are called a _block_. You can nest blocks of code inside one another without limit (some caveats apply to that statement)! C++ programmers say that a block of code is "conditionally executed" by an `if` statement. C++ programmers also often say that a block of code is "guarded by a conditional".
 
 ```C++
 #include <iostream>
@@ -222,7 +221,7 @@ prints
 Five is less than 6!
 ```
 
-Because `5` is less than `6`, the `std::cout` statement on line 8 executes and `Five is less than six!` is printed to the screen. However, the value of `five` does not equal the value of `six` so line 12 does not execute.
+Because `5` is less than `6`, the `std::cout` statement inside the block associated with the `5 < 6` condition executes and `Five is less than six!` is printed to the screen. However, the value of `five` does not equal the value of `six` so the `std::cout` inside the block associated with the `five == six` condition does not execute.
 
 #### Be very careful: = and == are different!
 
@@ -230,7 +229,7 @@ C++ tries to be very accommodating and will attempt to convert a value of any ty
 
 More importantly, remember how we talked about the fact that many things in C++ are expressions that you would not immediately realize? 
 
-Well, one of those hidden expressions in C++ is the `=` (assignment) operator! The value of expression `a = b` is the value of `b`! In other words,
+Well, one of those hidden expressions in C++ is the `=` (assignment) operator! The value of the expression `a = b` is the value of `b`! In other words,
 
 ```C++
 #include <iostream>
@@ -279,6 +278,6 @@ prints
 Huh, five is equal to 6!
 ```
 
-If you look closely, you will see that where I put _boolean expression_ in the `if` statement there is a `=` and not a `==`. The expression evaluates to the value in `six`. Remember earlier how we learned that C++ interprets anything that is not a `bool` and `false` and is not another type whose value is something like `0` (etc) as true? Well, in the case shown above, C++ evaluates whether the value of the expression `five = six` is 0 (it's not, it's the value in `six`), determines that the value equals `true` and chooses to execute the block!
+If you look closely, you will see that where I put _boolean expression_ in the `if` statement there is a `=` and not a `==`. The expression evaluates to the value in `six`. Remember earlier how we learned that C++ interprets anything that is not a `bool` and is not another type whose value is something like `0` (etc.) as true? Well, in the case shown above, C++ evaluates whether the value of the expression `five = six` is 0 (it's not, it's the value in `six`), determines that the value equals `true` and chooses to execute the block!
 
 Be very careful! _You will make this mistake!_  _I promise!_
