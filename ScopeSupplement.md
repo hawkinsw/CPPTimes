@@ -1,4 +1,4 @@
-Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, entices its customers who buy their publications off the rack in the Kroger checkout lanes with inserts. 
+Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, uses inserts to entice its customers who buy their publications off the rack in the Kroger checkout lanes.
 
 ### Getting Healthy C++ in 2023 With Scopes
 As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`. 
@@ -53,13 +53,18 @@ Let's add some color to improve our vision. These colors will represent each of 
 
 There are three scopes in the `main` function -- the yellow scope, the pink scope and the blue scope. The yellow scope contains the pink scope. The pink scope contains the blue scope. Scopes can be infinitely nested and the scoping relationship is transitive (i.e., if scope _A_ contains scope _B_ and scope _B_ contains scope _C_, then scope A contains scope _C_.)! 
 
-`alpha`, and `beta` are local to the yellow scope. `tango` and `foxtrot` are local to the blue scope. Which variables are local to the pink scope? 
+`alpha`, and `beta` are local to the yellow scope. `tango` and `foxtrot` are local to the blue scope. Which variables are local to the pink scope?
+
+<details><summary>Answer</summary>
+`first` and `second`. Great job!
+</details>
+
 
 Take special note of the fact that there is a `second` local to both the pink _and_ the blue scope. Interesting! What are the semantics of this type of arrangement? Wait and see!
 
 ### Dive, Dive, Dive
 
-Let's take a submarine 20,000 leagues under the C++ and make some observations using its periscope. 
+Let's take a submarine 20,000 leagues under the C++ and make some observations using our craft's periscope. 
 
 Variables in a C++ program are either _in scope_ or _out of scope_. Variables that are _in scope_ are the ones that can be seen from the periscope of our submarine. It is an error to attempt to access/update (read/write) a variable that is out of scope. 
 
@@ -133,20 +138,19 @@ The disappearance of the pink and (earlier) blue scopes does not undo the (much)
 (yellow) beta is 3
 ```
 
-Our three hour ocean tour in a submarine has (hopefully) exposed many of the quirks of variables and scopes in C++. The concepts that you are learning about scopes in C++ are generally applicable to other imperative and object-oriented programming languages (e.g., JavaScript, Python, Go, etc.). Obviously each language has its own take on the rules, the broad outlines are the same. Knowledge is power.
+Our three hour ocean tour in a submarine has (hopefully) exposed many of the quirks of variables and scopes in C++. The concepts that you are learning about scopes in C++ are generally applicable to other imperative and object-oriented programming languages (e.g., JavaScript, Python, Go, etc.). Obviously each language has its own take on the rules, but the broad outlines are the same. Knowledge is power.
 
 ### Take a Global Perspective on C++ Travel in 2023
 There is such a thing as a _global_ scope in C++. It is a scope that exists entirely outside any `{`, `}` blocks. Every single other scope in your program exists within the global scope. 
 
-In other words, variables in the global scope are always in scope. As a result of their omnipresence, variables in the global scope can be can be accessed/modified from any position in your code. Taking advantage of the reach of global variables may seem tempting. But, do not fall victim to their siren song. It is almost always wrong to use a global variable.
+In other words, variables in the global scope are always in scope. As a result of their omnipresence, variables in the global scope can be accessed/modified from any position in your code. Taking advantage of the reach of global variables may seem tempting. But, do not fall victim to their siren song. It is almost always wrong to use a global variable.
 
-Don't believe me? Think about this situation: You are writing a program that calculates the amount of money in a user's bank account. Their assets are stored in a variable named, er, `assets`. Your code needs to access the users assets throughout the program so you make it a global variable. No problems so far.
+Don't believe me? Think about this situation: You are writing a program that calculates the amount of money in a user's bank account. Their assets are stored in a variable named, er, `assets`. Your code needs to access the user's assets throughout the program so you make it a global variable. No problems so far.
 
 Your colleague takes over ownership of your pristine code several months later. They write some new code that is buggy -- _you_ are the only one who writes perfect code, of course! Their code is intended to determine whether a user is eligible for a loan depending on whether they have access to a liquid asset. They, however, make a typo in their code and write something like the following:
 
 ```C++
 ...
-
 bool asset{false};
 if (ownsAHouse) {
   assets = true;
@@ -175,7 +179,7 @@ const double PI{3.14159};
 
 Using a constant global variable in these cases has several advantages:
 
-1. Typing that literal everywhere in your code is going to get really old really fast;
+1. Typing that literal everywhere in your code is going to get really old, really fast;
 2. Each time that you retype the literal is another opportunity for you to make a typo;
 3. Not everyone will know that 3.14159 is the value of pi; and
 4. Updating its value throughout your application (to increase the precision of your program's calculations) is as simple as changing a single line of code.
