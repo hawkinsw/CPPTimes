@@ -1,8 +1,20 @@
+## What's News
+
+The C++AG Union members remain on strike today after negotiations over a new contract broke down. The biggest unresolved issue is over royalties collected per execution of line of code that they wrote.
+
 ## As An (Array) Actor, What's My Motivation?
 
-Think about the poor professor who needs to write an application to adjust their student's quiz scores. The professor's application will need to read in their students' IDs from a file, prompt for and read their quiz grades (interactively), prompt for and read the curve value, adjust the scores accordingly, and print the updated scores for each student.
+Think about the poor professor who needs to write an application to adjust their student's quiz scores. The professor's application will need to read in their students' IDs from a file, prompt for and read their quiz grades (interactively -- i.e., from the keyboard), prompt for and read the curve value (again, interactively), adjust the scores accordingly, and print the updated scores for each student.
 
-For a class of three students, that's relatively easy: The professor just needs to a) declare three variables to store three IDs, and three grades; b) declare a variable to store the curve; c) do the necessary input/output (I/O) for the three students; d) adjust the scores for each of the three students and e) print the three students' results. Here's how the teacher could write it:
+For a class of three students, that's relatively easy: The professor just needs to 
+
+1. declare three variables to store three IDs, and three grades;
+2. declare a variable to store the curve;
+3. do the necessary input/output (I/O) for the three students;
+4. adjust the scores for each of the three students; and
+5. print the three students' results.
+
+Here's how the teacher could write it:
 
 ```C++
 #include <iostream>
@@ -68,7 +80,7 @@ The problem is that our busy professor cannot easily maintain such an applicatio
 
 ## Arrays (an Interlude)
 
-We interrupt our narrative for a brief digression into the fundamentals of arrays. We have learned already that all variables have types. For instance, variables can have `int` type, `char` type, `double` type, `std::string` type, `bool`. Well, surprise, an array is also a type! That means we can declare/define variables that have array type. Variables with types that we have learned so far (i.e., `int`, `char`, `double`, `std::string`, `bool`) each hold one value -- they are referred to as _fundamental_ types in C++. A variable with an array type holds a number of values! Because variables with array type are "composed" of several other variables, they are sometimes referred to as _compound_ types.
+We interrupt our narrative for a brief digression into the fundamentals of arrays. We have learned already that all variables have types. For instance, variables can have `int` type, `char` type, `double` type, `std::string` type, `bool` type, etc. Well, surprise, an array is also a type! That means we can declare/define variables that have array type. Variables with types that we have learned so far (i.e., `int`, `char`, `double`, `std::string`, `bool`) each hold one value -- they are referred to as _fundamental_ types in C++. A variable with an array type holds a number of values! Because variables with array type are "composed" of several other variables, they are sometimes referred to as _compound_ types.
 
 Formally, an _array_ is a data structure that holds
 
@@ -76,11 +88,13 @@ Formally, an _array_ is a data structure that holds
 2.  individually and collectively accessible values (in other words, we can address any element in the array individually and we can address the entire array as a group),
 3.  each of which is the same type.
 
-A _data structure_ is just a fancy term for a way of "stor\[ing\] and organiz\[ing\] data in order to facilitate access and modifications." Each value in an array is called an element and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
+A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." Each value in an array is called an element and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
 
-It is important to remember that arrays are variables! In some ways they are different than other variables and in some ways they are the same. They are the same because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
+One of the most important concepts to remember about the elements of array is that they are just variables! The elements of an array have a type, can hold a value and have a place in memory.
 
-Just how many values can an variable of array type hold? The arrays that we use in this class will have a fixed (i.e., unchanging/constant) number of elements known to the programmer when they write their source code. In other words, the number of elements in the array must be specified before the program runs. The programmer makes known the number of elements in the array (called the _size_ of the array) to the compiler using a special syntax and the compiler relies on the constancy of that number when it processes the source code.
+The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities than there are differences. Arrays are the same as other variable types that we have seen so far because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
+
+Just how many values can a variable of array type hold? The arrays that we use in this class will have a fixed (i.e., unchanging/constant) number of elements that must be specified by the programmer when they write their source code. In other words, the number of elements in the array must be specified before the program runs. The programmer makes known the number of elements in the array (called the _size_ of the array) to the compiler using a special syntax and the compiler relies on the constancy of that number when it processes the source code.
 
 If an array is just like any other variable, it stands to reason that we will have to declare/define it like we have to declare/define other variables before we use them! Here is the bare-bones format of a declaration/definition of an array:
 
@@ -144,9 +158,11 @@ The compiler will allocate space in memory for the array variable (`days_in_summ
 
 The `??`s in each of the blocks indicates that the values of each of the elements is uninitialized after a declaration/definition like the one shown above. The first of the summer months is June, the second is July and the third is August. June has 30 days. July has 31 days. August has 31 days. Let's use code to update our array of three (3) `int`s to match reality:
 
-  days\_in\_summer\_months\[0\] = 30;
-  days\_in\_summer\_months\[1\] = 31;
-  days\_in\_summer\_months\[2\] = 31;
+```C++
+  days_in_summer_months[0] = 30;
+  days_in_summer_months[1] = 31;
+  days_in_summer_months[2] = 31;
+```
 
 After these assignment statements, our memory looks like this:
 
@@ -191,7 +207,7 @@ August is too hot and we want it to last only half as long!
 ```
 We can also read from them just like normal variables.
 
-We always want to initialize normal variables before we use them. Using a variable before initialization results in the introduction of undefined behavior into the program (see below and/or earlier C++ Times for a refresher on this topic). So, how do we initialize values of the elements of an array? There are a few different methods. First,
+We always initialize normal variables before we use them, right?. Using a variable before initialization results in the introduction of undefined behavior into the program (see below and/or earlier C++ Times for a refresher on this topic). So, how do we initialize values of the elements of an array? There are a few different methods. First,
 
 
 ```C++
@@ -228,7 +244,7 @@ C++ offers you _no protection_ against accessing an array beyond its defined siz
   days_in_summer_months[3] = 30;
 ```
 
-There are only three elements in the array but the programmer is attempting to access the fourth element. This type of mistake is so common that it has its own name: an _out-of-bounds array access_. Because C++ itself does not offer protection against such illegal accesses, you will often have to write code that performs explicit _bounds checking_ (making sure that the value you use to index an array is valid). 
+There are only three elements in the array (with the indexes `0`, `1` and `2`) but the programmer is attempting to access the fourth element. This type of mistake is so common that it has its own name: an _out-of-bounds array access_. Because C++ itself does not offer protection against such illegal accesses, you will often have to write code that performs explicit _bounds checking_ (making sure that the value you use to index an array is valid). 
 
 Accessing an array out of bounds introduces _undefined behavior_ into your program. We have heard about undefined earlier when we talked about using variables before they have been initialized. Once your program contains undefined behavior "there are no restrictions on the behavior of the program".
 
@@ -269,10 +285,10 @@ We _could_ read those M Numbers from the file and store them into the `mnumbers`
   m_number_file >> mnumbers[4];
 ```
 
-but that's lots of copying and pasting! Squint at that code and you will see a `for` loop asking to be written! Why? We know the number of times (counter!) that we want to execute an action (a body!) -- that's _exactly_ what a `for` loop is, well, for!
+but that's lots of copying and pasting! Look at all that repetition. And, if you listen closely, you can hear some screaming from far away ... it's a `for` loop asking to be written! Why? We know the number of times (counter!) that we want to execute an action (a body!) -- that's _exactly_ what a `for` loop is, well, for!
 
 ```C++
-  for (int i = 0; i<STUDENTS_IN_CLASS; i++) {
+  for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
     m_number_file >> mnumbers[i];
   }
 ```
@@ -280,21 +296,21 @@ but that's lots of copying and pasting! Squint at that code and you will see a `
 Now, we will want to replace the old code that generated our roster
 
 ```C++
-  std::cout << "Class Roster:\\n";
-  std::cout << "1. " << mnumber1 << "\\n";
-  std::cout << "2. " << mnumber2 << "\\n";
-  std::cout << "3. " << mnumber3 << "\\n";
+  std::cout << "Class Roster:\n";
+  std::cout << "1. " << mnumber1 << "\n";
+  std::cout << "2. " << mnumber2 << "\n";
+  std::cout << "3. " << mnumber3 << "\n";
 ```
 
 with new, more flexible code:
 
 ```C++
   std::cout << "Class Roster:n";
-  for (int i = 0; i<STUDENTS_IN_CLASS; i++) {
+  for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
     std::cout << (i+1) << ". " << mnumbers[i] << "n";
   }
 ```
-Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes it perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement and `i` in the second.
+Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes it perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index.
 
 Next, we will update the code for reading the quiz grades from the terminal. Whereas the first version of the code read the grades using named variables
 
@@ -313,7 +329,7 @@ our updated application will read them using (another) `for` loop:
 
 ```C++
   double grades[STUDENTS_IN_CLASS]{0.0};
-  for (int i = 0; i<STUDENTS_IN_CLASS; i++) {
+  for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
     std::cout << "Enter the quiz grade for " << mnumbers[i] << ": ";
     std::cin >> grades[i];
   }
@@ -340,7 +356,7 @@ Once we have the value of the curve from the professor, we need to adjust the va
 In the new version of the code, we will make the same adjustments but use a loop in order to future-proof our code:
 
 ```C++
-  for (int i = 0; i<STUDENTS_IN_CLASS; i++) {
+  for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
     grades[i] += curve;
   }
 ```
@@ -350,15 +366,15 @@ I bet that you are starting to see a pattern!
 With the grades adjusted appropriately, the final step is to print out the scores. In the initial version of our application, we explicitly printed out each of the three student's grades:
 
 ```C++
-  std::cout << "Adjusted quiz grade for " << mnumber1 << ": " << grade1 << "\\n";
-  std::cout << "Adjusted quiz grade for " << mnumber2 << ": " << grade2 << "\\n";
-  std::cout << "Adjusted quiz grade for " << mnumber3 << ": " << grade3 << "\\n";
+  std::cout << "Adjusted quiz grade for " << mnumber1 << ": " << grade1 << "\n";
+  std::cout << "Adjusted quiz grade for " << mnumber2 << ": " << grade2 << "\n";
+  std::cout << "Adjusted quiz grade for " << mnumber3 << ": " << grade3 << "\n";
 ```
 
-By now you shouldn't be surprised to hear that we will use a loop in the updated application to accomplish the same thing with (parallel) arrays:
+By now you shouldn't be surprised to see that we will use a loop in the updated application to accomplish the same thing with (parallel) arrays:
 
 ```C++
-  for (int i = 0; i < STUDENTS_IN_CLASS; i++) {
+  for (int i{0}; i < STUDENTS_IN_CLASS; i++) {
     std::cout << "Adjusted quiz grade for " << mnumbers[i] << ": " << grades[i]
               << "n";
   }
@@ -385,17 +401,19 @@ Like spaghetti and chili (or peanut butter and jelly), you might have noticed th
 is such a common _pattern_ ([a general, reusable solution to a commonly occurring problem within a given context in software design](https://en.wikipedia.org/wiki/Software_design_pattern)) that the designers of C++ added special syntax to make writing it easier:
 
 ```C++
-  for (auto v : array_name) {
+  for (_<type>_ v : _<array_name>_ ) {
     ...
     ... element ...
     ...
   }
 ```
 
+`_<array name>_` is the name of an array and the `_<type>_` is the type of each of the elements in that array.
+
 This type of loop is known as a _range-based_ `for` loop. One iteration of the loop will occur for each of the elements in `array_name` and the variable `v` will be a _copy_ of the that element from `array_name`. For example,
 
 ```C++
-  for (auto days_in_month : days_in_summer_months) {
+  for (int days_in_month : days_in_summer_months) {
     std::cout << days_in_month << "n";
   }
 ```
@@ -409,10 +427,10 @@ will print
 Be very careful: with the syntax above, `v` is a _copy_ of the current element from `array_name` and changing the value of `v` in the body of the loop will have no impact on the values in `array_name`.
 
 ```C++
-  for (auto days_in_month : days_in_summer_months) {
+  for (int days_in_month : days_in_summer_months) {
     days_in_month += 1;
   }
-  for (auto days_in_month : days_in_summer_months) {
+  for (int days_in_month : days_in_summer_months) {
     std::cout << days_in_month << "n";
   }
 ```
@@ -425,10 +443,10 @@ will print
 31
 ```
 
-If you want to be able to update the values in `array_name` using a range-based for loop, you will have to declare `v` as a reference variable (for more information see Section 6.13 in the text book):
+If you want to be able to update the values in `array_name` using a range-based `for` loop, you will have to declare `v` as a reference variable:
 
 ```C++
-  for (auto &element : array_name) {
+  for (_<type>_ &element : _<array_name>_) {
     ...
     element = <expression>;
     ...
@@ -438,10 +456,10 @@ If you want to be able to update the values in `array_name` using a range-based 
 Using this syntax,
 
 ```C++
-  for (auto &days_in_month : days_in_summer_months) {
+  for (int &days_in_month : days_in_summer_months) {
     days_in_month += 1;
   }
-  for (auto days_in_month : days_in_summer_months) {
+  for (int days_in_month : days_in_summer_months) {
     std::cout << days_in_month << "n";
   }
 ```
@@ -479,3 +497,56 @@ However, when it _is_ possible for you to use a range-based `for` loop, use it! 
 ```
 
 contains an off-by-one error -- the mixup between the `<=` and the `<` means that the code will access one more element than the array contains and cause the program to contain undefined behavior.
+
+However, if we wrote that same code using a range-based `for` loop, we could have easily avoided that problem:
+
+```C++
+  const int STUDENTS_IN_CLASS{5};
+  std::string mnumbers[STUDENTS_IN_CLASS]{""};
+
+  for (std::string &mnumber : mnumbers) {
+    m_number_file >> mnumber;
+  }
+```
+
+### It's Automatic
+
+Wait just a second. This is C++ and all variables have types. In fact, when we declare/define a variable, we are *forced* (how terrible!) to write down the name of the type of that variable. That's even the case for arrays -- we have to tell the compiler the type of each element of the array. 
+
+When we are using a range-based `for` loop over the array `mnumbers` (from above), we know the type of variable that holds each of the elements (`mnumber` from above) has to have a `std::string` type, right? It's easy to deduce -- go back to the declaration of the `mnumbers` array and read it from the code! There's nothing magical or hidden about that. 
+
+So, why can't the compiler do that same thing for us? In other words,
+
+```C++
+  const int STUDENTS_IN_CLASS{5};
+  std::string mnumbers[STUDENTS_IN_CLASS]{""};
+
+  for (I_SHOULDNT_HAVE_TO_REMIND_YOU &mnumber : mnumbers) {
+    m_number_file >> mnumber;
+  }
+```
+
+The compiler has the same information about `mnumbers` that we do and we can easily deduce that the only valid thing to write in place of my lamentation is `std::string`. 
+
+Well, I have a surprise for you, *it can*!?
+
+Remember the `auto` keyword that we discussed earlier? I bet you thought it was a little, well, useless. I told you that it was going to come back with a vengeance and here it has reappeared! We can add `auto` in place of a specific type in a range-based `for` loop and the compiler will deduce for us, `auto`matically, the type! How cool?!
+
+```C++
+  const int STUDENTS_IN_CLASS{5};
+  std::string mnumbers[STUDENTS_IN_CLASS]{""};
+
+  for (auto &mnumber : mnumbers) {
+    m_number_file >> mnumber;
+  }
+```
+
+The `auto` keyword is so powerful that we can almost memorize a simple, shorthand pattern for using the range-based `for` loop:
+
+```C++
+  for (auto element : _<array_name>_) {
+    ...
+  }
+```
+
+that will work in every case!
