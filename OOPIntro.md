@@ -27,7 +27,7 @@ Enough theory, how do we implement an ADT in C++? Let's find out!
 
 ## Load-Bearing Walls
 
-The most straightforward way to identify a date is to store: the day, the month and the year. At their most basic, we can represent each of these as integers. In C++, the `struct` is one of two ways to combine one or more variables of fundamental (or even other compound types) to create a *compound* type. The `struct` declaring a new `Date` *type* would look like:
+The most straightforward way to identify a date is to store: the day, the month and the year. At their most basic, we can represent each of these as integers. In C++, the `struct` is one of two ways to combine one or more variables of fundamental types to create a *compound* type (yes, you _can_ combine other compound types to form yet other compound types!). The `struct` declaring a new `Date` *type* would look like:
 
 ```C++
 struct Date {
@@ -59,7 +59,7 @@ int main() {
 }
 ```
 
-In the C++ program above, `dads_birthday` has the type of `Date`. That is just like
+In the C++ program above, `dads_birthday` has the type of `Date`. That is analogous  to
 
 ```C++
 int age{45};
@@ -123,9 +123,9 @@ private:
   int year;
 };
 ```
-`private` is one of three [access specifier keywords](https://en.cppreference.com/w/cpp/language/access) in C++. We will see `public` below and you will learn about `protected` in future classes.
+`private` is one of three [access specifier keywords](https://en.cppreference.com/w/cpp/language/access) in C++. We will see `public` below and you will learn about `protected` in future classes. Any members that are given `private` accessibility are only accessible from within the implementation of the ADT. Anyone writing code that uses an instance of our `Date` ADT _cannot_ access those members directly.
 
-Now, when we attempt to compile 
+Therefore, when we attempt to compile 
 
 ```C++
 int main() {
@@ -139,25 +139,25 @@ int main() {
 we get errors (like we should!):
 
 ```
-**date_struct.cpp:** In function ‘**int main()**’:
-**date_struct.cpp:18:5:** **error:** ‘**int Date::month**’ is private within this context
-   18 |   d.**month** = 2;
-      |     **^~~~~**
-**date_struct.cpp:11:7:** **note:** declared private here
-   11 |   int **month**;
-      |       **^~~~~**
-**date_struct.cpp:19:5:** **error:** ‘**int Date::day**’ is private within this context
-   19 |   d.**day** = 29;
-      |     **^~~**
-**date_struct.cpp:12:7:** **note:** declared private here
-   12 |   int **day**;
-      |       **^~~**
-**date_struct.cpp:20:5:** **error:** ‘**int Date::year**’ is private within this context
-   20 |   d.**year** = 2021;
-      |     **^~~~**
-**date_struct.cpp:13:7:** **note:** declared private here
-   13 |   int **year**;
-      |       **^~~~**
+date_struct.cpp: In function ‘int main()’:
+date_struct.cpp:18:5: error: ‘int Date::month’ is private within this context
+   18 |   d.month = 2;
+      |     ^~~~~
+date_struct.cpp:11:7: note: declared private here
+   11 |   int month;
+      |       ^~~~~
+date_struct.cpp:19:5: error: ‘int Date::day’ is private within this context
+   19 |   d.day = 29;
+      |     ^~~
+date_struct.cpp:12:7: note: declared private here
+   12 |   int day;
+      |       ^~~
+date_struct.cpp:20:5: error: ‘int Date::year’ is private within this context
+   20 |   d.year = 2021;
+      |     ^~~~
+date_struct.cpp:13:7: note: declared private here
+   13 |   int year;
+      |       ^~~~
 ```
 
 This outcome is ideal -- we have prevented malicious users from arbitrarily setting the day, month or year to incorrect values. But, is it really ideal?
@@ -168,7 +168,7 @@ Not really. By making these member variables private the user of the Date ADT is
 
 How to solve this problem? I have an idea: If we have member variables, I bet that C++ will give us the chance to write *member functions*! And, it does!
 
-A *member function* is a special function that "belongs" with a data type who is privileged with the power to access all of its member variables -- public, protected *and* private! When you implement a member function you do so under the assumption that it will only be invoked in the context of an instance of its type. What's more, in your implementation of a member function you can assume that you have implicit access to that instance. When you are writing the code of a member function, any reference you make to the member variables will access/update the value of those member variables specific to that instance.
+A *member function* is a special function that "belongs" with a data type. Among other special powers, member functions are privileged with the power to access all of the member variables of the data structure to which it belongs -- public, protected *and* private! When you implement a member function you are allowed to assumption that it will only be invoked in the context of an instance of its type. What's more, in your member function implementations you can assume that you have access to that instance. When you are writing the code of a member function, any reference you make to the member variables will access/update the value of those member variables specific to that instance.
 
 Now, let's return to writing these mediator functions that are going to let the user of the `Date` ADT safely update and access it.
 If we write these member functions correctly, we will always be able to guarantee the member variables' values stay reasonable. 
@@ -350,17 +350,17 @@ Now, if we try to compile
 we will get errors:
 
 ```
-**date_struct.cpp:44:17:** **error:** ‘**void Date::setYear(int)**’ is private within this context
-   44 |   d.setYear(2021**)**;
-      |                 **^**
-**date_struct.cpp:30:8:** **note:** declared private here
-   30 |   void **setYear**(int new_year) {
-      |        **^~~~~~~**
-**date_struct.cpp:45:19:** **error:** ‘**void Date::setYear(int)**’ is private within this context
-   45 |   d.setYear(-10000**)**;
-      |                   **^**
-**date_struct.cpp:30:8:** **note:** declared private here
-   30 |   void **setYear**(int new_year) {
+date_struct.cpp:44:17: error: ‘void Date::setYear(int)’ is private within this context
+   44 |   d.setYear(2021);
+      |                 ^
+date_struct.cpp:30:8: note: declared private here
+   30 |   void setYear(int new_year) {
+      |        ^~~~~~~
+date_struct.cpp:45:19: error: ‘void Date::setYear(int)’ is private within this context
+   45 |   d.setYear(-10000);
+      |                   ^
+date_struct.cpp:30:8: note: declared private here
+   30 |   void setYear(int new_year) {
 ```
 
 Our use of the `class` keyword to implement the ADT means that everything (i.e., member functions and variables) are `private`. We are feeling the impact of our decision to use `class` here: our getter and setter member functions are no longer `public` and, therefore, cannot be invoked on instances of the `Date` type. The good news is that there is a simple fix -- we'll just add the `public` access specifier above the declaration/definition of the getter/setter member functions:
@@ -405,7 +405,7 @@ Great! All our persistence is paying off!
 
 ### The Persistence of Access Specifiers
 
-As a brief aside, it is important to understand the persistence of access specifiers in a `struct` or `class`. The level of access granted by the use of an accessibility specifier continues until the next access specifier. For example, in
+As a brief aside, it is important to understand the persistence of access specifiers in a `struct` or `class`. The level of access granted by the use of an accessibility specifier remains in force until the next access specifier. For example, in
 
 ```C++
 class A {
@@ -460,7 +460,7 @@ The most basic form of a constructor is called the _default_ constructor. The de
   Date d{};
 ```
 
-A constructor is like an other member function, but it's declaration has a special syntax. Like an member function, the declaration of the constructor goes inside the declaration of the ADT. However, the declaration of the construction does not have a return type and ts name must match exactly the name of the ADT. Here's how you declare/define the default constructor for the `Date` ADT:
+A constructor is like any other member function, but it's declaration has a special syntax. Like a member function, the declaration of the constructor goes inside the declaration of the ADT. However, the declaration of the construction does not have a return type and its name must match exactly the name of the ADT. Here's how you declare/define the default constructor for the `Date` ADT:
 
 ```C++
 class Date {
@@ -590,7 +590,7 @@ Great idea. Now, how do we write that in code? It's easy:
   }
 ```
 
-The `Date()` after the `:` is in the place of the _member initializer list_ and is called the _delegated constructor._  Delegated constructors are something that you will cover in the future. You can read more about it on [C++ Reference,](https://en.cppreference.com/w/cpp/language/constructor) if you are curious. For now, just understand that this is the syntax for letting this constructor temporarily delegate (as the name implies) control (at least temporarily) to a different constructor to do some work before this constructor does its work! In other words, when the user declares/defines an instance of a `Date` class with initial values for the month, day and year, the default constructor will run first (because it is the delegated constructor for the constructor with three parameters) and then the setters in the body of the parameterized constructor are called.
+The `Date()` after the `:` is in the place of the _member initializer list_ and is called the _delegated constructor._  Delegated constructors are something that you will cover in the future. You can read more about it on [C++ Reference,](https://en.cppreference.com/w/cpp/language/constructor) if you are curious. For now, just understand that this is the syntax for letting this constructor temporarily delegate (as the name implies) control (again, at least temporarily) to a different constructor to do some work before this constructor does its work! In other words, when the user declares/defines an instance of a `Date` class with initial values for the month, day and year, the default constructor will run first (because it is the delegated constructor for the constructor with three parameters) and then the setters in the body of the parameterized constructor are called.
 
 Because the setters properly sanitize their arguments before setting the value of the corresponding member variable, we are guaranteed to prevent invalid values for the month, day or year from creeping in. With this code in place, if we execute
 
@@ -610,7 +610,7 @@ On 1/9, I will wish you a happy birthday!
 
 as the output. Do you understand why we see the `9` but the `-5000` was replaced with a 1?
 
-There is no limit to the number of different constructors you can write for a class. As long as each is declared with a different list of parameters (with respect to the number of parameters or their types -- remember the rules for function overloading?), you can write as many constructors as you like! For instance, I could write this constructor:
+There is no limit to the number of different constructors you can write for a class. As long as each is declared with a different list of parameters (with respect to the number of parameters or their types -- remember the rules for function overloading? Well, they apply here, too!), you can write as many constructors as you like! For instance, I could write this constructor:
 
 ```C++
   Date(const Date &other_date) {
