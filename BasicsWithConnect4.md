@@ -6,7 +6,7 @@ You can contact the _Times_' editorial department any time at [hawkinwh@ucmail.u
 
 ## What's News
 
-Student athletes who play fall sports are returning to their craft this week. They are working out in preseason training and competitions to make sure that they have nailed the basics. Thanks to NIL, athletes aren't the only ones who need to focus on the fundamentals -- computer scientists learning C++ can now become Tik Tok stars and earn enough cash to leave college debt free.
+Tonight marks the unofficial end to Fall sports with the NCAA Football Championship taking place in Houston. The stars tonight will have plenty of NIL money thanks to their primetime, nationwide television. However, they aren't the only ones who need to think about marketing themselves -- computer scientists learning C++ can now become Tik Tok stars and earn enough cash to leave college debt free.
 
 ## Nail the Basics
 
