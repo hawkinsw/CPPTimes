@@ -67,15 +67,15 @@ I love new words!
 
 > Note: The word algorithm comes from a person's name. It is a Westernized pronunciation/adaption of the name of a very, very smart Persian mathematician named [Muhammad ibn Musa al-Khwarizmi](https://en.wikipedia.org/wiki/Muhammad_ibn_Musa_al-Khwarizmi). Not only is he the namesake of the algorithm, he is also credited with inventing (or discovering, depending on your philosophical perspective) algebra!
 
-An algorithm, technically, is just a "well-defined set of steps for performing a task or solving a problem." Many programmers believe that writing code is their primary purpose or objective. They want to be graded on the quality of their code. However, programmers are really well-paid Algorithm Factories. Always remember: A good algorithm will beat a good implementation any day of the week!
+An _algorithm_, technically, is just a "well-defined set of steps for performing a task or solving a problem." Many programmers believe that writing code is their primary purpose or objective. They want to be graded on the quality of their code. However, programmers are really well-paid Algorithm Factories. Always remember: A good algorithm will beat good code any day of the week!
 
 What we generate by turning an algorithm (usually written in pseudocode) into source code is known as a _program_. A program and algorithm are similar, but not exactly the same. Be on the lookout for the definition of program in future issues of the C++ Times.
 
 ## Shout From the Rooftops
 
-Although our solution is still very broad and, in some ways, very vague, we are slowly chipping away at the details. Each time we return and massage the algorithm, we are adding more details -- we are refining the description step by step. We are doing something that professional programmers do all the time -- _stepwise refinement_.
+Although our solution is still very broad and, in some ways, very vague, we are slowly chipping away at the details. Each time we return to our algorithm and tweak it further, we are adding more details -- we are refining the description step by step. We are doing something that professional programmers do all the time -- _stepwise refinement_.
 
-This technique is really important. When we start thinking about solving a problem, we focus as much as possible on the big picture. In the case of Connect 4, we talk about players, taking turns, winning, losing. We pretended that we had good definitions for those terms and good ways to determine who won and lost. We wrote our algorithm as if they exist. 
+This technique is really important. When we start thinking about solving a problem, we focus as much as possible on the big picture. In the case of Connect 4, we talk about players, taking turns, winning, losing. During our initial algorithm design, we pretended that we had good definitions for those terms and, for example, good ways to determine who won and lost. We wrote our algorithm as if they existed. 
 
 That seems like we are just kidding ourselves and setting ourselves up for failure later. But, no! What we are doing is really important. We are thinking abstractly (we will define that term later in the semester) and its really cool!
 
@@ -116,7 +116,7 @@ becomes
    - if yes, game is over and ____________ wins
    - otherwise, continue...
 
-We could take advantage of that repetitiveness if only we had an easy way to define what that blank "thing" really is really is and what should go in them. What we need is something (it will definitely need a name -- we have to write down that thing, after all!) that will stand in for the current player. Let's say that _Active Player_ stands for the current player -- either Player 1 or Player 2.
+We could take advantage of that repetitiveness if only we had an easy way to define what that blank "thing"s really are and what should go in them. What we need is something (it will definitely need a name -- we have to write down that thing, after all!) that will stand in for the current player. Let's say that _Active Player_ stands for the current player -- either Player 1 or Player 2.
 
 Now we can write out Connect 4 algorithm like this ...
 2. _Active Player_ makes a play.
@@ -126,13 +126,13 @@ Now we can write out Connect 4 algorithm like this ...
 
 Woah! Much simpler. 
 
-What did we just do? Well, we deployed something that all good programmers use -- a variable. A _variable_ is the name of a place in memory that holds a value that can change over time. While we are playing our game, the "memory" is just our brain (until I fool you into thinking that it's actually my turn twice in a row!). When we are programming in C++, that memory will be _(non)volatile_ storage.
+What did we just do? Well, we deployed something that all good programmers use -- a variable. A _variable_ is the name of a place in memory that holds a value that can change over time. While you and I are playing our game, the "memory" is just our brain (until I fool you into thinking that it's actually my turn twice in a row!). When we are programming in C++, that memory will be _(non)volatile_ storage.
 
 ## Abstract Art
 
 Earlier we discussed a very important term, abstraction, but I failed to give you a good definition. And I'm still not going to spell it out precisely!
 
-I will say that there are myriad ways that computer scientists use abstraction and C++ supports many of them. We've seen hints of one type of abstraction already: We used a variable to strip away repetition and come up with a small kernel of code that really defines the steps necessary to play the game:
+I will say that there are myriad ways that computer scientists use abstraction and C++ supports many of them. We've seen hints of one type of abstraction already: We used a variable to strip away repetition and come up with a small nugget of code that really defines the steps necessary to play the game:
 
 2. _Active Player_ makes a play.
 3. check whether _Active Player_ won.
@@ -142,16 +142,16 @@ I will say that there are myriad ways that computer scientists use abstraction a
 Doing Steps (2) and (3) repeatedly will (basically) give you a close approximation of a complete Connect 4 game. We could even give those two statements a name -- something like _make a play and check for winner_. Then, in a loop, our code for Connect 4 would be:
 
 ```
-While there is no winner, do the statements in *make a play and check for winner*.
+While there is no winner, do the statements in **make a play and check for winner**.
 ```
 
 Whether you like it or not, you just defined your first function, a type of abstraction! A _function_ is a set of statements with a name (note: a name is not _always_ required) that perform some specific, high-level task.
 
-When you use a function you say that you _call_ the function (sometimes people say that they _invoking_ the function, and that's fine, too!).
+When you use a function you say that you _call_ the function (sometimes people say that they are _invoking_ the function, and that's fine, too!).
 
-It's important to realize what a function can and cannot do on its own. It _can_ wrap up a bunch of statements into a group so that the group performs some not-so-trivial task. It _can_ make it easier to reuse the statements in the group over and over again. A function _cannot_, however, do its work without some additional input. For the function above, for instance, when we call it we have to tell it who is _Active Player_. We also need to tell it what to reference when determining whether _Active Player_ has won. What's really cool, though, is that every time we call _make a play and check for winner_, the value of those inputs can be different.
+It's important to realize what a function can and cannot do on its own. It _can_ wrap up a bunch of statements into a group so that the group performs some not-so-trivial task. It _can_ make it easier to use the statements in the group over and over again (i.e., it makes reuse possible). A function _cannot_, however, do its work without some additional input. For the function above, for instance, when we call it we have to tell it who is _Active Player_. We also need to tell it what to reference when determining whether _Active Player_ has won. What's really cool, though, is that every time we call _make a play and check for winner_, the value of those inputs can be different.
 
-A function is good at _abstracting_ process but needs a boost when it comes to data. This point is very important.
+A function is good at _abstracting_ processes but needs a helping hand when it comes to data. This point is very important.
 
 One of the very common ways that programmers structure the code for entire programs is by using functions. The programmers break down each part of the solution into individual functions. Those functions call other functions in order to complete tasks. There are all sorts of great reasons _why_ you would want to structure your code in terms of functions and during the class we will talk about them all. For now, it's enough to know that a program that is built using functions as the building block is written in a _procedural_ style. 
 
@@ -177,6 +177,6 @@ Programmers use another form of abstraction, _objects_, that is similar to our F
 
 This concept is really powerful and is (yet) another way that programmers structure their programs. When programmers build their solutions using objects, they are doing _object-oriented programming_. 
 
-Each of these two ways of structuring programs are known as _paradigms_. C++ is a unique programming language because it is a multi paradigm language. You can write solutions in C++ using either procedural or object-oriented programming.
+Each of these two ways of structuring programs are known as _paradigms_. C++ is a unique programming language because it is a multi-paradigm language. You can write solutions in C++ using either procedural or object-oriented programming.
 
 Don't worry if the last few sections were a blur. We will revisit these topics throughout the semester.
