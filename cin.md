@@ -1,6 +1,6 @@
 ## What's News
 
-Political pollsters have completed their root-cause analysis of why they misjudged the results of recent electoral races -- all they had to do was get input from their constituents!
+Political pollsters have completed their root-cause analysis of why they misjudged the results of the early straw polls and caucuses in the 2024 Presidential Race -- it turns out, to fix the problem, all they had to do was ask for the voters' input! 
 
 ## Getting input
 
@@ -24,7 +24,7 @@ The output is actually accomplished on line 5:
 std::cout << name;
 ```
 
-As you recall, the `<<` is called the stream insertion operator because we are telling the compiler to "insert" the value of `name` in to a "stream" of data that is destined for the character output device (usually the console!). Visually, the `<<` is intuitive because it looks like it is "funneling" the value from `name` to `std::cout` (which we can think of as the console).
+As you recall, the `<<` is called the stream insertion operator because we are telling the compiler to "insert" the value of `name` in to a "stream" of data that is destined for the character output device (usually the [console](https://en.wikipedia.org/wiki/System_console), a name given to computer screens in the earliest days of computing!). Visually, the `<<` is intuitive because it looks like it is "funneling" the value from `name` to `std::cout` (which we can think of as the console).
 
 What would happen if we flipped that around? Well, it would seem to follow that we could go in the opposite direction and _get_ values from the stream of data that is coming from the console! 
 

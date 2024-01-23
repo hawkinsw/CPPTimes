@@ -8,7 +8,7 @@ Though computers are able to accomplish a tremendous amount of work in a short a
 
 For instance, consider the mathematical equation
 
-$ 5 / 2 $
+$$ 5 / 2 $$
 
 The answer is $2.5$, obviously!
 
@@ -38,7 +38,7 @@ Just when you thought that you could get away from clutches of types in programm
 
 Remember that _expressions_ are anything that has a value. More importantly (for this discussion), all values in C++ have a type! Never forget the definition of _type_: A range of valid values and the valid operations that you can perform on those values.
 
-Put that knowledge together and you can reason that ... `(five/two)` is an expression, it generates a value and, therefore, that value has a type. C++ determines the type of a value based on the composition of the expression that generates it! It just so happens that C++ specifies that when you have an operator (remember the definition?) whose operands are `int`s, the type of the value when that expression is evaluated is also an `int`. 
+Put that knowledge together and you can reason that ... `(five/two)` is an expression, it generates a value and, therefore, that value has a type. C++ determines the type of a value based on the composition of the expression that generates it! It just so happens that C++ specifies that when you have an operator (remember the definition of operator?) whose operands are `int`s, the type of the value when that expression is evaluated is also an `int`. 
 
 Ah, so that's the rub!
 
@@ -56,11 +56,13 @@ The rules and mechanics of this process are fairly complex (and it is best to co
 
 With that upgrade, the two operands are both `double`s and as a result (obviously) the, er, result of that operation also has the type `double`. Exactly what we want.
 
-So, all that's left is to convince C++ that either `five` or `two` is really a double. Because whole numbers (`int`s) are a subset of all numbers, we can assure C++ that it is okay to think about either `five` or `two` as a `double` without losing any information. In other words, if C++ considers either `five` or `two` as a double, none of the meaning of $5$ or $2$ will be modified! 
+So, all that's left is to convince C++ that either `five` or `two` is really a double. Because whole numbers (`int`s) are a subset of all numbers, we can assure C++ that it is okay to think about either `five` or `two` as a `double` without losing any information. In other words, if C++ considers either `five` or `two` as a double, none of the meaning of $5$ or $2$ will be lost! 
 
-***N.B.***: This assumption does not hold in the opposite direction -- if you store $5.2$ in an `int` the meaning of $5.2$ will change! The variable will only store the $5$ -- where did the rest of our value go? Remember _truncation_?
+***N.B.***: This is not always 100% guaranteed to be the case. There is the possibility that you could store a very, very large whole number and fail to be able to convert it to a double-precision number. But, most of the time it works just fine!
 
-C++ gives us an awesome tool known as the `static_cast` that we can use to assure the compiler that we can treat of a variable of one type as a variable of a different type. Of course there are rules about when it is safe to do this type of operation -- we don't want to be able to tell C++ that a `std::string` is a `bool`. 
+***N.B. (2)***: This assumption does not hold in the opposite direction -- if you think about $5.2$ as an `int`, it will lose some of its essence. You will only be able to think about $5$ -- where did the rest of our value go? Remember _truncation_?
+
+Okay, now for the arm twisting: C++ gives us an awesome tool known as the `static_cast` that we can use to assure the compiler that we can treat of a variable of one type as a variable of a different type. Of course there are rules about when it is safe to do this type of operation -- we don't want to be able to tell C++ that a `std::string` is a `bool`. 
 
 ```C++
 #include <iostream>
