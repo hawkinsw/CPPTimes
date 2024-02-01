@@ -111,7 +111,7 @@ int main() {
 
 `zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `false`! The others are `true`.
 
-Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc, there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or_) and `!` (which means _not_). 
+Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc. are primitive operations for numbers (`int`egers and `double`s), there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or_) and `!` (which means _not_). 
 
 The first two (`&&` and `||`) are binary operators (which mean that they take two operands, like `+`, and `-` do). The `!` is a unary operator, meaning that it only takes a single operand.
 
@@ -138,7 +138,7 @@ int main() {
 
 `is_raining_and_snowing` is `false` and `is_raining_or_snowing` is `true`. 
 
-In an `||` expression, if either operand is `true`, then the expression is `true`.  In an `&&` expression, if both operands are `true`, then the expression is `true`. Otherwise, the expressions are `false`. 
+In an `||` expression, if either operand is `true`, then the value of the expression is `true`. In an `||` expression, if both of the operands are `false`, then the value of the expression is `false`. In an `&&` expression, if both operands are `true`, then the expression is `true`. Otherwise, the expressions are `false`. 
 
 The `!` simply reverses the value of its (single) operand.
 
@@ -189,7 +189,7 @@ So, we can calculate `true` and `false` values, but what good are they? Read on 
 
 ### It Takes `bool` to Tango: The `if` Statement
 
-So far our programs have been pretty boring. They may have calculated different values based on user input, but they performed the same set of operations no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can perform different operations! Although conceptually very simple, the power of this selective computation is infinite! The general form of an `if` statement is
+To date, the programs that we have written in class and in lab have been pretty boring. They may have calculated different values based on user input, but they performed the same set of operations no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can perform different operations! Although conceptually very simple, the power of this selective computation is infinite! The general form of an `if` statement is
 
 ```C++
 if (boolean expression) {
@@ -229,7 +229,7 @@ C++ tries to be very accommodating and will attempt to convert a value of any ty
 
 More importantly, remember how we talked about the fact that many things in C++ are expressions that you would not immediately realize? 
 
-Well, one of those hidden expressions in C++ is the `=` (assignment) operator! The value of the expression `a = b` is the value of `b`! In other words,
+Well, one of those hidden expressions in C++ is the `=` (assignment) operator! Yes, an assignment statement like `a = b` is, in fact, an expression and its value is the value of `b`! In other words,
 
 ```C++
 #include <iostream>
