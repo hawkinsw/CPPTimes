@@ -1,6 +1,6 @@
 Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, uses inserts to entice its customers who buy their publications off the rack in the Kroger checkout lanes.
 
-### Getting Healthy C++ in 2023 With Scopes
+### Getting Healthy C++ in 2024 With Scopes
 As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`. 
 
 We take advantage of scopes in order to limit the possibility that other developers writing code in other parts of the same program create/use variables with the same name as ours in ways that conflict. 
