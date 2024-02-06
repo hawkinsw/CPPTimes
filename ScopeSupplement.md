@@ -7,7 +7,7 @@ We take advantage of scopes in order to limit the possibility that other develop
 
 If our compiler has taught us anything, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, time? In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
 
-No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, as long as you need two variables to represent time in different scopes, you can name them both `time` without worrying about conflicts. 
+No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, if you need two variables to represent time as long as they are in different scopes, you can name them both `time` without worrying about conflicts. 
 
 This is incredibly powerful (from a software-engineering perspective), but can cause some problems. We will see an example of that type of problem (shadowing) later in this insert. 
 
@@ -51,9 +51,9 @@ Let's add some color to improve our vision. These colors will represent each of 
 
 ![Each of the scopes in the `main` function annotated with colors.](./graphics/ScopesVisualizedOverview.png)
 
-There are three scopes in the `main` function -- the yellow scope, the pink scope and the blue scope. The yellow scope contains the pink scope. The pink scope contains the blue scope. Scopes can be infinitely nested and the scoping relationship is transitive (i.e., if scope _A_ contains scope _B_ and scope _B_ contains scope _C_, then scope A contains scope _C_.)! 
+There are three scopes in the `main` function -- the yellow scope, the pink scope and the blue scope. The yellow scope contains the pink scope. The pink scope contains the blue scope. Scopes can be infinitely nested and the scoping relationship is transitive (i.e., if scope _A_ contains scope _B_ and scope _B_ contains scope _C_, then scope _A_ contains scope _C_.)! 
 
-`alpha`, and `beta` are local to the yellow scope. `tango` and `foxtrot` are local to the blue scope. Which variables are local to the pink scope?
+`alpha`, and `beta` are local to the yellow scope because that is where they were declared. `tango` and `foxtrot` are local to the blue scope. Which variables are local to the pink scope?
 
 <details><summary>Answer</summary>
 `first` and `second`. Great job!
@@ -89,7 +89,7 @@ The program execution advances.
 
 ![Program execution is paused at the line annotated with the green arrow.](./graphics/ScopesVisualizedPosition2.png)
 
-The programmer here is updating the `beta` variable. But, `beta` is not local -- it's declaration occurs in the yellow scope but the program is executing in the blue scope. Is this write to the variable legal? Yes, it is! `beta` is not local but it sure is in scope! 
+The programmer here is updating the `beta` variable. But, `beta` is not local -- it's declaration occurs in the yellow scope and the program is executing in the blue scope. Is this write to the variable right (see what I did there?)? Yes, it is! `beta` is not local but it sure is in scope! 
 
 ![The variables in scope (and their values) at the point when program execution is at the green line in the image to the left are the ones visible by the periscope. Notice that the value of `beta` in the yellow scope has changed.](./graphics/ScopesVisiblePosition2.png)
 
@@ -126,7 +126,7 @@ The value retrieved when the program accesses the variable `alpha` when it is pa
 
 When we rose another several feet toward the surface, we left behind yet another scope. Those variables and the storage allotted to them are now gone! Parting (variables) is such sweet sorrow.
 
-The disappearance of the pink and (earlier) blue scopes does not undo the (much) earlier change to the value of `beta`. Even though the scopes that existed when the code that made the update from 2 to 3 have since been vanquished, the value of `beta` remains `3`. The final output of the program is:
+The disappearance of the pink and (earlier) blue scopes does not undo the (much) earlier change to the value of `beta`. Even though the scopes that existed when the code that made the update from `2` to `3` have since been vanquished, the value of `beta` remains `3`. The final output of the program is:
 
 ```
 (blue) foxtrot is 200
@@ -140,7 +140,7 @@ The disappearance of the pink and (earlier) blue scopes does not undo the (much)
 
 Our three hour ocean tour in a submarine has (hopefully) exposed many of the quirks of variables and scopes in C++. The concepts that you are learning about scopes in C++ are generally applicable to other imperative and object-oriented programming languages (e.g., JavaScript, Python, Go, etc.). Obviously each language has its own take on the rules, but the broad outlines are the same. Knowledge is power.
 
-### Take a Global Perspective on C++ Travel in 2023
+### Take a Global Perspective on C++ Travel in 2024
 There is such a thing as a _global_ scope in C++. It is a scope that exists entirely outside any `{`, `}` blocks. Every single other scope in your program exists within the global scope. 
 
 In other words, variables in the global scope are always in scope. As a result of their omnipresence, variables in the global scope can be accessed/modified from any position in your code. Taking advantage of the reach of global variables may seem tempting. But, do not fall victim to their siren song. It is almost always wrong to use a global variable.
