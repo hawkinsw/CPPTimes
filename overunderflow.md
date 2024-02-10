@@ -25,7 +25,7 @@ integer_variable: 2147483647
 integer_variable: -2147483648
 ```
 
-It just so happens that on the computer where we executed this program, 2147483647 is the largest value that can be stored in an `int`-typed variable. Therefore, attempting to store a number bigger than that (which we create with the compound assignment operator [e.g., `+=`]) in the variable results in overflow and the value wraps around to become a negative number. You can try this program live at [Godbolt](https://godbolt.org/z/asMEr4h8W). 
+It just so happens that on the computer where we executed this program, 2147483647 is the largest value that can be stored in an `int`-typed variable. Therefore, attempting to store a number bigger than that (which we create with the compound assignment operator [e.g., `+=`]) in the variable results in overflow and the value _overflows_. You can try this program live at [Godbolt](https://godbolt.org/z/asMEr4h8W). 
 
 While that overflow-wraps-around behavior seems rational and stable, it actually is not! In the C++ language, if we are ever to introduce overflow in our programs, we are subject to the laws of undefined behavior. Undefined behavior is a type of program behavior that does not have to follow any rigorous specification. In other words, if we have undefined behavior in our program, it is allowed to do anything!
 
