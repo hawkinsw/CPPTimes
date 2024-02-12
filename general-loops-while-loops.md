@@ -94,10 +94,13 @@ We'll start by using the `do ... while` loop to calculate a student's lab grades
 1. The labs are all out of 100 points.
 2. The user enters their input without error.
 3. The user always enters at least one grade.
+4. The bodies of all declared functions are provided (correctly) elsewhere.
 
 ```C++
-#include <iomanip>
 #include <iostream>
+
+int get_grade();
+std::string format_grade(double grade);
 
 int main() {
   double current_score{0.0};
@@ -106,7 +109,7 @@ int main() {
 
   do {
     std::cout << "Enter lab score (or -1 if there are no more scores): ";
-    std::cin >> current_score;
+    current_score = get_grade();
 
     if (current_score >= 0) {
       total_pts += current_score;
@@ -115,7 +118,7 @@ int main() {
   } while (current_score >= 0);
 
   auto grade = (total_pts) / lab_num;
-  std::cout << "Grade: " << std::fixed << std::setprecision(2) << grade
+  std::cout << "Grade: " << format_grade(grade)
             << "%\n";
 
   return 0;
@@ -142,18 +145,19 @@ int main() {
   int lab_num{0};
 
   std::cout << "Enter lab score (or -1 if there are no more scores): ";
-  std::cin >> current_score;
+  current_score = get_grade();
 
   while (current_score >= 0.0) {
     total_pts += current_score;
     lab_num++;
     std::cout << "Enter lab score (or -1 if there are no more scores): ";
-    std::cin >> current_score;
+    current_score = get_grade();
   }
 
   auto grade = (total_pts) / lab_num;
-  std::cout << "Grade: " << std::fixed << std::setprecision(2) << grade
+  std::cout << "Grade: " << format_grade(grade)
             << "%\n";
+
 
   return 0;
 }
