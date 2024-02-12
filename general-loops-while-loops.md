@@ -59,11 +59,11 @@ int main() {
 
 Look closely at the condition for terminating the `do...while` loop. Convince yourself that it is the correct condition: When the user's password is invalid, `valid_password` returns `false` which means that the program should prompt the user to enter their password again. But the `do...while` loop only repeats the execution of its body when the condition is true! So, we use the `!` operator to flip the result of the validation function. Voila! Our loop does our bidding!
 
-We will refer to the `do ... while` loop as a _conditional_ loop. I wonder why? Think about the meaning or function of a `do ... while` loop. The structure gives the programmer to power to repeatedly execute a set of statements as long as a condition (encoded in the `expression`) is `true`. See it? _condition_? Exactly!
+We will refer to the `do ... while` loop as a _conditional_ loop. I wonder why? Think about the meaning (or function) of a `do ... while` loop. The structure gives the programmer to power to repeatedly execute a set of statements as long as a condition (encoded in the `expression`) is `true`. See it? _condition_? Exactly!
 
 ### While Loops: The Variation on the Theme
 
-The `while` loop is another type of conditional loop. The `while` and the `do ... while` loop are very similar but there is one very important difference: the `do ... while` loop is guaranteed to execute its body _at least one time_ but the `while` is not.
+The `while` loop is another type of conditional loop. The `while` and the `do ... while` loop are very similar but there is one very important difference: the `do ... while` loop is guaranteed to execute its body _at least one time_ while (sorry, I couldn't resist) the `while` is not.
 
 Here is the general format of the `while` loop:
 
@@ -82,7 +82,6 @@ The placeholder `statement`s listed in green represent the body of the `while` l
 Not to sound like a broken record, but remember that the type of the value of `expression` does not necessarily need to be a `bool`. C++ will convert the value of `expression` to a `bool` if it is some other type (as long as such a conversion is possible!). When you rely on this behavior to control a loop, be sure to think about the algorithm that C++ uses to determine whether a value with non-`bool` type is `true` or `false`.
 
 Unlike the `do ... while` loop, the statements in the body of `while` loop are not always executed. Can you see why? Because the loop's condition (embedded in the `expression`) is checked at the beginning of each iteration, the `while` loop is called a _pre-condition loop_. 
-
 
 ### Use It Or Lose It
 
@@ -131,7 +130,7 @@ Could we solve this problem by converting our code into a `while` loop? Maybe. I
 
 Yes, there is!
 
-One of the nasty things about the `do ... while` loop that we wrote above was that we had to check for the loop's termination condition (`grade < 0`) in multiple places. It would be nice if we could do that a single time and save ourselves some typing. The `while` loop is there to help us out! In order to make sure that we only have to check our termination condition in the loop a single time, we do what is called a _priming_ operation. The priming operation prepares the necessary variable(s) for the evaluation of the `while` loops condition for the first iteration. When converting between a `do ... while` and a `while` loop, the priming operation must set the state of the program in such a way that the loop will execute its body at least once! Why? Because that is *exactly* what the `do ... while` guarantees -- that the body of the loop will be executed exactly once!
+One of the nasty things about the `do ... while` loop that we wrote above was that we had to check for the loop's termination condition (`grade < 0`) in multiple places. It would be nice if we could do that a single time and save ourselves some typing. The `while` loop is there to help us out! In order to make sure that we only have to check our termination condition in the loop a single time, we do what is called a _priming_ operation. The priming operation prepares the necessary variable(s) for the evaluation of the `while` loop's condition for the first iteration. If we were converting between a `do ... while` and a `while` loop, the priming operation must set the state of the program in such a way that the loop will execute its body at least once! Why? Because that is *exactly* what the `do ... while` guarantees -- that the body of the loop will be executed exactly once!
 
 ```C++
 #include <iomanip>
@@ -161,6 +160,8 @@ int main() {
 ```
 Look very closely at the version of the application written using the `while` loop and compare it with the version written using the `do ... while` loop. Although we meant to make the `while` loop an exact copy of the `do ... while` loop, we did so with a combination of different tools and different code behavior. In particular, in the `do ... while` loop the body always executed at least once. The body of the loop contains the code that prompts the user for input and reads their response. In the version of the program written using `while` loop, reading the input from the user happens *both* inside *and* outside the loop. As a result, the `while` loop does actually perform the same operations the same number of times as the `do ... while` loop. We just needed to move them around slightly. 
 
-As you can start to see, the constructs for writing code that performs repeated operations are, in a sense, interchangeable. We will see that more completely as we begin to learn about the power and utility of the `for` loop.
+### One Of These Things Is Just Like The Other
 
-Because the `while` loop checks the condition before (pre) it executes its body, it is called a _pre-test loop_. If the condition of the while loop is not true the first time that it is encountered, the body of the loop will never execute.
+As you can start to see, the constructs for writing code that performs repeated operations are interchangeable. Having worked through proving to yourself that a `do ... while` and a `while` loop can both effectively be used to write the grade calculation example above, you should start to see a general _algorithm_ that could be used to convert from one loop to the other. 
+
+We will see the flexibility and interchangeability of the different types of loops in more depth as we begin to learn about the power and utility of the `for` loop.
