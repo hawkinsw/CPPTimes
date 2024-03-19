@@ -90,7 +90,7 @@ Formally, an _array_ is a data structure that holds
 
 A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." Each value in an array is called an element and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
 
-One of the most important concepts to remember about the elements of array is that they are just variables! The elements of an array have a type, can hold a value and have a place in memory.
+One of the most important concepts to remember about the elements of arrays is that they are just variables! The elements of an array have a type, can hold a value and have a place in memory -- just like real variables.
 
 The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities than there are differences. Arrays are the same as other variable types that we have seen so far because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
 
@@ -125,11 +125,11 @@ We can read that like:
 
 "`days_per_month` is an array of 12 `int`s."
 
-In our declarations/definitions, how come there is only a single type for an array? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Remember what we said above:
+In our declarations/definitions, how come there is only a single type for an array? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Yes, and we are! Remember what we said above:
 
 > Formally, an _array_ is a data structure that holds a fixed number of values, **_each of which is the same type_**.
 
-Because each element in an array has the same type, we only need to specify the type once when we declare an array!
+Because each element in an array has the same type, we only need to specify the type of the elements once -- when we declare an array!
 
 Let's visualize arrays in the computer's memory to get a better sense of what is going on. First, remember that every variable has a space in memory:
 
@@ -238,15 +238,15 @@ There are [several variations on this theme](https://en.cppreference.com/w/cpp/l
 
 ### Danger
 
-C++ offers you _no protection_ against accessing an array beyond its defined size. Let's say that an intrepid programmer thought they could set the number of days in September using our array by writing code like this:
+C++ offers you _no protection_ against accessing an array beyond its defined size. Let's say that an intrepid programmer thought they could set the number of days in September using our `days_in_summer_months` array by writing code like this:
 
 ```C++
   days_in_summer_months[3] = 30;
 ```
 
-There are only three elements in the array (with the indexes `0`, `1` and `2`) but the programmer is attempting to access the fourth element. This type of mistake is so common that it has its own name: an _out-of-bounds array access_. Because C++ itself does not offer protection against such illegal accesses, you will often have to write code that performs explicit _bounds checking_ (making sure that the value you use to index an array is valid). 
+There are only three elements in the array (with the indexes `0`, `1` and `2`) but the programmer is attempting to access the fourth element (the element with the 3rd index). This type of mistake is so common that it has its own name: an _out-of-bounds array access_. Because C++ itself does not offer protection against such illegal accesses, you will often have to write code that performs explicit _bounds checking_ (making sure that the value you use to index an array is valid). 
 
-Accessing an array out of bounds introduces _undefined behavior_ into your program. We have heard about undefined earlier when we talked about using variables before they have been initialized. Once your program contains undefined behavior "there are no restrictions on the behavior of the program".
+Accessing an array out of bounds introduces _undefined behavior_ into your program. We have heard about undefined earlier when we talked about using variables before they have been initialized. Once your program contains undefined behavior "there are no restrictions on the behavior of the program". In other words, it's bad news!
 
 ## Snap Back to Reality: Our Tortured Teacher
 
@@ -264,7 +264,7 @@ We don't need to make any changes to the code that opens the input file and chec
   m_number_file >> mnumber3;
 ```
 
-Our updated application will handle 5 students. Because we know how terrible it is to use magic numbers in our code, we'll use a constant to represent that value:
+Our updated application will handle 5 students. Because we know how terrible it is to use magic numbers in our code, we'll use a constant to represent that class size:
 
 ```C++
   const int STUDENTS_IN_CLASS{5};
@@ -310,7 +310,17 @@ with new, more flexible code:
     std::cout << (i+1) << ". " << mnumbers[i] << "n";
   }
 ```
-Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes it perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index.
+Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes it perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index. It is very important to note here that our output statement where we are using `(i + 1)` does _not_ increment the value of `i`. `(i + 1)` is an expression and it produces a value. In the process of evaluating that expression, there are no side effects that cause the value of `i` to change. It is simply that the value of the expression `(i + 1)` is one more than that value of the expression of `i`. That is not the case if we, instead, wrote code that looked like:
+
+```C++
+  std::cout << "Class Roster:n";
+  for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
+    std::cout << (++i) << ". " << mnumbers[i] << "n";
+  }
+```
+Notice how out-of-whack the world will be if we were to run that code.
+
+Okay, back to work ...
 
 Next, we will update the code for reading the quiz grades from the terminal. Whereas the first version of the code read the grades using named variables
 
@@ -472,7 +482,7 @@ will print
 32
 ```
 
-Notice how the `&` works in a range-based `for` loop much the same way that it works in defining a reference parameter for a function!
+Notice how the `&` works in a range-based `for` loop much the same way that it works in defining a reference parameter for a function! Like a `&` makes a parameter an alias for the variable given as the argument, the `&` in an range-based `for` loop makes the iterator variable an _alias_ for the different elements of the array!
 
 It is important to note that range-based `for` loops can only be used to iterate through arrays when the compiler knows the size of the array. Also, notice that with a range-based for loop you do not get an index variable "for free". In other words, rewriting a loop like
 
