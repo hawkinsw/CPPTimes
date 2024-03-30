@@ -11,9 +11,9 @@ Now that we are talking about abstract data types (ADTs) we are starting to get 
 
 Object-oriented programming (OOP) is a style of programming (a _paradigm_) where programs are designed around a series of objects that interact with one another programmatically. Well, what are objects? Objects are _instances_ of classes which are, themselves, a way to operationalize ADTs! In other words, OOP is a programming paradigm that relies on the data and process abstraction of ADTs.
 
-OOP is powerful because we humans are good at organizing our thoughts and algorithms the way that we organize our daily communications and behaviors. In real life, we manipulate objects and communicate with one another to accomplish tasks. In OOP, we write our algorithms the same way -- by specifying how to manipulate objects and directing communication between and among them. The only difference? Are the objects physical (real life) or logical (programming).
+OOP is powerful because we humans are good at organizing our thoughts and algorithms the way that we organize our daily communications and behaviors. In real life, we manipulate objects and communicate with one another to accomplish tasks. In OOP, we write our algorithms the same way -- by specifying how to manipulate objects and directing communication between and among them. The only difference? Are the objects physical (real life) or logical (programming)?
 
-The objects that object-oriented programmers manipulate are clearly *not* real, tangible things. However, some of the objects are instances of classes that implement ADTs that _do_ model things that exist in the real world -- a car on a dealer's lot, a Frosty (there is _only_ one flavor) on the Wendy's menu, a blouse on Rent the Runway, etc. But, some of the objects are instances of classes that implement ADTs that model things that only exist in the computer -- files, the windows of an application, the button that launches the web browser, etc. In both cases, computer programs written in the OOP paradigm models rely on the fact that they these objects are instances of classes that implement ADTs that have associated behaviors (their range of valid operations) and characteristics (their range of valid values). 
+The objects that object-oriented programmers manipulate are clearly *not* real, tangible things. However, some of the objects are instances of classes that implement ADTs that _do_ model things that exist in the real world -- a car on a dealer's lot, a Frosty (there is _only_ one flavor) on the Wendy's menu, a blouse on Rent the Runway, etc. But, some of the objects are instances of classes that implement ADTs that model things that only exist in the computer -- files, the windows of an application, the button that launches the web browser, etc. In both cases, computer programs written in the OOP paradigm models rely on the fact that these objects are instances of classes that implement ADTs that have associated behaviors (their range of valid operations) and characteristics (their range of valid values). 
 
 We already know the name for the data that an object contains -- it's members (in C++ they are specifically called member variables). We have not talked about actions, yet, though. The actions are specified like the other process abstraction we have seen (the function) but they have additional special powers. They are special because they are "attached" to objects. The attachment means that those special functions have access to an object and its member variables without requiring a user of the function to specify the object as an argument. These special functions are called _member functions_.
 
@@ -35,7 +35,7 @@ Great. Now, let's write a program that instantiates a variable of that type (in 
         AMG wills_amg{};
 ```
 
-To be clear (again!), `AMG` is the type (in the same way that `int` is the type or `char` is the type). `wills_amg` is the object (or instance) of that type.It's the difference between the script for a play and the actual performance.
+To be clear (again!), `AMG` is the type (in the same way that `int` is the type or `char` is the type). `wills_amg` is the object (or instance) of that type. It's the difference between the script for a play and the actual performance. It's the difference between a house's blueprint and the house itself (or houses, if you think of a planned community). It's the difference between the rubber stamp and the imprints it leaves on the paper. I think that you get the point!
 
 Take a second to think about the values of each of the members of `wills_amg` at this point in the program. Do they have values? Why, or why not?
 
@@ -102,7 +102,7 @@ I am sure that you see what I see -- lots of nearly identical code!
 
 What is common between a Tesla and an AMG? That's right, they are both vehicles: A Tesla _is a_ vehicle; An AMG _is a_ vehicle. As we dig into our discussion on OOP, we will return to the _Is-A_ relationship!
 
-According to our ADTs a Tesla and an AMG both have some of the same characteristics. I think that we should combine them into a single ADT so that we can save some typing! Let's call ADT a Vehicle and implement it with a `struct`:
+According to our ADTs a Tesla and an AMG both have some of the same characteristics. I think that we should combine them into a single ADT so that we can save some typing! Let's call this ADT a Vehicle and implement it with a `struct`:
 
 ```C++
 struct Vehicle {
@@ -136,7 +136,7 @@ All that with so little typing! Pretty cool!
 
 ### Member Functions
 
-In both programs, our "print" function required a parameter -- the car to print! What if we could somehow associate a print function with an instance of a Vehicle ADT so that the function could use the Vehicle ADT's member variables without needing the Vehicle ADT object to be passed as a parameter? We would like this special type of function, one which is associated with an instance of the ADT, to have access to that ADT's attributes. If this sounds like a job for a _member function_,  that's because it is!
+In both programs, our "print" function required a parameter -- the car to print! What if we could somehow associate a print function with an instance of a Vehicle ADT so that the function could use the Vehicle ADT's member variables without needing the Vehicle ADT object to be passed as a parameter? We would like this special type of function, one which is associated with an instance of the ADT, to have access to that ADT's attributes. If this sounds like a job for a special type of function that is a member of the implementation of the ADT (what is called a _member function_ in C++),  that's because it is!
 
 Declaring/defining a member function is just like declaring/defining a function, except that you do it _inside_ the declaration of the `struct`/`class` implementing the ADT:
 
