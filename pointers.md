@@ -12,14 +12,14 @@ What has already happened? Well, we know that the program started executing at t
 
 ![](./graphics/pointers-paused-program-memory1.png)
 
-Memory is visualized here as a two dimensional "spreadsheet" of cells, each of which holds a single byte. The byte at the top left of the diagram has address 0 and the byte at the bottom left has address 24 + 7 = 31 (add the value at the beginning of the row with the value at the beginning of the column).
+Here memory is visualized here as a two dimensional "spreadsheet" of cells, each of which holds a single byte. The byte at the top left of the diagram has address 0 and the byte at the bottom left has address 24 + 7 = 31 (add the value at the beginning of the row with the value at the beginning of the column).
 
 >Note: See the C++ Times special long-form reporting on variables in memory in [previous editions](./variables-memory.md).
 
 | Name | Scope | Type | Value | Address |
 | -- | -- | -- | -- | -- |
 | `c1` | `function` | `char` | `'Q'` | `5` (`0x5`) |
-| `c2` | `function` | `char` | `'R'` | 11 (`0xb`) |
+| `c2` | `function` | `char` | `'R'` | `11` (`0xb`) |
 
 ## Express Yourself
 
@@ -37,7 +37,7 @@ What's the expression to get the value of `c2`?
 c2
 ```
 
-Recall that every variable in C++ has some associated space in memory where its value is stored and we can write expressions (like above) to get the variable's value. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
+Recall that every variable in C++ has some associated space in memory where its value is stored _and_ we can write expressions (like the ones above) to get the variable's value. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
 
 ```C++
 &c1
@@ -49,7 +49,7 @@ and
 &c2
 ```
 
-evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively, the addresses of those variables in the conceptual computer's memory. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operators like `+`, `-`) and takes, as an operand, anything that has an address (for our purposes, this is usually a variable).
+evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively, the addresses of those variables in the (conceptual) computer's memory. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operators like `+`, `-`) . The operand to the address-of operator must be an expression whose value identifies an object (for our purposes, this is usually a variable).
 
 >Note: Yes, the use of `&` here may at first seem confusing -- we learned earlier about using the `&` sigil to declare/define a reference variable and the following code snippet shows both uses of `&`:
 
@@ -101,7 +101,7 @@ In the snippet above, `ptr` has type *pointer to `char`* and it "points at" vari
 
 That's important because a variable that is a "pointer to a `char`" can only point at `char`-typed variables; a "pointer to an `int`" can only point at an `int`-typed variable; and so on.
 
-The scope of `ptr` is the body of `function`. 
+In the example above, the scope of `ptr` is the body of `function`. 
 
 > It is a coincidence that what `ptr` points at has the same scope as `ptr`. That does not have to be the case.
 
@@ -112,13 +112,13 @@ So far, we see two major similarities between pointer variables and the other ki
 
 Do they share anything else in common? Why, yes, they do! Both take up space and have a value. Let's start first with the values of pointers. A type defines the range of valid values for a variable of that type and pointers are no exception. Officially, there are a few "sets" of valid values for a pointer. Think conceptually about the requirements for a pointer: Most importantly, a pointer must contain enough information to uniquely identify its target. Well, what information is available that would uniquely identify a target in the least amount of memory?
 
-The variable's name? Nope! Not all variables have names and names are not unique outside of their scope. Well, why not identify a variable by it's name _and_ its scope (in combination)? That seems rather, er, laborious and, because we can nest scopes infinitely, would require lots of space. What else could we use? I know, let's rely on the fact that _every_ variable takes up space in memory and _every_ piece of space in memory has a _unique_ address! That means we could uniquely describe the target of a pointer using the address of the variable that it targets. Perfect!
+The variable's name? Nope! Not all variables have names and names are not unique outside of their scope. Well, why not identify a variable by it's name _and_ its scope (in combination)? That seems rather, er, laborious and, because we can nest scopes infinitely, would require lots of space. What else could we use? I know, let's rely on the fact that _every_ variable takes up space in memory and _every_ piece of space in memory (as long as the space is at least as big as a byte!) has a _unique_ address! That means we could uniquely describe the target of a pointer using the address of the variable that it targets. Perfect!
 
 ## Optional: The size of a `pointer to _type_` variable
 
 We know that all variables occupy space in memory. Just _how much_ space in memory do pointers-to-`X`-type variables use? To answer this question requires some advanced calculations, but I think that we can handle it.
 
-Because the storage for variables can occur anywhere in memory, a pointer-to-`X`-type variable needs to be able to store the address of every single byte of memory in the system. Therefore, the space allocated to storage for pointer-to-`X`-type variables must contain enough space to represent each of those addresses.
+Because the storage for variables can occur anywhere in memory, a pointer-to-`X`-type variable needs to be able to store the address of every single byte of memory in the system. Therefore, the space allocated to storage for an instance of a pointer-to-`X`-type variables must contain enough space to represent each of the possible addresses that it could hold.
 
 Almost all of today's computers have more than $10$ gigabytes of memory. Consider the tablet computer on which I am penning this column -- it has $32$ GB of RAM! In order to uniquely identify every byte of memory on my tablet, I would need $34,359,738,368$ values. Now, here's the math!
 
@@ -151,7 +151,7 @@ n = log_2(34359738368)\\
 n = 35
 $$
 
-$35$ $1$s and $0$s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of $64$ $1$s/$0$s are better for representing addresses of bytes in memory! Every $1$/$0$ combination is represented in hardware by a bit and, remember, there are $8$ bits per byte. So a pointer-to-`X`-type variable occupies $64 / 8 = 8$ bytes of space! How cool is that?
+$35$ $1$s and $0$s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of $64$ $1$s/$0$s are better for representing addresses of bytes in memory! That's why they say that modern computers are so-called _64-bit computers_ as opposed to the 32-bit computers of the late 1990s. Every $1$/$0$ combination is represented in hardware by a bit and, remember, there are $8$ bits per byte. So a pointer-to-`X`-type variable occupies $64 / 8 = 8$ bytes of space! How cool is that?
 
 ## Reassigning Pointers
 Remember the program from above: 
@@ -169,7 +169,7 @@ int main() {
   return 0;
 }
 ```
-Here's what the computer's memory may look like (conceptually):
+Here's what the computer's memory may look like (conceptually for a 64-bit computer):
 
 ![](./graphics/pointers-paused-program-memory2.png)
 
@@ -206,7 +206,7 @@ just before the `return` statement in `function`? What do the contents of the me
 | `c2` | `function` | `char` | `'R'` | `11` (`0xb`) |
 | `ptr` | `function` | `pointer to char` | `11` (`0xb`) | `24` (`0x18`) |
 
-This table demonstrates the meaning of the assignment statement for pointers. Assigning a new address to a pointer changes which variable it targets. Remember that pointers store addresses, so we must use the address-of operator (`&`) on the target variable in the assignment! Frustratingly, failing to do so _may not_ cause a compilation error, but it will certainly lead to a runtime error!!
+This table demonstrates the meaning of the assignment statement for pointers. Assigning a new address to a pointer changes the variable it targets. Remember that pointers store addresses, so we must use the address-of operator (`&`) on the target variable in the assignment! Frustratingly, failing to do so _may not_ cause a compilation error, but it will certainly lead to a runtime error!!
 
 ## Dereferencing Pointer-to-`X` Variables
 
@@ -225,15 +225,15 @@ in the program above) but climbing up the ladder or sliding down the chute requi
 
 Just before `function` completes its execution in the program above,
 
-| | Expression | Value |
-| -- | -- | -- | 
-| 1. |`c1` | `'Q'` |
-| 2. |`c2`| `'R'`|
-| 3. |`ptr`|`5` |
-| 4. |`&c1`|`5` |
-| 5. |`&c2`|`11` |
-| 6. |`&ptr`|`27` |
-| 7. |`*ptr`|`'Q'` |
+| | Expression | Value | Type |
+| -- | -- | -- | -- |
+| 1. |`c1` | `'Q'` | `char` |
+| 2. |`c2`| `'R'`| `char` |
+| 3. |`ptr`|`5` | pointer to `char`|
+| 4. |`&c1`|`5` | pointer to `char` |
+| 5. |`&c2`|`11` | pointer to `char` |
+| 6. |`&ptr`|`24` | pointer to pointer to `char` |
+| 7. |`*ptr`|`'Q'` | `char` |
 
 Look carefully at rows 3, 6 and 7 and make sure you understand why those expressions have the values they do. 
 
