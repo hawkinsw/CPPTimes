@@ -48,7 +48,7 @@ Depending on how good your eyes are tuned for spotting memory leaks, you may alr
 
 ## One If By Stack, Two If By Heap
 
-We have looked at length at the difference between the stack and the heap and where a variable's space for its values is created. All automatic variables' space for their values are on the heap and all dynamic variables's space for their values are on the heap.
+We have looked at length at the difference between the stack and the heap and where a variable's space for its values is created. All automatic variables' space for their values are on the stack and all dynamic variables's space for their values are on the heap.
 
 But that's really only half the story. In *most* cases, when a programmer uses dynamic memory, there are really *two* variables that are created. There is the *anonymous* variable whose space for its values is allocated on the heap (the result of the function call to `liddy` in this case) and then there is the named variable (`hunt` in this example) whose space for its values is allocated on the stack. Programmers usually think that the former is the most important piece. However, without the latter variable (`hunt`, the variable that provides the programmer the link with that variable in the heap), the programmer would be unable to use their newly acquired resource.
 
