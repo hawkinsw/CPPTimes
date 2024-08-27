@@ -6,11 +6,11 @@ You can contact the _Times_' editorial department any time at [hawkinwh@ucmail.u
 
 ## What's News
 
-Tonight marks the unofficial end to Fall sports with the NCAA Football Championship taking place in Houston. The stars tonight will have plenty of NIL money thanks to their primetime, nationwide television. However, they aren't the only ones who need to think about marketing themselves -- computer scientists learning C++ can now become Tik Tok stars and earn enough cash to leave college debt free.
+The Kelce brothers have signed a $100 million dollar deal with Amazon for their new podcast. They aren't the only ones cashing in on their experience: computer scientists learning C++ can now become Tik Tok stars and earn enough cash to leave college debt free.
 
 ## Nail the Basics
 
-I love programming. I love sail boat racing. In fact, there are lots of things that I love. The problem I have is that I get caught up in the excitement and forget to deal with the details. That means that I sometimes find myself with no Internet, or even electricity.
+I love programming. I love sail boat racing. In fact, there are lots of things that I love. The problem I have is that I get caught up in the excitement and forget to deal with important details, like paying bills. That means that I sometimes find myself with no Internet, or even electricity.
 
 So, to prevent a blackout in the future, it is important that we have a shared understanding of the goals of computer programming and some fundamental vocabulary. Without a shared understanding of the goal and a good grasp of the terms commonly used to describe the processes by which we will accomplish our goal, we can easily talk past one another -- never good.
 
@@ -24,9 +24,9 @@ We can easily codify and formalize the rules for playing Connect 4 and increase 
 
 > Two players take turns making a play until someone wins.
 
-Great. That's very succinct and encompasses the entirety of the game. It's a good place to start. However, there are lots of unanswered questions: What is a "play"? What does that it mean to "win"? When does a turn end and control of the board switch between the players?
+Great. That's very succinct and encompasses the entirety of the game. It's a good place to start. However, there are lots of unanswered questions: What is a "play"? What does it mean to "win"? When does a turn end and control of the board switch between the players?
 
-In order to answer those questions, we repeatedly refine our initial description and add more and more detail:
+In order to answer those questions, we repeatedly refine our initial description and add more and more detail. Let's assume that there are two players, Player A and Player B:
 
 1. Decide between Player A and B who goes first.
 2. Take turns making a play until someone wins.
@@ -69,7 +69,7 @@ I love new words!
 
 An _algorithm_, technically, is just a "well-defined set of steps for performing a task or solving a problem." Many programmers believe that writing code is their primary purpose or objective. They want to be graded on the quality of their code. However, programmers are really well-paid Algorithm Factories. Always remember: A good algorithm will beat good code any day of the week!
 
-What we generate by turning an algorithm (usually written in pseudocode) into source code is known as a _program_. A program and algorithm are similar, but not exactly the same. Be on the lookout for the definition of program in future issues of the C++ Times.
+What we generate by turning an algorithm (usually written in pseudocode) into source code is known as a _program_. A program and algorithm are similar, but not exactly the same. A _program_ is a "set of instructions a computer follows to perform a task." That does sound familiar, doesn't it?
 
 ## Shout From the Rooftops
 
@@ -116,7 +116,7 @@ becomes
    - if yes, game is over and ____________ wins
    - otherwise, continue...
 
-We could take advantage of that repetitiveness if only we had an easy way to define what that blank "thing"s really are and what should go in them. What we need is something (it will definitely need a name -- we have to write down that thing, after all!) that will stand in for the current player. Let's say that _Active Player_ stands for the current player -- either Player 1 or Player 2.
+We could take advantage of that repetitiveness if only we had an easy way to define what those blank "thing"s really are and what should go in them. What we need is something (it will definitely need a name -- we have to write down that thing, after all!) that will stand in for the current player. Let's say that _Active Player_ stands for the current player -- either Player 1 or Player 2.
 
 Now we can write out Connect 4 algorithm like this ...
 2. _Active Player_ makes a play.
@@ -147,7 +147,7 @@ While there is no winner, do the statements in **make a play and check for winne
 
 Whether you like it or not, you just defined your first function, a type of abstraction! A _function_ is a set of statements with a name (note: a name is not _always_ required) that perform some specific, high-level task.
 
-When you use a function you say that you _call_ the function (sometimes people say that they are _invoking_ the function, and that's fine, too!).
+When you use a function, you say that you _call_ the function (sometimes people say that they are _invoking_ the function, and that's fine, too!).
 
 It's important to realize what a function can and cannot do on its own. It _can_ wrap up a bunch of statements into a group so that the group performs some not-so-trivial task. It _can_ make it easier to use the statements in the group over and over again (i.e., it makes reuse possible). A function _cannot_, however, do its work without some additional input. For the function above, for instance, when we call it we have to tell it who is _Active Player_. We also need to tell it what to reference when determining whether _Active Player_ has won. What's really cool, though, is that every time we call _make a play and check for winner_, the value of those inputs can be different.
 
