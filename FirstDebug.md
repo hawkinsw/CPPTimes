@@ -1,63 +1,113 @@
 ### What's News
 
-TODO
+SpaceX and other space launch companies continue to look for new ways to power their rockets. The less volatile the fuel, the longer a ready-to-launch rocket can sit on the pad safely. Methane could be the answer.
 
 ### One of These Things is Not Like the Other
 
-To begin understanding the C++ language, let's work backward from some broken source code, decipher its intent and then correct it so that it performs as intended: 
+To begin understanding the C++ language, let's work backward from some broken source code, decipher its intent and then correct it so that it performs as intended. The programmer in our example is attempting to give us directions to some secret treasure that they bequeathed to us. They _want_ us to find what they left but it's hard to say whether they left the proper instructions:
 
 ```C++
 #include <iostream>
 /*
- * This program will play the Two Truths and a Lie game
- * on behalf of the University of Cincinnati.
+ * Follow the instructions printed on the screen to find the treasure.
  */
 int main() {
-    // Describe to the user the game that they are playing.
-    std::cout << "One of these statements is not true. Can you guess which one?";
-    // Display the choices.
-    std::cout << "1. George Rieveschl discovered Benadryl." 
-    std::cout << "2. Mick and Oscar, stone lions, guard McMicken Hall.";
-    std::cout << "3. UC alum Vinod Dham created the Intel Pentium CPU.";
-    return 0;
+  std::cout << "1. Orient your compass properly and count to 10";
+  std::cout << "2. Next,\n";
+  std::cout << "sail East toward the land";
+  std::cout << "fill methane tank." << std::endl
+  std::cout << "3. Lift off in the rocket ship.\n";
+  return 0;
 }
 ```
 
-The first thing we noticed was a missing `;` at the end of the _statement_ that printed the trivia fact about George Rieveschl. In C++, all statements, complete instructions that define a computation, must end in a semicolon. 
+The first thing we noticed was a missing `;` at the end of the _statement_ instructing us to fill a methane tank. Statements are complete instructions that define a computation, must end in a semicolon. In C++, all statements must end in a semicolon.
 
 The great thing about this error was that we could discover it with the help of the compiler. Any error that the compiler can detect is known as a _compile-time error_ because it is an error that happens, well, at compile time. Of course, this statement begs the question -- Just _what is_ compile time? Compile time is when the programmed is compiled. 
 
-If there is a compile time, then there must be another time ... the time when the program is executed. We call that the _run time_. With the fix in, we executed our code on [Compiler Explorer](https://godbolt.org/z/b473rrj1b).
+Here is the corrected version of our code:
 
-Our output unexpectedly looked like
+```C++
+#include <iostream>
+/*
+ * Follow the instructions printed on the screen to find the treasure.
+ */
+int main() {
+  std::cout << "1. Orient your compass properly and count to 10";
+  std::cout << "2. Next,\n";
+  std::cout << "sail East toward the land";
+  std::cout << "fill methane tank." << std::endl;
+  std::cout << "3. Lift off in the rocket ship.\n";
+  return 0;
+}
+```
 
-`One of these statements is not true. Can you guess which one?1. George Rieveschl discovered Benadryl.2. Mick and Oscar, stone lions, guard McMicken Hall.3. UC alum Vinod Dham created the Intel Pentium CPU.`
+If there is a compile time, then there must be another time ... the time when the program is executed. We call that the _run time_. With the fix in, our code now compiles. That's half the battle. Now we need to determine what happens when the code _runs_.
 
-Definitely not what we wanted! This error occurred at run time and, therefore, we call it a _run-time error_. We cleaned up our run-time error by adding formatting information to the output. There are two ways to include information about where to create new lines: the newline escape sequence (`\n`) and `std::endl`;
+If we run the compiled code shown above, the output (perhaps unexpectedly) looks like
 
-To use a newline escape sequence, just embed it in the string you are printing to the screen:
+```
+1. Orient your compass properly and count to 102. Next,
+sail East toward the landfill methane tank.
+3. Lift off in the rocket ship.
+```
 
-<html>
-<pre>  std::cout &lt;&lt; <font color="#AD7FA8">&quot;2. Mick and Oscar, stone lions, guard McMicken Hall.\n&quot;</font>;
-</pre>
-</html>
+Only the author can say for sure whether or not that constitutes the proper path to the treasure. However, it certainly does not look like what they intended, especially given the way that the source code is formatted.
+
+Although the code compiles and runs, it does not seem entirely correct. The mistake seems to appear when the program runs. We call these types of errors _run-time errors_.
+
+It is my guess that the author _probably_ intended their message to read something more like:
+
+```
+1. Orient your compass properly and count to 10
+2. Next,
+sail East toward the land
+fill methane tank.
+3. Lift off in the rocket ship.
+```
+
+Let's see whether we can correct our bequeather's bumbles. We can add formatting information to the output so that the lines break in the proper spots. There are two ways to include information in a C++ program about where to create new lines: the newline escape sequence (`\n`) and `std::endl`;
+
+To use a newline escape sequence, just embed it in the string _literal_ you are printing to the screen:
+
+```C++
+  std::cout << "1. Orient your compass properly and count to 10\n";
+```
 
 To use a `std::endl`, you will need to use another `<<`:
 
-<html>
-<pre>  std::cout &lt;&lt; <font color="#AD7FA8">&quot;2. Mick and Oscar, stone lions, guard McMicken Hall.&quot; << std::endl</font>;
-</pre>
-</html>
+```C++
+  std::cout << "sail East toward the land";
+```
 
-Notice how you can output something that is not a string literal (more on that later), i.e. the `std::endl`, at the same time that you are outputting the string. We will rely on this functionality later when we output the contents of variables!
+Notice how you can output something that is not a string literal, i.e. the `std::endl`, at the same time that you are outputting the string. We will rely on this functionality later when we output the contents of variables!
 
-Wohoo! With the additional formatting and the added `;`, our program does exactly what it is supposed to do:
+Here is our corrected code:
 
-<html>
-<pre>
-One of these statements is not true. Can you guess which one?
-1. George Rieveschl discovered Benadryl.
-2. Mick and Oscar, stone lions, guard McMicken Hall.
-3. UC alum Vinod Dham created the Intel Pentium CPU.
-</pre>
-</html>
+```C++
+#include <iostream>
+
+/*
+ * Follow the instructions printed on the screen to find the treasure.
+ */
+int main() {
+	std::cout << "1. Orient your compass properly and count to 10\n";
+	std::cout << "2. Next,\n";
+	std::cout << "sail East toward the land" << std::endl;
+	std::cout << "fill methane tank." << std::endl;
+	std::cout << "3. Lift off in the rocket ship.\n";
+	return 0;
+}
+```
+
+With the changes, let's confirm that we have fixed the author's runtime errors:
+
+```
+1. Orient your compass properly and count to 10
+2. Next,
+sail East toward the land
+fill methane tank.
+3. Lift off in the rocket ship.
+```
+
+Looks like the only thing left is to claim our reward!
