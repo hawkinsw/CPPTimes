@@ -6,22 +6,22 @@ Union organizers at the Federation of Aligned C++ Programmers (FOACP), have dema
 
 When statements in C++ program work together to accomplish a particular task that none of them could accomplish on their own, it makes sense to group those statements together in a unit and give them a name. We call the unit a _function_ and the name, if it's a good one, usually describes the action or task that those statements are performing.
 
-Precisely, then, a _function_ is a combination of
+Precisely, a _function_ is a combination of
 
 1.  A set of statements
 2.  A name for those statements.
 
 Names of functions must follow the same rules as the names for variables.
 
-Just like you have to declare/define a variable before you use it, programmers have to declare a function before they can use it. A function _declaration_ is a way to communicate to other programmers how to use a function.
+Just like you have to declare a variable before you use it, programmers have to declare a function before they can use it. A function _declaration_ is a way to communicate to other programmers how to use a function.
 
-Some functions calculate a _result_, some functions perform side effects (see below) and some do a combination of both. We use a function by _calling_ it (sometimes developers sometimes use the term _invoking_ as a synonym). A function call (or invocation) is just like any ordinary expression. The value of the function call expression is the function's result.
+Some functions calculate a _result_, some functions perform side effects (see below) and some do a combination of both. We use a function by _calling_ it (sometimes developers sometimes use the term _invoke_ as a synonym for _call_). A function call (or invocation) is just like any ordinary expression. The value of the function call expression is the function's result.
 
-One of the really cool things about functions is that we can use them and take advantage of their calculations _without having to know how they do the work_! For instance, although we have no idea how to perform number-theoretic calculations, if another programmer defined a function that performed factorization of a very large number into two primes we could still use their work! (*PS*: If a programmer _did_ do that, they would be [worth a ton of money](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Integer_factorization_and_the_RSA_problem)!).
+One of the really cool things about functions is that we can use them and take advantage of their calculations _without having to know how they do the work_! For instance, although we have no idea how to perform number-theoretic calculations, if another programmer defined a function that performed factorization of a very large number into two primes, we could still use their work! (*PS*: If a programmer _did_ do that, they would be [worth a ton of money](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Integer_factorization_and_the_RSA_problem)!).
 
 Working with something (like a function) without worrying about its details is called _abstraction_. Abstraction is the process of removing the detail to simplify and focus attention on the essence (J. Kramer, ``Is abstraction the key to computing?,'' Communications of the ACM, vol. 50, no. 4, pp. 37–42, Apr. 2007, doi: 10.1145/1232743.1232745.). There's another way to say the same thing that is a little pithier: Abstraction is the process of remembering what is important in a given context and forgetting what's not.
 
-To reiterate, abstraction is just a fancy term for hiding details. The person who wrote the function knows the details of how the function does its work but we, the users, do not. We (again, the users) only care about _what_ the function does and not _how_ it does it.
+To reiterate, abstraction is just a fancy term for hiding details. The person who writes a function that we use knows the details of how the function does its work but we, the users, do not. We (again, the users) only care about _what_ the function does and not _how_ it does it.
 
 #### Functional Side Effects
 
@@ -44,12 +44,20 @@ Like $f$ (above) evaluates to the square of its parameter $x$, functions in C++ 
 We could declare the function $f$ in C++ like
 
 ```C++
+int f(int x);
+```
+
+But, that really leaves something to be desired: What does `f` do? Because we aren't charged by the character, programmers usually give their functions name that describe their utility. In this case, the function $f$ calculates the square of its parameter. The person implementing the function, then, probably calls the function `square`:
+
+```C++
 int square(int x);
 ```
 
 The function's name is `square`. Inside the `(` and `)` are the function's parameters. In this case, there is one parameter named `x` and its type is `int`. The `square` function _returns_ a value whose type is `int` (we can tell because of the `int` to the left of the function name). 
 
-As we have said before, it is really important that as we learn C++ and grow as programmers, we need to learn how to communicate with our peers. How do we talk about function declarations? Well, when you are talking to other programmers, you would _speak_ the function declaration above as "The `square` function takes a single parameter (whose type is an `int`) and returns an `int`."
+![The pieces of a function declaration, labeled.](./graphics/SquareFunctionPieces-Labeled.png)
+
+As we have said before, it is really important that as we become better C++ programmers and grow as computer scientists, we learn how to communicate with our peers. How do we talk about function declarations? Well, when you are talking to other programmers, you would _speak_ the function declaration above as "The `square` function takes a single parameter (whose type is an `int`) and returns an `int`."
 
 Here's another example:
 
@@ -58,6 +66,9 @@ double pow(double base, double exp);
 ```
 
 The function's name is `pow`. This function has two parameters and they are both `double`s. The `pow` function returns a value whose type is `double` (or "The `pow` function returns a `double`.").
+
+
+![The pieces of the function declaration of `pow`, labeled.](./graphics/PowFunctionPieces-Labeled.png)
 
 #### Using Functions
 
@@ -76,7 +87,7 @@ int main() {
 }
 ```
 
-In this call to `square`, we are passing an _argument_ of `two`. Arguments go with the caller of the function and pair up with parameters. As we said above, the parameters are the variables that the person implementing the function gets to use. They have to get their value from somewhere, don't they?! In this case we are pairing the argument `two` with the parameter `x`. _Notice that the type of the argument and the type of the parameters have to match. This is very important!_ After this line of code executes, the variable `square_of_two` will hold the value `4`.
+In this call to `square`, we are passing an _argument_ of `two`. Arguments are part of the invocation of a function and pair up with parameters. As we said above, the parameters are the variables that the person implementing the function gets to use. They have to get their value from somewhere, don't they?! In this case we are pairing the argument `two` with the parameter `x`. _Notice that the type of the argument and the type of the parameters have to match. This is very important!_ After this line of code executes, the variable `square_of_two` will hold the value `4`.
 
 Or,
 
@@ -137,4 +148,4 @@ There is an important, but subtle, difference in C++ between the _declaration_ a
 
 While it is possible to declare a variable separately from its definition, it is not common. That's why we typically say declaration/definition when we refer to declaring/defining (sorry!) a variable.
 
-It *is* very common to declare a function separately from its definition. And that is just what we have been doing in this edition of the _Times_. The ability to keep the declaration and definition separate improves our code by keeping up the abstraction -- the programmer does not know (nor can they know) how the function does what it does if they only have access to the declaration! No Lyin' Eyes here.
+It _is_ very common to declare a function separately from its definition. And that is just what we have been doing in this edition of the _Times_. The ability to keep the declaration and definition separate improves our code by keeping up the abstraction -- the programmer does not know (nor can they know) how the function does what it does if they only have access to the declaration! No [Lyin' Eyes](https://www.youtube.com/watch?v=2PTEqZURh4o) here.

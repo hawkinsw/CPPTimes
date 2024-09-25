@@ -6,16 +6,18 @@ Despite advances in the understanding of quantum mechanics, researchers at the w
 
 Booleans are a conceptual thing and a technical thing in C++. Named after their famous discover, George Boole, Booleans (and their C++ type `bool`) are either _true_ (`true`) or _false_ (`false`). Booleans remind me of the phrase Yoda made famous: "Do or do not. There is no try." Booleans are similar: True or False. There is no maybe.
 
-Like all _types_ in C++ we know, `bool`s have two characteristics:
+Like all _types_ in C++, `bool`s have two characteristics:
 
 1. A range of valid values; and
 2. Valid operations on those values.
 
 Like `int`s which can only hold whole numbers (positive and negative), `bool`s are limited in what they can hold. Valid values for `bool`s are `true` or `false`. That's it.
 
-What is cool about George Boole's thinking was that he defined a set of operations that you can use to manipulate Booleans and get another one (we'll come back to those operators in a second). What's even more awesome is that those operators closely reflect how logic works in real life! 
+What is cool about George Boole's thinking was that he defined a set of operations that you can use to manipulate Booleans and get another one (we'll come back to those operations in a second). What's even more awesome is that those operations closely reflect how logic works in real life! 
 
-So far we have learned that `bool`s can only hold `true` and `false`. We know that we have operators to combine two Booleans and get another. But, how do we get a Boolean value in the first place?
+> Note: Remember that in C++ we use _operators_ to specify an operation to perform.
+
+So far we have learned that variables with the type `bool` can only hold the values `true` and `false`. We also know that we have operations that combine two Booleans and get another. But, how do we get a Boolean value in the first place?
 
 The answer: _relational_ and _equality_ operators! An expression composed of operands and a relational or equality operator has a value (just like all expressions!). And, like every value in C++, it has a type! The value can be either `true` or `false` and the type is `bool`. I am sure that you aren't surprised!
 
@@ -111,6 +113,8 @@ int main() {
 
 `zero_bool`, `zero_point_zero_bool`, and `null_character_bool` are all `false`! The others are `true`.
 
+#### Crossing the Streams
+
 Now, let's get back to how we can combine Boolean values and get new Boolean values. Like `+`, `-`, `*`, `/`, etc. are primitive operations for numbers (`int`egers and `double`s), there are a few primitive operators for `bool`s: `&&` (which means _and_), `||` (which means _or_) and `!` (which means _not_). 
 
 The first two (`&&` and `||`) are binary operators (which mean that they take two operands, like `+`, and `-` do). The `!` is a unary operator, meaning that it only takes a single operand.
@@ -189,10 +193,10 @@ So, we can calculate `true` and `false` values, but what good are they? Read on 
 
 ### It Takes `bool` to Tango: The `if` Statement
 
-To date, the programs that we have written in class and in lab have been pretty boring. They may have calculated different values based on user input, but they performed the same set of operations no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can perform different operations! Although conceptually very simple, the power of this selective computation is infinite! The general form of an `if` statement is
+To date, the programs that we have written in class and in lab have been pretty straightforward, as in their execution proceeds _straight_ from one statement to the next. They may have calculated different values each time they executed based on user input, but they performed the same statements no matter what. In other words, until now our programs have operated _sequentially_. With an `if` statement we can get our programs to operate _selectively_. In other words, depending on a runtime calculation, our program can execute different statements! Although conceptually very simple, the power of this selective exectution is infinite! The general form of an `if` statement is
 
 ```C++
-if (boolean expression) {
+if (expression) {
   some statements;
 } 
 ```
@@ -202,8 +206,8 @@ When _boolean expression_ is `true`, then `some statements` execute. When _boole
 #include <iostream>
 
 int main() {
-  int five = 5;
-  int six = 6;
+  int five{5};
+  int six{6};
 
   if (5 < 6) {
     std::cout << "Five is less than 6!\n";
@@ -222,6 +226,8 @@ Five is less than 6!
 ```
 
 Because `5` is less than `6`, the `std::cout` statement inside the block associated with the `5 < 6` condition executes and `Five is less than six!` is printed to the screen. However, the value of `five` does not equal the value of `six` so the `std::cout` inside the block associated with the `five == six` condition does not execute.
+
+![Which blocks of code execute depends on the value of the expressions that _guard_ those blocks.](./graphics/FiveEqualsSixSelectiveExecutionLabeled.png)
 
 #### Be very careful: = and == are different!
 
