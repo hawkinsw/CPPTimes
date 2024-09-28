@@ -90,7 +90,7 @@ That function is named `guess_and_check`. It has a single parameter (whose type 
 | Too low | `-1`
 | Just right[^resist] | `0`
 
-To play the game I have set up a skeleton on Godbolt. Open [XXXX]() in a separate tab of your browser to play along!
+To play the game I have set up a skeleton on Godbolt. Open [https://godbolt.org/z/cK9YKb3f3](https://godbolt.org/z/cK9YKb3f3) in a separate tab of your browser to play along!
 
 
 If you look at Line $4$ of the code, you will see the declaration for the function:
@@ -300,21 +300,21 @@ What does your program tell you? That's right, that your guess was too low.
 
 Given that information (that you guessed $50$ and that it was too low), what have you learned? You learned that there is no reason to guess any of the numbers between $1$ and $50$! How cool is that?! You eliminated a huge range of possibilities with a single guess. In fact, you eliminated half of them!
 
-So, how should you guess next? I assume that you would like to again eliminate half of the remaining values with your next guess if it is not correct? Then I think that you should guess 75!
+So, how should you guess next? I assume that you would like to again eliminate half of the remaining values with your next guess if it is not correct? Then I think that you should guess $75$!
 
 What does your program tell you? That's right, that your guess was too high!
 
-Given that information (that you guessed 75, that it was too high and that the secret number is greater than 50), what have you learned? You learned that it would be foolish to choose anything between $1$ and $50$ or $75$ and $100$ as your next guess! In two guesses you have elimited $3/4$ of the potential values.
+Given that information (that you guessed $75$, that it was too high and that the secret number is greater than $50$), what have you learned? You learned that it would be foolish to choose anything between $1$ and $50$ or $75$ and $100$ as your next guess! In two guesses you have elimited $3/4$ of the potential values.
 
 Want to try again? Yes! $62$ (or $63$ -- why do you get a choice?) is a great guess. Why did you choose that? Of course, because you wanted to eliminate another big group of values. 
 
 Your guess? Well, it was still not right, but what do you know? You know that my secret number is not between:
 
-1. 1 and 50
-2. 75 and 100
-3. 50 and 62/63.
+1. $1$ and $50$
+2. $75$ and $100$
+3. $50$ and $62$/$63$.
 
-That means that it is somewhere between ... 62/63 and 75!
+That means that it is somewhere between ... $62$/$63$ and $75$!
 
 With only a few more guesses, I would imagine that you can win the game! Congratulations!
 
