@@ -1,6 +1,6 @@
 
 ## What's News
-Inflation in the market for programming talent has hit an all-time record. More users are trading down to store-brand code in order to save money. There have even been *arguments* between employees and customers about *return*ing goods over buyer's remorse. Ingenious researchers everywhere are trying to learn how to do more with less.
+Inflation at Kloc-Mart stores across the nation has hit an all-time high. More shoppers are trading down to store-brand code in order to save money and consumers are turning to TikTok for tips on how to reuse the code they have. There have even been *arguments* between employees and customers about *return*ing goods over buyer's remorse.
 
 ### The Curse of Copy And Paste
 
@@ -37,7 +37,7 @@ int main() {
 
 That was pretty easy, right?
 
-WRONG.
+*WRONG*.
 
 If you look closely at the code above, you will notice that there are several errors! In particular, the code refers to `file_a` in places where it should refer to `file_b`. Why did that happen? It happened because I was sloppy when I was copying and pasting the code. Because the code to open the two files was nearly identical, I got carried away and didn't pay close attention!
 
@@ -47,7 +47,7 @@ The good news is that we can solve all this with ...
 
 ## Functions
 
-We have already learned how to _call_ functions but we now want to know how to _write our own_ functions. Before we do that, let's remind ourselves about the purpose of functions: A function is a means to collect "statements that perform[] a specific task" and use those grouped statements in order to "break down a problem into small, manageable pieces."  A function can generate a value, perform some process or both generate a value and perform some process. The _call_ to a function that generates a value is just like any other expression and can be used (with some caveats) anywhere any expression can be used!
+We have already learned how to _call_ functions, but we now want to know how to _write our own_ functions. Before we do that, let's remind ourselves about the purpose of functions: A function is a means to collect "statements that perform[] a specific task" and use those grouped statements in order to "break down a problem into small, manageable pieces."  A function can generate a value, perform some process or both generate a value and perform some process. The _call_ to a function that generates a value is just like any other expression and can be used (with some caveats) anywhere any expression can be used!
 
 Every function has 4 components:
 
@@ -56,11 +56,19 @@ Every function has 4 components:
 3.  A list of parameters
 4.  A body
 
-The _return type_ defines the _type_ of value that the function generates when it is called. The _name_ defines the way that the programmer refers to the function when calling it. A function's name must meet the same criteria as names for variables. The _list of parameters_ defines a set of variables the function caller and the function implementation can use to "communicate" (they are for [mostly] by the caller to communicate input to the function's calculations but can also be used the the function implementer to give output back to the caller). The body contains the code that defines the process, generates a value or both. 
+The _return type_ defines the _type_ of value that the function generates when it is called. The _name_ defines the way that the programmer refers to the function when calling it. (Note: A function's name must meet the same criteria as names for variables.) The _list of parameters_ defines a set of variables the function caller and the function implementation can use to "communicate" (they are [mostly] for the caller to communicate input to the function's calculations but can also be used by the function implementer to give output back to the caller). The body contains the code that defines the process, generates a value or both. 
 
-In C++ it is possible to separate the _declaration_ of a function from the _definition_ of a function. The _declaration_ of the function is sometimes known as the function's _prototype_. The declaration specifies the function's return type, name and list of parameters _but not its body_. In other words, with just the declaration C++ does not have enough information about the function for a programmer to _call_ it. When a function declaration appears separately from the definition, you must still define the function. And when you do that, you still have to write all that information again -- the return type, name, list of parameters (yes, again!) _and_ _then_ write the body.
+In C++ it is possible to separate the _declaration_ of a function from the _definition_ of a function. The _declaration_ of the function is sometimes known as the function's _prototype_. The declaration specifies the function's return type, name and list of parameters _but not its body_. In other words, with just the declaration, C++ has enough information about the function that a programmer can _call_ it. However, C++ does not have enough information yet to know what will happen when that function is called.
 
-Why does C++ include this functionality? Because in order to _call_ a function in C++ the compiler must "know about" the function. If there were only one way to tell the compiler about the function (by defining it), then you would always have to define a function before calling it. What if the body of function `A` calls function `B` and the body of function `B` calls function `A`? You cannot very well define both functions before themselves!! So, C++ allows you to declare a function before its definition just for this case!
+Why does C++ allow the programmer to declare a function separately from its definition? Remember that the C++ compiler must "know about" a function before a programmer can call it. So, if there were only one way to tell the compiler about the function (by defining it), then you would always have to define a function before calling it. Is situation actually bad? Consider what would happen if the code in the body of function `A` calls function `B` and the code in the body of function `B` calls function `A`? 
+
+That's a mind bender, for sure!
+
+> Ping-ponging between functions like that, unconditionally, would cause tremendous problems. When does the back-and-forth end? A situation like the one described above, called _mutual recursion_, is actually very common and does not cause a problem, as long as the calls to `B` from `A` (and the calls to `A` calls `B`) are conditional.
+
+Obviously you cannot very well define both functions before themselves!! So, C++ allows the programmer to declare a function before its definition just for this case!
+
+There is a small, additional burden when When a function declaration appears separately from the definition: the programmer must write all the information from the declaration again -- the return type, name, list of parameters (yes, again!) _and_ _then_ write the body.
 
 The syntax for defining a function is this:
 
@@ -93,7 +101,7 @@ int two() {
 } 
 ```
 
-What is the function's return type? What is the function's name? What are the types and names of the function's parameters? (The last one is a trick question!) You can see that the type of the value "returned" (this is how professional programmers pronounce that statement) by the function (the literal 2) is the same as the return type. This is an absolute requirement. What if we wanted to write the same function, but return the string "two" instead?
+What is the function's return type? What is the function's name? What are the types and names of the function's parameters? (The last one is a trick question!) You can see that the type of the value "returned" (this is how professional programmers pronounce that statement) by the function (the literal 2) is the same as the return type. This is an absolute requirement. What if we wanted to write the same function, but returned the string "two" instead?
 
 ```C++
 std::string two() {
@@ -111,7 +119,7 @@ void print_hello_world() {
 }
 ```
 
-These functions simply perform a process and generate no value. In some sense, they are not like functions at all -- at least the ones that we learned about in math class. A function that performs a process but generates no value is a a so-called _void function_ (because their return type is _void_). You can optionally include a `return` statement in a void function, but it's not necessary:
+A function like `print_hello_world` simply performs a process and generates no value. In some sense, they are not like functions at all -- at least the ones that we learned about in math class. A function that performs a process but generates no value is a a so-called _void function_ (because their return type is _void_). You can optionally include a `return` statement in a void function, but it's not necessary:
 
 ```C++
 void print_hello_world() {
@@ -139,7 +147,7 @@ int add(int a, int b) {
 
 Break it down: the `add` function takes two parameters whose types are both `int` (named `a` and `b`) and returns an `int` (their sum). Again, notice that the return type matches the type of the value being returned. The body of the function can access the values of the parameters by using the parameter's names as if they are local variables -- that's because they are!The parameters are only in scope in the body of the function -- they cannot be used anywhere else!
 
-From just where do the values for those two parameters come? They come from the values that the user gives when they call the function `add` (one more time, the arguments!).
+From just where do the values for those two parameters come when the body of the function is executing? They come from the values that the user gives when they call the function `add` (one more time, the arguments!).
 
 ```C++
 int l = 5;
@@ -147,7 +155,7 @@ int r = 6;
 int sum = add(l, r);
 ```
 
-When a caller invokes `add`, the compiler makes space in memory for two new variables: the parameters of the `add` function. The compiler _copies_ the value of `l` and `r` to the memory for the parameters `a` and `b`, respectively. After that, the compiler directs the computer to start executing the code in the body of the function. 
+When a caller invokes `add`, the compiler generates code that makes space in memory for two new variables: the parameters of the `add` function. The compiler generates code that _copies_ the value of `l` and `r` to the memory for the parameters `a` and `b`, respectively. After that, the compiler generates code that directs the computer to start executing the code in the body of the function. 
 
 That the argument values are _copied_ to the parameters has tremendous consequences.
 
@@ -173,7 +181,9 @@ In function add_one, a is 2
 In function main, a is 1
 ```
 
-Why? I mean, `add_one` modifies the value of `a` (by adding 1) and it even has the same name as the variable in `main`? So, what gives? The key is that the `a` in `add_one` (the *parameter* `a`) is a _copy_ of the value of `a` (in `main`, the argument) when `add_one` is invoked.
+Why? I mean, `add_one` modifies the value of `a` (by adding 1) and it even has the same name as the variable in `main`? So, what gives? The key is that the `a` in `add_one` (the _parameter_ `a`) is a _copy_ of the value of `a` (in `main`, the _argument_) when `add_one` is invoked. There are two different _a_s. 
+
+> Note: Do you think that causes a problem? You know the answer because you have expert knowledge of [scope](./ScopeSupplement.md)! Because the `a` that is the parameter to `add_one` is in a different scope than the `a` in `main`, there is no conflict!
 
 Copying the value of the argument into the value of the parameters (and keeping them separate -- even if they share the same name) is called passing arguments _by value_. By default, arguments in C++ are passed _by value_. Again, this is incredibly important.
 
@@ -197,7 +207,7 @@ int main() {
 }
 ```
 
-Because `hello_goodbye` is called with `true` as an argument, the `hello` parameter in the body of the `hello_goodbye` function is `true`. Therefore, the *then* branch of the `if` statement executes. That means that the function `hello_goodbye` will print `Hello!` to the screen and then (immediately) return `5`. At that point, the function executes no further instructions! The value `5` is returned to the caller and `5` is assigned to the value `hg`. The value that is returned from a function is the value of the function call. 
+Because `hello_goodbye` is called with `true` as an argument, the `hello` parameter in the body of the `hello_goodbye` function is `true`. Therefore, the _then_ branch of the `if` statement executes. That means that the function `hello_goodbye` will print `Hello!` to the screen and then (immediately) return `5`. At that point, the function executes no further instructions! The value `5` is returned to the caller and `5` is assigned to the value `hg`. The value that is returned from a function is the value of the function call expression. 
 
 The output is
 
@@ -206,7 +216,7 @@ Hello!
 hg: 5
 ```
 
-That's a really important point that we don't want to skip over! Anything that generates a value is known as an expression, remember? Well, in all functions that do *not* return `void`, the `return` statement in the function specifies to what the value of the function-call expression will evaluate.
+That's a really important point that we don't want to skip over! Anything that generates a value is known as an expression, remember? Well, in functions that do *not* return `void`, the `return` statement in the function specifies to what the value of the function-call expression will evaluate.
 
 If we call the function with the argument `false`, the output is
 
@@ -236,9 +246,34 @@ This program will print:
 
 ```
 Hello!
+```
 
 Very cool!
+
+Let's see what would happen if we messed up. In the `void`-version of `hello_goodbye`, what would happen if we omitted the `return` statement after we printed `Hello!`?
+
+```C++
+void hello_goodbye(bool hello) {
+  if (hello) {
+    std::cout << "Hello!\n";
+  }
+  std::cout << "Goodbye!\n";
+  return;
+}
+
+int main() {
+  hello_goodbye(true);
+}
 ```
+
+This program will print:
+
+```
+Hello!
+Goodbye!
+```
+
+Oh, now I got it!
 
 Using the `return` statement for control flow is powerful! Consider an example where you could have multiple exceptional conditions and only want to perform the action when they are all true.
 
@@ -246,7 +281,7 @@ Using the `return` statement for control flow is powerful! Consider an example w
 ```C++
 void compare_file(std::string file1_name, std::string file2_name) {
   if (can_open(file1_name) && can_open(file2_name)) {
-    _do work on files here_
+    // Here is where we would write code that does the real work.
     return;
   }
   std::cout << "Either file1 or file2 could not be opened!n";
@@ -264,14 +299,14 @@ Our customer may add a further requirement that the failure to open either file 
 void compare_file(std::string file1_name, std::string file2_name) {
   if (can_open(file1_name)) { 
     if (can_open(file2_name)) {
-      _do work on files here_
+      // Our code to do the real work would go here.
       return;
     } else {
-      std::cout << "Could not open file2!n";
+      std::cout << "Could not open file2!\n";
       return;
     }
   }
-  std::cout << "Could not open file 1!n";
+  std::cout << "Could not open file 1!\n";
 }
 
 int main() {
@@ -302,9 +337,9 @@ This is cool because we handle the possible exceptional cases at the top, once a
 
 Like you can declare/define variables in the bodies of loops and conditional statements in C++, you can also declare/define variables in the bodies of functions! The simple rule that we used to determine when a scope start/stops is applicable to functions -- anywhere there is a `{`, a scope starts; anywhere there is a `}`, a scope ends. Because function bodies are enclosed in `{}`, the body of a function is its own scope.
 
-Remember the term that we used to describe variables that are declared/defined in the same scope where they are used? That's right, _local_ variables. Functions have local variables.
+Remember the term that we used to describe variables that we use in the same scope where they are declared/defined? That's right, _local_ variables. Functions have local variables.
 
-Every time that execution of a program "enters" a scope, space in memory for local variables is created (allocated). Every time that execution of a program "exits" a scope, space in memory for local variables is destroyed. For this reason, the value of a local variable is reset every time the function executes. This is very important:
+Every time that execution of a program "enters" a scope, space in memory for local variables is created (allocated). Every time that execution of a program "exits" a scope, space in memory for the variables local to that scope are destroyed. For this reason, the value of a local variable is reset every time the function executes. This is very important:
 
 ```C++
 void increment() {
