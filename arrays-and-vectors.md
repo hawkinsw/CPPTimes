@@ -76,11 +76,11 @@ int main() {
 }
 ```
 
-The problem is that our busy professor cannot easily maintain such an application when other students joins their class! To update their application when a new student adds the class, the professor would have to copy/paste code in order to accommodate that fourth student (declare another variable to store an ID (`mnumber4`), declare another variable to store a grade (`grade4`), do an additional step of I/O, perform another score adjustment (`grade4 += curve;`), and execute another `std::cout`). The problem only gets worse if the teacher is popular and lots of students want to join the class!
+The problem is that our busy professor cannot easily maintain such an application when other students join their class! To update their application when a new student adds the class, the professor would have to copy/paste code. They would have to declare another variable to store an ID (`mnumber4`), declare another variable to store a grade (`grade4`), do an additional step of I/O, perform another score adjustment (`grade4 += curve;`), and execute another `std::cout`. The problem only gets worse if the teacher is popular and lots of students want to join the class!
 
 ## Arrays (an Interlude)
 
-We interrupt our narrative for a brief digression into the fundamentals of arrays. We have learned already that all variables have types. For instance, variables can have `int` type, `char` type, `double` type, `std::string` type, `bool` type, etc. Well, surprise, an array is also a type! That means we can declare/define variables that have array type. Variables with types that we have learned so far (i.e., `int`, `char`, `double`, `std::string`, `bool`) each hold one value -- they are referred to as _fundamental_ types in C++. A variable with an array type holds a number of values! Because variables with array type are "composed" of several other variables, they are sometimes referred to as _compound_ types.
+We interrupt our narrative for a brief digression into the fundamentals of arrays. We have learned already that all variables have types. For instance, variables can have `int` type, `char` type, `double` type, `std::string` type, `bool` type, etc. Well, surprise, an array is also a type! That means we can declare/define variables that have array type. Variables with types that we have learned so far (i.e., `int`, `char`, `double`, `std::string`, `bool`) each hold one value. A variable with an array type, essentially, holds a number of variables! Because variables with array type are "composed" of several other variables, they are sometimes referred to as _compound_ types.
 
 Formally, an _array_ is a data structure that holds
 
@@ -88,11 +88,11 @@ Formally, an _array_ is a data structure that holds
 2.  individually and collectively accessible values (in other words, we can address any element in the array individually and we can address the entire array as a group),
 3.  each of which is the same type.
 
-A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." Each value in an array is called an element and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
+A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." Arrays are composed of elements and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
 
 One of the most important concepts to remember about the elements of arrays is that they are just variables! The elements of an array have a type, can hold a value and have a place in memory -- just like real variables.
 
-The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities than there are differences. Arrays are the same as other variable types that we have seen so far because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
+The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities between arrays and the other variable types we have learned about so far than there are differences. Arrays are the same as other variable types that we have seen so far because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
 
 Just how many values can a variable of array type hold? The arrays that we use in this class will have a fixed (i.e., unchanging/constant) number of elements that must be specified by the programmer when they write their source code. In other words, the number of elements in the array must be specified before the program runs. The programmer makes known the number of elements in the array (called the _size_ of the array) to the compiler using a special syntax and the compiler relies on the constancy of that number when it processes the source code.
 
@@ -115,7 +115,7 @@ double batting_averages[40];
 ```
 We can read that like:
 
-"`batting_averages` is an array of 40 `double`s."
+"`batting_averages` is an array of 40 `double`s." The type of `batting_averages` includes the fact that there are 40 elements and that those elements are each `double`s.
 
 ```C++
 int days_per_month[12];
@@ -125,7 +125,7 @@ We can read that like:
 
 "`days_per_month` is an array of 12 `int`s."
 
-In our declarations/definitions, how come there is only a single type for an array? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Yes, and we are! Remember what we said above:
+In our declarations/definitions, how come there is only a single type for an array? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Yes, and we are, whether you realize it or not! Remember what we said above:
 
 > Formally, an _array_ is a data structure that holds a fixed number of values, **_each of which is the same type_**.
 
@@ -207,7 +207,7 @@ August is too hot and we want it to last only half as long!
 ```
 We can also read from them just like normal variables.
 
-We always initialize normal variables before we use them, right?. Using a variable before initialization results in the introduction of undefined behavior into the program (see below and/or earlier C++ Times for a refresher on this topic). So, how do we initialize values of the elements of an array? There are a few different methods. First,
+We always initialize normal variables before we use them, right? Using a variable before initialization results in the introduction of undefined behavior into the program (see below and/or earlier C++ Times for a refresher on this topic). So, how do we initialize values of the elements of an array? There are a few different methods. First,
 
 
 ```C++
@@ -238,7 +238,9 @@ There are [several variations on this theme](https://en.cppreference.com/w/cpp/l
 
 ### Danger
 
-C++ offers you _no protection_ against accessing an array beyond its defined size. Let's say that an intrepid programmer thought they could set the number of days in September using our `days_in_summer_months` array by writing code like this:
+C++ offers you _no protection_ against accessing an array beyond its defined size. When you declare/define an array, the type includes the number of elements and the compiler presumes that you are going to be a good citizen of Computational City and stay with the limits of that array. However, it does not force you to be a good Samaritan.
+
+Let's say that an intrepid programmer thought they could set the number of days in September using our `days_in_summer_months` array by writing code like this:
 
 ```C++
   days_in_summer_months[3] = 30;
@@ -250,7 +252,7 @@ Accessing an array out of bounds introduces _undefined behavior_ into your progr
 
 ## Snap Back to Reality: Our Tortured Teacher
 
-Let's get back to helping our client. As it stands, their application only works for a class with three students. The professor knows the number of their students at the beginning of each semester (i.e., before they compile their code), wants to refer to the students' grades individually and collectively and each of the grades is the same type. It fits the use case of the array perfectly!
+Let's get back to helping our campus client. As it stands, their application only works for a class with three students. The professor knows the number of their students at the beginning of each semester (i.e., before they compile their code), wants to refer to the students' grades individually and collectively and each of the grades is the same type. It fits the use case of the array perfectly!
 
 Let's slowly update our existing code to use arrays!
 
@@ -310,7 +312,7 @@ with new, more flexible code:
     std::cout << (i+1) << ". " << mnumbers[i] << "n";
   }
 ```
-Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes it perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index. It is very important to note here that our output statement where we are using `(i + 1)` does _not_ increment the value of `i`. `(i + 1)` is an expression and it produces a value. In the process of evaluating that expression, there are no side effects that cause the value of `i` to change. It is simply that the value of the expression `(i + 1)` is one more than that value of the expression of `i`. That is not the case if we, instead, wrote code that looked like:
+Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes the counter variable (`i`) perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index. It is very important to note here that our output statement where we are using `(i + 1)` does _not_ increment the value of `i`. `(i + 1)` is an expression and it produces a value. In the process of evaluating that expression, there are no side effects that cause the value of `i` to change. It is simply that the value of the expression `(i + 1)` is one more than that value of the expression of `i`. That is not the case if we, instead, wrote code that looked like:
 
 ```C++
   std::cout << "Class Roster:n";
@@ -355,7 +357,7 @@ This is a pattern that you will see throughout your career as computer scientist
 
 In the old and the new applications, gathering the curve value is the same -- no need to change any of the existing code!
 
-Once we have the value of the curve from the professor, we need to adjust the value of the students' scores. In V1 of the program we adjusted those values one at a time:
+Once we have the value of the curve from the professor, we need to adjust the value of the students' scores. In our prelease version of the program we adjusted those values one at a time:
 
 ```C++
   grade1 += curve;
@@ -363,7 +365,7 @@ Once we have the value of the curve from the professor, we need to adjust the va
   grade3 += curve;
 ```
 
-In the new version of the code, we will make the same adjustments but use a loop in order to future-proof our code:
+In the new version of the code, we will still make the adjustments one at a time but use a loop in order to reduce the copy/paste-ing that we need to do and make it easier to add students in the future:
 
 ```C++
   for (int i{0}; i<STUDENTS_IN_CLASS; i++) {
@@ -521,7 +523,7 @@ However, if we wrote that same code using a range-based `for` loop, we could hav
 
 ### It's Automatic
 
-Wait just a second. This is C++ and all variables have types. In fact, when we declare/define a variable, we are *forced* (how terrible!) to write down the name of the type of that variable. That's even the case for arrays -- we have to tell the compiler the type of each element of the array. 
+Wait just a second. This is C++ and all variables have types. In fact, when we declare/define a variable, we are _forced_ (how terrible!) to write down the name of the type of that variable. That's even the case for arrays -- we have to tell the compiler the type of each element of the array. 
 
 When we are using a range-based `for` loop over the array `mnumbers` (from above), we know the type of variable that holds each of the elements (`mnumber` from above) has to have a `std::string` type, right? It's easy to deduce -- go back to the declaration of the `mnumbers` array and read it from the code! There's nothing magical or hidden about that. 
 
@@ -538,7 +540,7 @@ So, why can't the compiler do that same thing for us? In other words,
 
 The compiler has the same information about `mnumbers` that we do and we can easily deduce that the only valid thing to write in place of my lamentation is `std::string`. 
 
-Well, I have a surprise for you, *it can*!?
+Well, I have a surprise for you, _it can_!?
 
 Remember the `auto` keyword that we discussed earlier? I bet you thought it was a little, well, useless. I told you that it was going to come back with a vengeance and here it has reappeared! We can add `auto` in place of a specific type in a range-based `for` loop and the compiler will deduce for us, `auto`matically, the type! How cool?!
 
