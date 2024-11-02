@@ -173,7 +173,7 @@ But just wait, there's more! `int`s and `double`s and `char`s can hold (relative
 
 On the other handle, `std::string`s can take quite a bit of memory. Just think about a `std::string` that contains the entire Oxford English Dictionary and needs to be passed to a function that performs spell check. In order to spellcheck a user's Tweetstorm, the spell check function is invoked. There will be one copy of the dictionary performed per word in the user's rant! That seems seriously wasteful. By-reference parameters to the rescue again -- the code that the compiler generates to create a reference runs very fast! For cases like passing `std::string`s (or `std::vector`s or any other compound types) to functions as parameters, it makes sense to pass them by reference to save time (not to mention the space savings from not having two copies of the dictionary's words in memory at the same time.). 
 
-It's a perfect solution? Not so fast. As a result of passing the `std::string` (or `std::vector`, etc) by reference, the caller has lost the ability to assume that the variable it provided as an argument to the function will be unchanged as a result of that function invocation. Remember: If the argument were passed by value, even assuming that the parameter is changed in the function, the value of the caller's argument does not change (because those modification operations done in the space of the invoked function act on the per-invocation _copy_ of the other variable).
+It's a perfect solution? Not so fast. As a result of passing the `std::string` (or `std::vector`, etc.) by reference, the caller has lost the ability to assume that the variable it provided as an argument to the function will be unchanged as a result of that function invocation. Remember: If the argument were passed by value, even assuming that the parameter is changed in the function, the value of the caller's argument does not change (because those modification operations done in the space of the invoked function act on the per-invocation _copy_ of the other variable).
 
 Can we get the best of both worlds? Amazingly, the answer is _yes_, we can! When we are writing a function and declaring that a parameter is by reference _just for efficiency sake_ and not because we need to modify it, we will declare the parameter to be a by-`const`-reference parameter. The `const`ness of the by-reference parameter will ensure the caller that the value of its precious argument will not be tampered during the function's execution. 
 
@@ -199,3 +199,70 @@ bool is_spelled_correctly(const std::string &word_to_check, const std::vector<st
 ```
 
 ) the compiler would freak out and fail to compile the source code!
+
+## Adult Swim
+
+Let's write a function that drives kid's crazy over the summer: something that will check whether a pool-goer is eligible for getting into the pool during adult swim or whether they have to sit out for the full 15 minutes. 
+
+The input to the function is going to be the prospective swimmer's age (an `int` seems like a good type for that!) and then the return value will be `true` if the swimmer can dive in during adult swim, and `false` otherwise (that makes the type of the return value a `bool`):
+
+```C++
+bool can_adult_swim(int &age) {
+    if (age >= 18) {
+        return true;
+    }
+    return false;
+}
+```
+
+That works really well. So, let's try to write some code that uses it:
+
+```C++
+int main() {
+    if (can_adult_swim(20)) {
+        std::cout << "A 20 year old can swim with the adults\n";
+    } else {
+        std::cout << "A 20 year old cannot swim with the adults\n";
+    }
+    return 0;
+}
+```
+
+Take a look at [Compiler Explorer](https://godbolt.org/z/bY5zqvr3s) and let me know if you see anything, well, odd. 
+
+I know, right? Why doesn't it compile? Well, let's take a closer look and see why. We were trying to be very "smart" by making `age` a by-reference parameter to speed up function calls[^reference_for_speed].
+
+The compiler is mad because it expects that we give it an _lvalue_. What does that mean? Well, the name _lvalue_ historically comes from the term's use to designate what you could write on the *l*eft side of an `=` in an expression statement. Over time, the definition of an lvalue has become more and more specialized, but the idea is still the same.
+
+If you have something (call that something `s`) that can go on the left side of the `=` in an assignment statement, that means that you can update `s`'s value. Under most common circumstances, it is safe to assume that a (non-`const`) variable is an lvalue.
+
+We know that a literal (e.g., the `20` that we are using as the argument in our small program) cannot be modified. If there were code in the definition of the `can_adult_swim` function that modified `age`, then it's easy to see that there is a problem. `age` (because it is a reference parameter) is no more than another name for the argument and, so, any changes to `age` in the body of `can_adult_swim` are changes to the value of the argument. But, in our usage here, the argument is a literal -- there's no way that we can change a literal!
+
+Now we know why it is illegal to use a literal as an argument for a by reference parameter, generally. But, in the case of `can_adult_swim`, the function doesn't ever actually modify `age`. So, what's the problem?
+
+The problem is that the compiler is not smart enough to _know_ that the parameter is not modified. The way that the function is declared, it is absolutely possible that the code in the body of the function does modify it's value. So, the compiler has to play it very safe.
+
+Does this sad fact mean that we are never allowed to use literals as arguments for by reference parameters? No, not at all!
+
+If the problem is that the compiler cannot guarantee that the by-reference parameter is not changed, then let's just help the compiler with judging that assessment by reassuring it that the parameter's value is not changed. How can we do that? Well, we can add a `const` to the parameter's declaration:
+
+```C++
+bool can_adult_swim(const int &age) {
+```
+
+That's awesome! Now we have told the compiler that it can give us grief if we try to modify the value of `age` inside the body of `can_adult_swim`. And, therefore, the compiler can guarantee that the parameter is never changed. Ergo[^ergo], the compiler is now safe to allow the caller of `can_adult_swim` give a literal as an argument!
+
+[^ergo]: I have always wanted to use the word _ergo_.
+
+Look at the code now that the compiler is happy: [https://godbolt.org/z/h43bKv6dr](https://godbolt.org/z/h43bKv6dr).
+
+Whew. I know that is a relatively lengthy bit of reasoning, but when you put it all together, it makes sense. The moral of the story? If you want to write a function that takes a parameter by reference _for the purpose of improving the program's efficiency_, mark that by-reference parameter as `const`. 
+
+As we know, being able to "speak" things about our code to another programmer is really important for communication. If we want to describe the `age` parameter in 
+
+```C++
+bool can_adult_swim(const int &age) {
+```
+we would say, "`age` is passed by `const` ref". Yes, we programmers are so lazy that we can't even be bothered to say the whole word "reference".
+
+[^reference_for_speed]: Remember the caveat about using references to gain a speed advantage when calling a function: If the types of the function are a fundamental type, there's no great advantage to use by reference parameters.
