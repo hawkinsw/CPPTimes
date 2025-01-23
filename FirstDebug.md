@@ -1,6 +1,6 @@
 ### What's News
 
-SpaceX and other space launch companies continue to look for new ways to power their rockets. The less volatile the fuel, the longer a ready-to-launch rocket can sit on the pad safely. Methane could be the answer.
+SpaceX, Blue Origin and other space launch companies continue to look for new ways to power their rockets. The less volatile the fuel, the longer a ready-to-launch rocket can sit on the pad safely. Methane could be the answer.
 
 ### One of These Things is Not Like the Other
 
@@ -21,7 +21,7 @@ int main() {
 }
 ```
 
-The first thing we noticed was a missing `;` at the end of the _statement_ instructing us to fill a methane tank. Statements are complete instructions that define a computation, must end in a semicolon. In C++, all statements must end in a semicolon.
+The first thing to notice is a missing `;` at the end of the _statement_ instructing us to fill a methane tank. Statements, complete instructions that define a computation, must end in a semicolon. In C++, most statements must end in a semicolon.
 
 The great thing about this error was that we could discover it with the help of the compiler. Any error that the compiler can detect is known as a _compile-time error_ because it is an error that happens, well, at compile time. Of course, this statement begs the question -- Just _what is_ compile time? Compile time is when the programmed is compiled. 
 
@@ -42,7 +42,7 @@ int main() {
 }
 ```
 
-If there is a compile time, then there must be another time ... the time when the program is executed. We call that the _run time_. With the fix in, our code now compiles. That's half the battle. Now we need to determine what happens when the code _runs_.
+If there is a compile time, then there must be another time ... the time when the program is executed. We call that the _run time_. With the fix in (i.e., the addition of the missing `;`), our code now compiles. That's half the battle. Now we need to determine what happens when the code _runs_.
 
 If we run the compiled code shown above, the output (perhaps unexpectedly) looks like
 
@@ -66,7 +66,7 @@ fill methane tank.
 3. Lift off in the rocket ship.
 ```
 
-Let's see whether we can correct our bequeather's bumbles. We can add formatting information to the output so that the lines break in the proper spots. There are two ways to include information in a C++ program about where to create new lines: the newline escape sequence (`\n`) and `std::endl`;
+Let's see whether we can correct our bequeather's bumbles. We can add formatting information to the output so that the lines break in the proper spots. There are two ways to include information in a C++ program about where to create new lines in the output: the newline escape sequence (`\n`) and `std::endl`;
 
 To use a newline escape sequence, just embed it in the string _literal_ you are printing to the screen:
 
