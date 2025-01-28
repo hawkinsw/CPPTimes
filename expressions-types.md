@@ -1,6 +1,6 @@
 ## What's News
 
-California Psychics's business has grown to great heights by giving unsolicited tips to their clients on how to live their lives. The one thing that the groups of `C++`eers could not see coming? How AI-powered Ouija boards were going to disrupt their industry.
+California Psychics' business has grown to great heights by giving unsolicited tips to their clients on how to live their lives. The one thing that the groups of seers could not C++ coming? How AI-powered Ouija boards were going to disrupt their industry.
 
 ## Start Smart
 
