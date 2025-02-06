@@ -1,6 +1,6 @@
 ## What's News
 
-Mathematicians provide mathematical proof that you can walk and chew gum at the same time.
+Mathematicians provide incontrovertible proof that you can walk and chew gum at the same time.
 
 ## Compound Assignment Operators
 
@@ -28,9 +28,9 @@ int main() {
 
 The third line in both programs is equivalent and the latter is much shorter than the former! How cool is that?
 
-The best part is that we can use compound assignment operators with all of our operations -- `-`, `/`, `*`, etc!
+The best part is that we can use compound assignment operators with all of our operators -- `-`, `/`, `*`, etc!
 
-FOr instance, if I wanted to convert my (hypothetical) brother's age into Dog Years, I could write:
+For instance, if I wanted to convert my (hypothetical) brother's age into Dog Years, I could write:
 
 
 ```C++
@@ -43,7 +43,7 @@ int main() {
 }
 ```
 
- The semantics (remember that *semantics* means "meaning" [sorry, pun intended!]) of the compound operator is: 
+ The semantics (remember that _semantics_ means "meaning" [sorry, pun intended!]) of the compound operator is: 
 
 1. Read the existing value of the variable on the left-hand side of the operator.
 2. Perform the requested operation on that value (according to the value given on the right-hand side of the operator).

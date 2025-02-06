@@ -8,19 +8,23 @@ Variables are a deceptively simple concept in programming languages. By definiti
 
 > Until further notice, we will consider the case of true variables and omit the semantics of so-called constant variables (which is a bit of an oxymoron). We will return to constant variables later.
 
-Programmers use variables as expressions (remember the definition of an expression?) whose value is the contents of the variable's associated memory at the time of access. That is a mouthful. Let's take it piece by piece:
+Programmers use variables as [expressions (remember the definition of an expression?)](./expressions-types.md) whose value is the contents of the variable's associated memory at the time of access. That is a mouthful. Let's take it piece by piece:
 
 1. Variables are expressions and, therefore, have a value.
 2. The memory associated with a variable is where the variable's value is stored while the program executes.
 3. Accessing the variable's value during program execution is simply reading the value of that memory and interpreting that data according to the variable's type!
 
-Left to its own devices, compilers are only aware of the language's reserved words (e.g., `return`, `int`, `if`, etc). The process of making the compiler aware of a word that we (the programmer) give to a place in memory is known as declaring a variable.
+Left to its own devices, compilers are only aware of the language's reserved words (e.g., `return`, `int`, `if`, etc). The process of making the compiler aware of a word that we (the programmer) use to name a place in memory is known as declaring a variable.
 
 > Note: As we go throughout the semester, we will learn how to declare things other than variables. Just remember that a declaration is nothing more than a way to introduce a name into a program and telling the language how to interpret that name.
 
-Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although variable declaration and definition in C++ can happen separately in C++, they often happen at the same time.
+Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although variable declaration and definition in can happen separately in C++, they most often occur simultaneously.
 
-Because every value in C++ has a type, and variables have values, it stands to reason that variables have types. And, yes, that is what happens in C++. Therefore, a variable declaration _also_ associates a type with a variable in addition to introducing that variable's name to the compiler. This additional utility of the declaration is what we described above when we said that a declaration also tells the language how to interpret the name.
+Because every value in C++ has a type, and variables have values, it stands to reason that variables have types.
+
+![](./graphics/syllogism.png)
+
+And, yes, that is what happens in C++. Therefore, a variable declaration _also_ associates a type with a variable in addition to introducing that variable's name to the compiler. This additional utility of the declaration is what we described above when we said that a declaration also tells the language how to interpret the name.
 
 When a variable is defined, the compiler turns to the variable's type to determine how much memory to set aside for its value.
 
@@ -28,7 +32,7 @@ Future editions of the C++ Times will discuss the role of types in programming l
 
 ### Naming
 
-Names are intensely personal. They help us build an identity. The names for our program's variables are exactly the same. They help us programmers identify how a variable is used in the context of the program's actions. For instance, a variable named `duration_of_spring` likely holds the length (in some units) of the season of spring. A reasonable programmer reading code with a variable with that name would be surprised if they found out that it, in fact, holds the height of an elephant.
+Names are intensely personal. They help us build an identity. The names for our program's variables are no different. They help us programmers identify how a variable is used in the context of the program's actions. For instance, a variable named `duration_of_spring` likely holds the length (in some units) of the season of spring. A reasonable programmer reading code with a variable with that name would be surprised if they found out that it, in fact, holds the height of an elephant.
 
 The more descriptive a variable's name, the better. That said, there are a few limitations that C++ puts on valid variable names:
 
@@ -50,7 +54,9 @@ For instance, consider the code below:
 cupsOfMilk*0.00834540445;
 ```
 
-It's _obvious_ that `0.00834540445` is the number of ounces per cup and we are using that as a scaling factor to write an expression that calculates the number of ounces of milk used in a recipe!
+It's _obvious_ that `0.00834540445` is the number of ounces per cup and we are using that as a scaling factor to write an expression that calculates the number of ounces of milk used in a recipe![^1]
+
+[^1]: Please be aware that I was being completely facetious -- I had _no_ idea that special value is the number of ounces per cup!
 
 If we gave `0.00834540445` a name, by using a variable (say, `ouncesPerCup`), our expression is much more readable:
 

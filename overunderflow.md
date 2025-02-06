@@ -4,7 +4,7 @@ In today's news, researchers uncover what happens when people take the advice to
 
 ## Overflow and Underflow
 
-Remember the definition of _type:_ the range of valid values of a variable and the valid operations on that variable. For variables that represent numbers, what happens when you try to a value into a variable that is _not_ one of those valid ones? In particular, what happens when you try to store a number into an `int` that is invalid? In cases where the value is too big, you get _overflow_. In cases where the value is too small, you get _underflow_. For example, what is the output of this program?
+Remember the definition of _type:_ the range of valid values of a variable and the valid operations on that variable. For variables that represent numbers, what happens when you try to store a value into a variable that is _not_ one of those valid ones? In particular, what happens when you try to store a number into an `int` that is invalid? In cases where the value is too big, you get _overflow_. In cases where the value is too small, you get _underflow_. For example, what is the output of this program?
 
 ```C++
 #include <iostream>
@@ -29,7 +29,7 @@ Did UC suddenly become very unpopular?
 
 It just so happens that on the computer where we executed this program, 2147483647 is the largest value that can be stored in an `int`-typed variable. Therefore, attempting to store a number bigger than that (which we create with the compound assignment operator [e.g., `+=`]) in the variable results in overflow and the value _overflows_. You can try this program live at [Godbolt](https://godbolt.org/z/acrfhPGPn). 
 
-While that overflow-wraps-around behavior seems rational and stable, it actually is not! In the C++ language, if we are ever to introduce overflow in our programs, we are subject to the laws of undefined behavior. Undefined behavior is a type of program behavior that does not have to follow any rigorous specification. In other words, if we have undefined behavior in our program, it is allowed to do anything!
+While that overflow-wraps-around behavior seems rational and stable, it actually is not! In the C++ language, if we are ever to introduce in our programs overflow when working with a value whose type holds numbers than can be positive or negative, we are subject to the laws of undefined behavior. Undefined behavior is a type of program behavior that does not have to follow any rigorous specification. In other words, if we have undefined behavior in our program, it is allowed to do anything!
 
 > Note: If we are operating with *unsigned* numbers (a special type of `int`eger), the wraparound behavior appears again. In that case, however, the behavior is perfectly acceptable and well defined by the standard. Be careful!
 
