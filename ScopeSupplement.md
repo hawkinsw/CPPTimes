@@ -1,20 +1,31 @@
 Welcome to a special supplement to the C++ Times! On occasion, Curie, Inc., the publisher of the C++ Times, uses inserts to entice its customers who buy their publications off the rack in the Kroger checkout lanes.
 
 ### Getting Healthy C++ in 2024 With Scopes
-As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`. 
+As we discussed in class, a _scope_ is the "part of the program where a variable may be used." A variable is _local_ to the scope where it is declared/defined. A scope is created at every `{` and destroyed at the matching `}`.[^others] 
+
+[^others]: There are other places where scopes are implicitly created, but we'll focus on the "normal" cases first.
 
 We take advantage of scopes in order to limit the possibility that other developers writing code in other parts of the same program create/use variables with the same name as ours in ways that conflict. 
 
-If our compiler has taught us anything, it's that we _cannot_ declare two variables with exactly the same name. So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, time? In both cases it would be ideal if we could call that variable `time`. But, doesn't C++ prevent that? 
+If our compiler has taught us anything, it's that we _cannot_ declare two variables with exactly the same name. Despite the _really_ bad pun, this code will not compile:
 
-No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, if you need two variables to represent time as long as they are in different scopes, you can name them both `time` without worrying about conflicts. 
+```C++
+int main() {
+  int time{12};
+  std::string time{"Spring roll"};
+}
+```
+
+So, what happens when we are writing a really big program and we have two variables in different parts of the code and both represent a quantity like, say, age (the age of the user and the age of a depreciating asset)? In both cases it would be ideal if we could call that variable `age`. But, doesn't C++ prevent that? 
+
+No, not at all! It is the rule only that you cannot declare two (or more) variables _in the same scope_ that have the same name. In your program, if you need two variables to represent time as long as they are in different scopes, you can name them both `age` without worrying about conflicts. 
 
 This is incredibly powerful (from a software-engineering perspective), but can cause some problems. We will see an example of that type of problem (shadowing) later in this insert. 
 
 ### The Scopes Are Coming ... One If By Land, Two If By See (pun intended)
 Scopes are like many other things in C++ -- they nest. One scope can be nested within another scope. Programmers refer to layers of nesting as _depth_. Let's assume that we can name scopes. If there is a scope named _A_ that contains a scope named _B_ we will say that scope _B_ is more _deeply nested_ than scope _A_. It has a greater depth. We will play on this metaphor of depths and puns on see/sea in the remainder of this insert.
 
-Consider the following, relatively simple C++ program:
+Consider the following, relatively simple C++ program that does absolutely _no_ meaningful work:
 
 ```C++
 #include <iostream>
@@ -140,7 +151,7 @@ The disappearance of the pink and (earlier) blue scopes does not undo the (much)
 
 Our three hour ocean tour in a submarine has (hopefully) exposed many of the quirks of variables and scopes in C++. The concepts that you are learning about scopes in C++ are generally applicable to other imperative and object-oriented programming languages (e.g., JavaScript, Python, Go, etc.). Obviously each language has its own take on the rules, but the broad outlines are the same. Knowledge is power.
 
-### Take a Global Perspective on C++ Travel in 2024
+### Take a Global Perspective on C++ Travel in 2025
 There is such a thing as a _global_ scope in C++. It is a scope that exists entirely outside any `{`, `}` blocks. Every single other scope in your program exists within the global scope. 
 
 In other words, variables in the global scope are always in scope. As a result of their omnipresence, variables in the global scope can be accessed/modified from any position in your code. Taking advantage of the reach of global variables may seem tempting. But, do not fall victim to their siren song. It is almost always wrong to use a global variable.
@@ -162,7 +173,7 @@ if (ownsAHouse) {
 They clearly meant to update `asset` to `true` but instead they updated `assets`. There is no reason for the C++ compiler to alert the user about this mistake, is there?
 
 1. `assets` is in scope -- variables in the global scope are _always_ in scope.
-2. Though a semantically questionable operation, C++ will dutifully convert the value of `false` to `0` (remember _promotion_?) and (to put it euphemistically) reset your customer's assets. 
+2. Though a semantically questionable operation, C++ will dutifully convert the value of `false` to `0` (remember _implicit conversion_?) and (to put it euphemistically) reset your customer's assets. 
 
 I can imagine that you do not want to answer to a boss who wonders why suddenly the bank's customers have lost all their money!
 
@@ -186,3 +197,4 @@ Using a constant global variable in these cases has several advantages:
 
 If you are truly a nautical nut, you can think of the scope of global variables as the salty air above the ocean -- I love the smell of the beach.
 
+![](./graphics/seinfeld-kramer.gif)

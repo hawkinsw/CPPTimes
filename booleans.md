@@ -19,7 +19,9 @@ What is cool about George Boole's thinking was that he defined a set of operatio
 
 So far we have learned that variables with the type `bool` can only hold the values `true` and `false`. We also know that we have operations that combine two values with Boolean type and get another. But, how do we get a value with a Boolean type in the first place?
 
-The answer: _relational_ and _equality_ operators! An expression composed of operands and a relational or equality operator has a value (just like all expressions!). And, like every value in C++, it has a type! The value can be either `true` or `false` and the type is `bool`. I am sure that you aren't surprised!
+There are a number of ways, but the best way[^1] is through _relational_ and _equality_ operators! An expression composed of operands and a relational or equality operator has a value (just like all expressions!). And, like every value in C++, it has a type! The value can be either `true` or `false` and the type is `bool`. I am sure that you aren't surprised!
+
+[^1]: Just this person's opinion, of course.
 
 Let's look at the relational and equality operators in "C++ World" and how they compare to the ways that we write comparisons when we are in "Math World."
 
@@ -123,7 +125,7 @@ and
 
 Assume that we are in Cincinnati in June and I look outside. I see that it is raining, but there's no way that it's snowing. So, yes, it is _true_ that it is raining (we'll call that `raining` and say it is `true`) but, no, it is not snowing (we'll call that `snowing` and say that it is `false`).
 
-The first statement is logically not true! So, we would say that it is `false`. The second statement, however, is `true`. So, in 
+The first statement is logically not true -- it is not both raining and snowing! So, we would say that it is `false`. On the other hand, the second statement, according to the Cincinnati Weather scenario defined above, is `true`. The same is true for the program below that uses C++ to encode the same scenario:
 
 ```C++
 int main() {
@@ -183,7 +185,7 @@ int main() {
 
 `no` is `false`. To compute that, just replace `yes` with its value (`bool no{!true}`), flip `true` to `false` because of the `!` and you get `bool no{false};`. Pretty cool!
 
-So, we can calculate `true` and `false` values, but what good are they? Read on to find out!
+So, we can calculate `true` and `false` values, but what good are they? _If_ you want to know the answer, read on!
 
 ### It Takes `bool` to Tango: The `if` Statement
 
