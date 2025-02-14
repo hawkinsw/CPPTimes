@@ -15,17 +15,21 @@ Or, if we are writing a game, we might need to calculate the total score based o
 3.  Add the current round's score to the total score.
 4.  While there are still rounds to score, advance to the next round and repeat (3). 
 
-These are just two pseudocode examples of the many, many uses of _loops,_ programming structures that cause a group of statements to repeat. The group of statements to be repeated by a loop is called the _body_ of the loop. Programmers often say that the body is "in" a loop. We call every repeated execution of the body of a loop an _iteration_. Loops are an incredibly important tool for programmers -- almost as important as the `if` statement. There are three different loops: the `for` loop, the `while` loop and the `do...while` loop. Each of these loops exists for a reason and solves a particular type of problem. It is important to understand when to use each of the loops.
+These are just two pseudocode examples of the many, many uses of _loops,_ programming structures that cause a group of statements to repeat. The group of statements to be repeated by a loop is called the _body_ of the loop. Programmers often say that the body is "in" a loop. We call every repeated execution of the body of a loop an _iteration_. Loops are an incredibly important tool for programmers -- almost as important as the `if` statement. There are three different loops: the `for` loop, the `while` loop and the `do...while` loop. Each of these loops exists for a reason and solves a particular type of problem. Although each of the three loops has an equivalent computational power,[^power] using the right loop in the right situation can improve the readability of your code.
+
+[^power]: In other words, anything that you can compute with, say, a `do ... while` loop you can compute with a `for` loop. You will have the chance to demonstrate this equivalence in lab!
 
 ### The `do...while` loop
 
-The `do ... while` loop is the oddball among the three types of loops. The `do...while` loop's syntax looks like this:
+The `do ... while` loop is the oddball among the three types of loops. So, I guess we should start there?
+
+The `do...while` loop's syntax looks like this:
 
 ![The general format of the `do ... while` loop.](./graphics/The%20Do%20While%20Loop.png)
 
 The placeholder `statement`s listed in green represent the body of the loop and can be any valid C++ code. The semantics of the `do...while` loop are relatively straightforward: Repeatedly execute the body while `expression` evaluates to `true`. Remember that the type of the value of `expression` does not necessarily need to be a `bool`. C++ will convert the value of `expression` to a `bool` if it is some other type (as long as such a conversion is possible!). When you rely on this behavior to control a loop, be sure to think about the algorithm that C++ uses to determine whether a value with non-`bool` type is `true` or `false`.
 
-The statements in a `do...while` loop are always executed at least once. Can you see why? Because the condition is only checked at the end of each iteration. Because the check is at the end of the iteration, the `do...while` loop is called a _post-condition loop_. 
+So, what makes the `do ... while` loop so odd? The statements in a `do...while` loop are always executed at least once. Can you see why? The expression in a `do ... while` loop that is evaluated to determine whether a loop continues is only checked at the end of each iteration. Because the check is at the end of the iteration, the `do...while` loop is called a _post-condition loop_. 
 
 Because the body of the `do...while` loop is always done at least once, the `do...while` loop is particularly suited for _input validation_, the process of determining whether input to a program meets requirements. If the program didn't ask for input at least once, it would have nothing to validate! Let's go back to the password validation example from above where the pseudocode looked like this:
 
@@ -59,7 +63,7 @@ int main() {
 
 Look closely at the condition for terminating the `do...while` loop. Convince yourself that it is the correct condition: When the user's password is invalid, `valid_password` returns `false` which means that the program should prompt the user to enter their password again. But the `do...while` loop only repeats the execution of its body when the condition is true! So, we use the `!` operator to flip the result of the validation function. Voila! Our loop does our bidding!
 
-We will refer to the `do ... while` loop as a _conditional_ loop. I wonder why? Think about the meaning (or function) of a `do ... while` loop. The structure gives the programmer to power to repeatedly execute a set of statements as long as a condition (encoded in the `expression`) is `true`. See it? _condition_? Exactly!
+We will refer to the `do ... while` loop as a _conditional_ loop. I wonder why? Think about the meaning (or function) of a `do ... while` loop. The structure gives the programmer power to repeatedly execute a set of statements as long as a condition (encoded in the `expression`) is `true`. See it? _condition_? Exactly!
 
 ### While Loops: The Variation on the Theme
 
@@ -67,7 +71,7 @@ The `while` loop is another type of conditional loop. The `while` and the `do ..
 
 Here is the general format of the `while` loop:
 
-![TODO](./graphics/The%20While%20Loop.png)
+![The general format of the `while` loop.](./graphics/The%20While%20Loop.png)
 
 The placeholder `statement`s listed in green represent the body of the `while` loop and can be any valid C++ code. The semantics of the `while` loop are relatively straightforward: 
 
@@ -89,7 +93,7 @@ One of the adages about learning a language is that if you don't use your skills
 
 So, why don't we practice solving some real-world problems with our new tools!
 
-We'll start by using the `do ... while` loop to calculate a student's lab grades. We will make several simplifying assumptions to make the calculations more straightforward:
+We'll start by using the `do ... while` loop to calculate a student's lab grades. We will make several simplifying assumptions to make the program more straightforward:
 
 1. The labs are all out of 100 points.
 2. The user enters their input without error.
@@ -133,7 +137,9 @@ Could we solve this problem by converting our code into a `while` loop? Maybe. I
 
 Yes, there is!
 
-One of the nasty things about the `do ... while` loop that we wrote above was that we had to check for the loop's termination condition (`grade < 0`) in multiple places. It would be nice if we could do that a single time and save ourselves some typing. The `while` loop is there to help us out! In order to make sure that we only have to check our termination condition in the loop a single time, we do what is called a _priming_ operation. The priming operation prepares the necessary variable(s) for the evaluation of the `while` loop's condition for the first iteration. If we were converting between a `do ... while` and a `while` loop, the priming operation must set the state of the program in such a way that the loop will execute its body at least once! Why? Because that is *exactly* what the `do ... while` guarantees -- that the body of the loop will be executed exactly once!
+One of the nasty things about the `do ... while` loop that we wrote above was that we had to check for the loop's termination condition (`grade < 0`) in multiple places.[^places] It would be nice if we could do that a single time and save ourselves some typing. The `while` loop is there to help us out! In order to make sure that we only have to check our termination condition in the loop a single time, we do what is called a _priming_ operation. The priming operation prepares the necessary variable(s) for the evaluation of the `while` loop's condition for the first iteration. If we were converting between a `do ... while` and a `while` loop, the priming operation must set the state of the program in such a way that the loop will execute its body at least once! Why? Because that is *exactly* what the `do ... while` guarantees -- that the body of the loop will be executed exactly once!
+
+[^places]: We didn't write _the exact_ same code in two places, though, did we? No! One check is in the "positive" direction and the other check is in the "negative" direction.
 
 ```C++
 #include <iomanip>
@@ -162,7 +168,7 @@ int main() {
   return 0;
 }
 ```
-Look very closely at the version of the application written using the `while` loop and compare it with the version written using the `do ... while` loop. Although we meant to make the `while` loop an exact copy of the `do ... while` loop, we did so with a combination of different tools and different code behavior. In particular, in the `do ... while` loop the body always executed at least once. The body of the loop contains the code that prompts the user for input and reads their response. In the version of the program written using `while` loop, reading the input from the user happens *both* inside *and* outside the loop. As a result, the `while` loop does actually perform the same operations the same number of times as the `do ... while` loop. We just needed to move them around slightly. 
+Look very closely at the version of the application written using the `while` loop and compare it with the version written using the `do ... while` loop. Although we meant to make the `while` loop an exact copy of the `do ... while` loop, we did so with a combination of different tools and different code behavior. In particular, in the `do ... while` loop the body always executed at least once. The body of the loop contains the code that prompts the user for input and reads their response. In the version of the program written using `while` loop, reading the input from the user happens _both_ inside _and_ outside the loop. As a result, the `while` loop does actually perform the same operations the same number of times as the `do ... while` loop. We just needed to move them around slightly. 
 
 ### One Of These Things Is Just Like The Other
 
