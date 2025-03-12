@@ -1,6 +1,6 @@
 ## What's News
 
-The C++AG Union members remain on strike today after negotiations over a new contract broke down. The biggest unresolved issue is over royalties collected per execution of line of code that they wrote.
+Although dockworkers scored a [big pay raise](https://www.wsj.com/articles/with-port-strike-averted-dockworkers-draw-new-curbs-on-automation-97938142) by threatening to strike, C++AG Union members remain on strike today after negotiations over a new contract broke down. The biggest unresolved issue is over royalties collected per execution of line of code that they wrote.
 
 ## As An (Array) Actor, What's My Motivation?
 
@@ -28,7 +28,7 @@ int main() {
   std::ifstream m_number_file{m_number_file_name};
 
   if  (!m_number_file.is_open()) {
-    std::cout << "Could not open the m number file (" << m_number_file_name << ".n";
+    std::cout << "Could not open the m number file (" << m_number_file_name << ").\n";
     return 1;
   }
 
@@ -60,7 +60,7 @@ int main() {
   std::cin >>  grade3;
 
   // Read the value of the curve from the user.
-  double curve;
+  double curve{};
   std::cout << "Enter curve value: ";
   std::cin >> curve;
 
@@ -73,10 +73,21 @@ int main() {
   std::cout << "Adjusted quiz grade for " << mnumber1 << ": " << grade1 << "n";
   std::cout << "Adjusted quiz grade for " << mnumber2 << ": " << grade2 << "n";
   std::cout << "Adjusted quiz grade for " << mnumber3 << ": " << grade3 << "n";
+
+  return 0;
 }
 ```
 
-The problem is that our busy professor cannot easily maintain such an application when other students join their class! To update their application when a new student adds the class, the professor would have to copy/paste code. They would have to declare another variable to store an ID (`mnumber4`), declare another variable to store a grade (`grade4`), do an additional step of I/O, perform another score adjustment (`grade4 += curve;`), and execute another `std::cout`. The problem only gets worse if the teacher is popular and lots of students want to join the class!
+> You can work with this code interactively online [here](https://godbolt.org/z/sqqW7c395). However, because Compiler Explorer does not support file access, the code will simply print the 
+
+```
+Could not open the m numbers file (mnumbers3.txt).
+```
+> error.
+
+The problem is that our busy professor cannot _easily_ maintain such an application when other students join their class! 
+
+Yes, of course, they could maintain it, but it would not be easy: to update their application when a new student adds the class, the professor would have to copy/paste code. They would have to declare another variable to store an ID (`mnumber4`), declare another variable to store a grade (`grade4`), do an additional step of I/O, perform another score adjustment (`grade4 += curve;`), and execute another `std::cout`. The problem only gets worse if the teacher is popular and lots of students want to join the class!
 
 ## Arrays (an Interlude)
 
@@ -88,15 +99,19 @@ Formally, an _array_ is a data structure that holds
 2.  individually and collectively accessible values (in other words, we can address any element in the array individually and we can address the entire array as a group),
 3.  each of which is the same type.
 
-A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." Arrays are composed of elements and each element acts just like a variable -- the only difference is that we refer to these "variables" (aka elements) by number (their _index_ in the array) rather than by name (like we do for variables).
+A _data structure_ is just a fancy term for a way of "stor[ing] and organiz[ing] data in order to facilitate access and modifications." 
+
+Elements that comprise an array are called its elements and each element in an array acts just like a variable -- the only visible difference is that we refer to these "element variables" (aka elements) by number (more precisely, a number that represents their position in the array) rather than by name (like we do for variables). The position of an element in an array is known as the element's _index_.
 
 One of the most important concepts to remember about the elements of arrays is that they are just variables! The elements of an array have a type, can hold a value and have a place in memory -- just like real variables.
 
-The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities between arrays and the other variable types we have learned about so far than there are differences. Arrays are the same as other variable types that we have seen so far because they have a type and a range of valid values. They are different because they hold multiple values rather than just a single value.
+The arrays themselves (the group of elements, that is) are truly variables themselves, too. Yes, in some ways they are different than other variables that we have seen so far. However, there are far more similarities between arrays and the other variable types we have learned about so far than there are differences. For instance, arrays and the other variable types we have seen so far are _similar_ because they have a type and a range of valid values. Arrays are different, however, because because they hold multiple values rather than just a single value.
 
-Just how many values can a variable of array type hold? The arrays that we use in this class will have a fixed (i.e., unchanging/constant) number of elements that must be specified by the programmer when they write their source code. In other words, the number of elements in the array must be specified before the program runs. The programmer makes known the number of elements in the array (called the _size_ of the array) to the compiler using a special syntax and the compiler relies on the constancy of that number when it processes the source code.
+Just how many values can a variable of array type hold? The arrays that we use in this class will have a fixed (i.e., unchanging/constant) number of elements. By fixed we mean that the number of elements must be known to the compiler at the time that it converts the programmer's high-level C++ code to machine code. As a consequence, the number of elements in the array must be specified before the program runs and it cannot change as the program runs.[^variable-arrays] The programmer makes known the number of elements in the array (called the _size_ of the array) to the compiler using a special syntax and the compiler relies on the constancy of that number when it processes the source code.
 
-If an array is just like any other variable, it stands to reason that we will have to declare/define it like we have to declare/define other variables before we use them! Here is the bare-bones format of a declaration/definition of an array:
+[^variable-arrays]: Yes, there are ways to make variable-sized arrays in C++. They rely on some [different C++ machinery](./pointers.md) that we will study in the future.
+
+If an array is just like any other variable, it stands to reason that we will have to declare/define it like we have had to declare/define other variables before we use them! Here is the bare-bones format of a declaration/definition of an array:
 
 ```C++
 _element_type_ _array_name_[NUMBER_OF_ELEMENTS];
@@ -104,7 +119,7 @@ _element_type_ _array_name_[NUMBER_OF_ELEMENTS];
 
 You can read that declaration/definition like:
 
-"`_array_name_` is an array of `_NUMBER_OF_ELEMENTS_` of `_element_type_`s."
+> "`_array_name_` is an array of `_NUMBER_OF_ELEMENTS_` of `_element_type_`s."
 
 It is important to remember that the size of an array is _part of the type of the array variable_.
 
@@ -115,7 +130,9 @@ double batting_averages[40];
 ```
 We can read that like:
 
-"`batting_averages` is an array of 40 `double`s." The type of `batting_averages` includes the fact that there are 40 elements and that those elements are each `double`s.
+> "`batting_averages` is an array of 40 `double`s."
+
+The type of `batting_averages` includes the fact that there are 40 elements and that those elements are each `double`s.
 
 ```C++
 int days_per_month[12];
@@ -123,9 +140,9 @@ int days_per_month[12];
 
 We can read that like:
 
-"`days_per_month` is an array of 12 `int`s."
+> "`days_per_month` is an array of 12 `int`s."
 
-In our declarations/definitions, how come there is only a single type for an array? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Yes, and we are, whether you realize it or not! Remember what we said above:
+In our declarations/definitions, how come there is only a single type? I mean, there are multiple elements, right? And Will, you _just said_ that elements in an array act like variables and every variable has a type! Shouldn't we have to specify the type of every element in the array? Yes, and we are, whether you realize it or not! Remember what we said above:
 
 > Formally, an _array_ is a data structure that holds a fixed number of values, **_each of which is the same type_**.
 
@@ -252,7 +269,9 @@ Accessing an array out of bounds introduces _undefined behavior_ into your progr
 
 ## Snap Back to Reality: Our Tortured Teacher
 
-Let's get back to helping our campus client. As it stands, their application only works for a class with three students. The professor knows the number of their students at the beginning of each semester (i.e., before they compile their code), wants to refer to the students' grades individually and collectively and each of the grades is the same type. It fits the use case of the array perfectly!
+Let's get back to helping our campus client. As it stands, their application only works for a class with three students. The professor knows the number of their students at the beginning of each semester, [^knows-class-size] wants to refer to the students' grades individually and collectively and each of the grades is the same type. It fits the use case of the array perfectly!
+
+[^knows-class-size]: In other words, our professor knows the size of their class before they compile their code.
 
 Let's slowly update our existing code to use arrays!
 
@@ -295,6 +314,21 @@ but that's lots of copying and pasting! Look at all that repetition. And, if you
   }
 ```
 
+If you are curious, you can convince yourself that the code in the loop performs the same operation as the original, duplicative code by making a chart:
+
+| `i` | `i<STUDENTS_IN_CLASS` | Body |
+| -- | -- | -- |
+| `0` | `0 < 5` $\rightarrow$ `true` | `m_number_file >> mnumbers[0];` |
+| `1` | `1 < 5` $\rightarrow$ `true` | `m_number_file >> mnumbers[1];` |
+| `2` | `2 < 5` $\rightarrow$ `true` | `m_number_file >> mnumbers[2];` |
+| `3` | `3 < 5` $\rightarrow$ `true` | `m_number_file >> mnumbers[3];` |
+| `4` | `4 < 5` $\rightarrow$ `true` | `m_number_file >> mnumbers[4];` |
+| `5` | `5 < 5` $\rightarrow$ `false`| |
+
+I don't know that there is an official name for the technique that I just showed for "proving" that a loop does what we want, but I call it "mental unrolling."[^compiler-term]
+
+[^compiler-term]: The term "unrolling" used in the context of loops in programming languages comes from a trick that compilers use to generate really fast code from your C++ (it's called loop unrolling).
+
 Now, we will want to replace the old code that generated our roster
 
 ```C++
@@ -312,7 +346,7 @@ with new, more flexible code:
     std::cout << (i+1) << ". " << mnumbers[i] << "n";
   }
 ```
-Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes the counter variable (`i`) perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index. It is very important to note here that our output statement where we are using `(i + 1)` does _not_ increment the value of `i`. `(i + 1)` is an expression and it produces a value. In the process of evaluating that expression, there are no side effects that cause the value of `i` to change. It is simply that the value of the expression `(i + 1)` is one more than that value of the expression of `i`. That is not the case if we, instead, wrote code that looked like:
+Let's take a closer look at this code. Our counter/loop variable (named `i`) ranges between `0` and `4`, inclusive. That makes the counter variable (`i`) perfect for _indexing the array_, specifying an element by its index, during iteration. However, most users will expect that the list be shown with prefixes starting at 1 and ending at 5 -- most people aren't computer scientists and prefer to start counting at 1 and not 0. So, we have to use `(i + 1)` in the first part of the `std::cout` statement for the label and `i` in the second for the index. It is very important to recognize that the expression `(i + 1)` in our output statement does _not_ increment the value of `i`. `(i + 1)` is an expression and it produces a value. In the process of evaluating that expression, there are no side effects that cause the value of `i` to change. It is simply that the value of the expression `(i + 1)` is one more than that value of the expression of `i`. That is not the case if we, instead, wrote code that looked like:
 
 ```C++
   std::cout << "Class Roster:n";
@@ -410,7 +444,9 @@ Like spaghetti and chili (or peanut butter and jelly), you might have noticed th
   }
 ```
 
-is such a common _pattern_ ([a general, reusable solution to a commonly occurring problem within a given context in software design](https://en.wikipedia.org/wiki/Software_design_pattern)) that the designers of C++ added special syntax to make writing it easier:
+is such a common _pattern_[^pattern-definition] that the designers of C++ added special syntax to make writing it easier:
+
+[^pattern-definition]: [A general, reusable solution to a commonly occurring problem within a given context in software design.](https://en.wikipedia.org/wiki/Software_design_pattern)
 
 ```C++
   for (_<type>_ v : _<array_name>_ ) {
@@ -436,7 +472,9 @@ will print
 31
 31
 
-Be very careful: with the syntax above, `v` is a _copy_ of the current element from `array_name` and changing the value of `v` in the body of the loop will have no impact on the values in `array_name`.
+Be very careful: with the syntax above, for every iteration, `v` is a _copy_ of one of the elements from `array_name`. Because it is a copy, changing the value of `v` in the body of the loop will have no impact on the values in `array_name`.[^in-common]
+
+[^in-common]: Does that remind you of the difference between pass-by-value and pass-by-reference parameters? It should!
 
 ```C++
   for (int days_in_month : days_in_summer_months) {
@@ -484,7 +522,7 @@ will print
 32
 ```
 
-Notice how the `&` works in a range-based `for` loop much the same way that it works in defining a reference parameter for a function! Like a `&` makes a parameter an alias for the variable given as the argument, the `&` in an range-based `for` loop makes the iterator variable an _alias_ for the different elements of the array!
+Notice how the `&` works in a range-based `for` loop much the same way that it works in defining a reference parameter for a function! Like a `&` makes a parameter an alias for the variable given as the argument, the `&` in a range-based `for` loop makes the iterator variable an _alias_ for the different elements of the array!
 
 It is important to note that range-based `for` loops can only be used to iterate through arrays when the compiler knows the size of the array. Also, notice that with a range-based for loop you do not get an index variable "for free". In other words, rewriting a loop like
 
@@ -497,7 +535,7 @@ It is important to note that range-based `for` loops can only be used to iterate
 
 with a range-based `for` loop is a little cumbersome.
 
-However, when it _is_ possible for you to use a range-based `for` loop, use it! Range-based `for` loops offer you protection from the dreaded _off-by-one error_ where you (accidentally) miscalculate the bounds of the loop counter variable in a `for` loop and access an array beyond its bounds.
+However, when it _is_ possible for you to use a range-based `for` loop, use it! Range-based `for` loops offer you protection from the dreaded _off-by-one error_ where you (accidentally, of course) miscalculate the bounds of the loop counter variable in a `for` loop and access an array beyond its bounds.
 
 ```C++
   const int STUDENTS_IN_CLASS{5};
@@ -523,7 +561,7 @@ However, if we wrote that same code using a range-based `for` loop, we could hav
 
 ### It's Automatic
 
-Wait just a second. This is C++ and all variables have types. In fact, when we declare/define a variable, we are _forced_ (how terrible!) to write down the name of the type of that variable. That's even the case for arrays -- we have to tell the compiler the type of each element of the array. 
+Wait just a second. This is C++ and all variables have types. In fact, when we declare/define a variable, we are _forced_ (how terrible!) to write down the name of the type of that variable. That's even the case for arrays -- we have to tell the compiler the type of _each_ element of the array. 
 
 When we are using a range-based `for` loop over the array `mnumbers` (from above), we know the type of variable that holds each of the elements (`mnumber` from above) has to have a `std::string` type, right? It's easy to deduce -- go back to the declaration of the `mnumbers` array and read it from the code! There's nothing magical or hidden about that. 
 
@@ -562,3 +600,9 @@ The `auto` keyword is so powerful that we can almost memorize a simple, shorthan
 ```
 
 that will work in every case!
+
+The best way to begin to understand the difference meaning of each of these loops and get a sense for when to use which, it definitely helps to practice and experiment. 
+
+[https://godbolt.org/z/PnodheT7Y](https://godbolt.org/z/PnodheT7Y)
+
+could be useful: It contains several variations on the `for` loop to show you how changes to the syntax mean changes to the meaning.
