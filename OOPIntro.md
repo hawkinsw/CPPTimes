@@ -27,13 +27,15 @@ Okay, where have we heard something like that before? It sounds, to me, like the
 
 Because it's a data abstraction, the user only cares that it can be used anywhere a date can reasonably be used. It should be possible to compare two dates to see which one came first. It should be possible to compare two dates to determine the time elapsed between them. It should be possible to print a date to the screen for display on a calendar. The list goes on.
 
-What do all those things sound like? That's right, they sound like examples of *valid operations* that can be performed on a date! Wait, that seems to sounds like part two of the definition of type! 
+What do all those things sound like? That's right, they sound like examples of _valid operations_ that can be performed on a date! Wait, that seems to sounds like part two of the definition of type! 
 
-And, if you thought that, you would be exactly right! In most cases, software developers combine data abstractions (what defines the range of valid values for non-fundamental types -- or [_compound types_](https://en.cppreference.com/w/cpp/types/is_compound) in C++) with procedural abstractions (what defines the valid operations for compound types) to get something called an *abstract data type* (ADT).
+And, if you thought that, you would be exactly right! In most cases, software developers combine data abstractions (what defines the range of valid values for non-fundamental types -- or [_compound types_](https://en.cppreference.com/w/cpp/types/is_compound) in C++) with procedural abstractions (what defines the valid operations for compound types) to get something called a _class_[^either_or] and a class implements an _abstract data type_ (ADT).
 
-An ADT is conceptual. There is no code associated with an ADT. Programmers and software engineers design ADTs as a way to organize their software into pieces that can interact by invoking the operations of other ADTs. As we will see soon, there is a style of software development that treats ADTs as if they are interacting objects. Programmers working in that paradigm are writing in an object-oriented style.
+[^either_or]: We will see that the keywords `class` and `struct` can both be used to write classes. I know that it is confusing to see the keyword `struct` and hear it described as a class, but ... well, I don't know what to tell you!
 
-We are getting ahead of ourselves and have talked about plenty of theory. To use an ADT in our software, we will have to implement it somehow. No time to waste: let's go!
+An ADT is conceptual. There is no code associated with an ADT. Programmers and software engineers design ADTs as a way to organize their software into pieces that can interact by invoking the operations of other ADTs. When programmers want to use ADTs to help them organize their software to make it more maintainable, robust, readable, etc., they implement it using a class. As we will see soon, there is a style of software development that treats instances of classes (i.e., implementations of ADTs) as if they are interacting objects. Programmers working in that paradigm are writing in an object-oriented style.
+
+We are getting ahead of ourselves and have talked about plenty of theory. To use an ADT to make our software "better", we will have to implement it somehow. No time to waste: let's go!
 
 ## Load-Bearing Walls
 
@@ -49,9 +51,9 @@ int main() {
 }
 ```
 
-However, C++ gives us the `struct` as one of two ways to combine one or more variables of _different_ types to create a *compound* type (yes, you _can_ combine other compound types to form yet other compound types!).[^different_types] The `struct` declaring a new `Date` _type_ would look like:
+However, C++ gives us the `struct` as one of two ways to combine one or more variables of _different_ types to create a _compound_ type (yes, you _can_ combine other compound types to form yet other compound types!).[^different_types] The `struct` declaring a new `Date` _type_ would look like:
 
-[^different_types]: Notice the difference between a _data structure_ (which we usually abbreviate as `struct`) and an array and/or vector. It's really important: An array/vector can only hold a group of elements as long as they are the same type! In a `struct`, we can store elements in a group together even if they are not the same type!
+[^different_types]: Notice the difference between a _data structure_ (which we usually abbreviate as `struct`) and an array and/or vector. It's really important: An array/vector can only hold a group of elements as long as they are the same type! In a `struct`/`class`, we can store elements in a group together even if they are not the same type!
 
 ```C++
 struct Date {
@@ -65,7 +67,16 @@ The `int`eger variables `month`, `day` and `year` are known as the _member varia
 
 That's pretty simple and concise. Now, instead of using three separate variables (one for a day, one for a month and one for a year) to describe, say, my dad's birthday, I can use a single one with a type of `Date`. 
 
-The data, though, appear to be locked in to their instances. How do we get at the three member variables that are stored inside an instance. In order to access the member variables for an instance, you use the _member access operator_: `.`.
+```C++
+Date dads_birthday{};
+```
+
+The meaning of the code above is to _instantiate_ an _instance_ (yes, I know it's repetitive) of a `Date` type with the name `dads_birthday`. Alternately, we can call `dads_birthday` an _object_ whose type is `Date`. Any developer who instantiates an instance of a class (and classes implement ADTs, remember?!) is called a _user_ of that class and/or ADT.[^overstate] [^objects]
+
+[^overstate]: It is hard to overstate the importance of understanding the concept of _instantiation_ and recognizing the difference between a _type_ and an _instance_ (or _object_). See the following [Sidebar](#sidebar-the-difference-between-types-and-instances) for more!
+[^objects]: Recall from our discussion earlier how "we" like to work with objects in real life and we feel comfortable learning about them through their [affordances](https://careerfoundry.com/en/blog/ux-design/affordances-ux-design/)? 
+
+It seems like we might have done too good of a job abstracting the data -- it appears to be completely locked away in the instance. How do we get at the three member variables that are stored inside an instance? The _member access operator_ (`.`), of course.
 
 Let's write a program that wishes my dad a happy birthday:
 
@@ -86,27 +97,17 @@ int main() {
   return 0;
 }
 ```
+> As a quick reminder, what did we call `dads_birthday`? Yes, an instance (or an object)!
 
-Notice that we can get the `day` of my `dads_birthday` by using the `.` to access that member!
+Notice that we can get the value of the `day` member variable of my `dads_birthday` by using the `.` to access that member!
 
-In the C++ program above, `dads_birthday` has the type of `Date`. That is analogous  to
+In the C++ program above, `dads_birthday` has the type of `Date`. What does that mean, though? It's analogous  to
 
 ```C++
 int age{45};
 ```
 
-where `age` has the type `int`. Yes, we have the power to make our own types and then declare and define variables that have that type! How cool! When we write
-
-```C++
-Date dads_birthday{7, 18, 1948};
-```
-
-we are _instantiating_ an _instance_ (yes, I know it's repetitive) of a `Date` type with the name `dads_birthday`. Alternately, we can call `dads_birthday` an _object_ whose type is `Date`. Any developer who instantiates an instance of a class that implements an ADT is called a _user_ of that class and/or ADT.[^overstate] [^objects]
-
-[^overstate]: It is hard to overstate the importance of understanding the concept of _instantiation_ and recognizing the difference between a _type_ and an _instance_ (or _object_). See the following [Sidebar](#sidebar-the-difference-between-types-and-instances) for more!
-[^objects]: Recall from our discussion earlier how "we" like to work with objects in real life and we feel comfortable learning about them through their [affordances](https://careerfoundry.com/en/blog/ux-design/affordances-ux-design/)? 
-
-When I build and run the program above, it will produce the following output:
+where `age` has the type `int`. Yes, what we are learning now gives us the power to make our own types and then declare and define variables that have that type! How cool! When I build and run the program above, it will produce the following output:
 
 ```
 On 7/18, I will wish him a happy birthday!
@@ -118,7 +119,7 @@ Exactly what we wanted.
 
 To this point in our C++ journey, it has been "okay" to sometimes mixup a variable and its type. After all, the compiler would quickly correct us: we cannot write names of fundamental types in places where we can write the names of variables, and vice versa. Also, it was clear that when our code was doing some declaring/defining, it must have been declaring/defining a variable -- we didn't know that it was even possible to declare our own types.
 
-As we start to gain more confidence in declaring/defining our own types (like the `Date` that we've been working), it is really important to understand the distinction between a type and an instance.
+As we start to gain more confidence in declaring/defining our own types (like the `Date` that we're building), it is really important to understand the distinction between a type and an instance.
 
 Remember from way back, our [definition of a type](./expressions-types.md):
 
@@ -157,7 +158,7 @@ You could also say ...
 ```C++
 Date d{};
 ```
-instantiates a object, `d`, of type `Date`."
+instantiates an object, `d`, of type `Date`."
 
 [^english]: Yes, English is awful -- seeing instantiate there twice is a real bummer.
 
@@ -183,17 +184,17 @@ int main() {
 
 In this case, we have set the date to be February 29, 2021. Can you spot the problem? 2021 is _not_ a leap year -- February of 2021 only had 28 days. In other words, the date held in `d` is invalid!
 
-Using an ADT was supposed to help us prevent this very situation! We were promised that ADTs' data abstraction power would make it impossible to have these types of goofs.
+Using abstraction was supposed to help us prevent this very situation! We were promised that ADTs' data abstraction power would make it impossible to have these types of goofs.
 
-The reason we are still susceptible to bad users who will set instances of the `Date` type with bogus values is that we have not defined the `Date` ADT in a way that limits access to its member variables from the outside world. Users of the ADT Date (as written above) may pull back the curtain and assign values to its member variables arbitrarily. In other words, they are allowed to break open the walls that we erected around the way that the internal data of the ADT is stored. Think about the worst-case scenario: an ADT designed to hold the current speed of a vehicle where the programmer using that struct incorrectly sets a very high number.
+The reason we are still susceptible to bad users who will set instances of the Date class with bogus values is that we have not implemented the Date ADT in a way that limits access to its member variables from the outside world. Users of the Date class that implements the Date ADT (as written above) may pull back the curtain and assign values to its member variables arbitrarily. In other words, they are allowed to break open the walls that we erected around the way that the internal data of the ADT implementation is stored. Think about the worst-case scenario: an ADT designed to hold the current speed of a vehicle where the programmer using that struct incorrectly sets a very high number.
 
-Fundamentally, the problem is that an ADT written like the one above provides the power to build data abstractions but does not give programmers the power to perform _data hiding_.
+Fundamentally, the problem is that an ADT implemented like the one above provides the power to build data abstractions but does not give programmers the power to perform _data hiding_.
 
 ### Data Hiding
 
-Hiding the member variables of an ADT is very important, as we just saw. Ideally, when we write an ADT we want to make sure that its users can only set the member variables to reasonable values. Fortunately C++ gives us a way to do this! Inside an ADT declaration we can specify the _accessibility_ of member variables. Moreover, we will see that we can set the accessibility of the valid operations that can be performed on an ADT (more on that later!).
+Hiding the member variables of an implementation of an ADT is very important, as we just saw. Ideally, when we write a class we want to make sure that its users can only manipulate instances of that class in a way that maintains the requirements set forth by the ADT that the class is implementing (yes, that _is_ a mouthful!). Fortunately C++ gives us a way to do this! Inside a class declaration we can specify the _accessibility_ of member variables. Moreover, we will see that we can set the accessibility of the valid operations that can be performed on a class (that correspond to the operations of the associated ADT -- but more on that later!).
 
-Let's modify (slightly) our declaration of the Date ADT in order to protect it from having its member variable values corrupted:
+Let's modify (slightly) our declaration of the implementation of the Date ADT in order to protect it from having its member variable values corrupted:
 
 ```C++
 #include <iostream>
@@ -205,7 +206,7 @@ private:
   int year;
 };
 ```
-`private` is one of three [access specifier keywords](https://en.cppreference.com/w/cpp/language/access) in C++. We will see `public` below and you will learn about `protected` in future classes. Any members that are given `private` accessibility are only accessible from within the implementation of the ADT. Anyone writing code that uses an instance of our `Date` ADT _cannot_ access those members directly.
+`private` is one of three [access specifier keywords](https://en.cppreference.com/w/cpp/language/access) in C++. We will see `public` below and you will learn about `protected` in future classes. Any members that are given `private` accessibility are only accessible from within the implementation of the ADT. Anyone writing code that uses an instance of our Date class _cannot_ access those members directly.
 
 Therefore, when we attempt to compile 
 
@@ -242,26 +243,26 @@ date_struct.cpp:13:7: note: declared private here
       |       ^~~~
 ```
 
-This outcome is ideal -- we have prevented malicious users from arbitrarily setting the day, month or year to incorrect values. But, is it really ideal?
+This outcome is an improvement -- we have prevented malicious users from arbitrarily setting the day, month or year to incorrect values. But, is it really ideal?
 
-Not really. By making these member variables private the user of the Date ADT is unable to actually use it -- they cannot determine the actual day, month or year that it represents. In other words, we have the power to ensure that every instance contains valid values and that the user cannot do anything sneaky. What's missing is a programmatic, safe way to allow users of the implementation of the Date ADT to update the day, month and year. We need a mediator.
+Not really. By making these member variables private the user of the Date class is unable to actually use it -- they cannot determine the actual day, month or year that it represents. In other words, we have the power to ensure that every instance contains valid values and that the user cannot do anything sneaky. What's missing is a programmatic, safe way to allow users of the implementation of the Date ADT to update the day, month and year. We need a mediator.
 
 ## Data Access
 
 How to solve this problem? I have an idea: If we have member variables, I bet that C++ will give us the chance to write _member functions_! And, it does!
 
-A _member function_ is a special function that "belongs" with the implementation of an ADT. Among other special wizardry, member functions are privileged with the power to access all of the member variables of the data structure to which it belongs -- public, protected _and_ private!
+_Member functions_ are special functions that "belong" with a class. Among other special wizardry, member functions are privileged with the power to access all of the member variables of the data structure to which it belongs -- public, protected _and_ private!
 
 That's not where the fun ends, though. A member function also gets something else!
 
-Before we made the member variables of `Date` `private`, we could write
+Before we made the member variables of the Date class private, we could write
 
 ```C++
 Date x{};
 std::cout << x.day << "\n"; 
 ```
 
-to access `x`'s day. There is no such `day` "out there". We could not have written:
+to access `x`'s day. That `day` belongs to the instance of the Date class named `x`. There is no `day` "out there" on its own without an associated instance of a Date class. In other words, we could not have written:
 
 ```C++
 Date x{};
@@ -271,7 +272,7 @@ std::cout << day << "\n";
 
 [^otherwise]: Of course we could write that if we had declared/defined a variable named `day`, but you get the idea!
 
-Does that matter for member functions? The answer is _yes_! When you invoke a member function (call it `get_day`), you _cannot_ write
+Does that have a bearing on member functions the way that it does on member variables? The answer is _yes_! When you invoke a member function (call it `get_day`), you _cannot_ write
 
 ```C++
 Date x{};
@@ -279,7 +280,7 @@ Date x{};
 auto x_date = get_day();
 ```
 
-`get_day` is a member function ... we need to say of what it was a member! In other words, for every invocation of a member function, there is an "associated" instance:
+`get_day` is a member function ... we need to say of what it was a member! In other words, for every invocation of a member function, there must be an "associated" instance:
 
 ```C++
 Date x{};
@@ -292,9 +293,9 @@ How does that help us write our member functions? Well, in your member function 
 
 > Note: It is important to realize that _member functions_ can define an implementation for any type of operation that the ADT designer wants to make available to users of their compound type. Here, however, we are focusing on a particular kind of operation for the sake of the example. That is not to say that writing mediator functions (like the ones that we are about to write) is not common. In fact, it is very, very common. 
 
-Now, let's return to writing these mediator functions that are going to let the user of the `Date` ADT safely update and access it. If we write these member functions correctly, we will always be able to guarantee the member variables' values stay reasonable. 
+Now, let's return to writing these mediator functions that are going to let the user of the Date class safely update and access it. If we write these member functions correctly, we will always be able to guarantee the member variables' values stay reasonable and that the _actual_ data that abstract away from the prying eyes of users will follow the conceptual rules of the associated ADT. 
 
-We will have two kinds of these mediator member functions: one kind for the ADT users' to _set_ the values of the member variables (_setter member functions_) and one kind for the ADT users' to _get_ the values of the member variables _(getter member functions)._ Let's first write the getter member functions -- they're easier:
+We will have two kinds of these mediator member functions: one kind for the class users' to _set_ the values of the member variables (_setter member functions_) and one kind for the class users' to _get_ the values of the member variables _(getter member functions)._ Let's first write the getter member functions -- they're easier:
 
 
 ```C++
@@ -315,7 +316,7 @@ private:
 };
 ```
 
-Let's say that we have a `Date` ADT object that holds my birthday (`wills_birthday`). We could rewrite the `std::cout` from above that wished my dad a happy birthday by using getter member functions:
+Let's say that we have a Date class object that holds my birthday (`wills_birthday`). We could rewrite the `std::cout` from above that wished my dad a happy birthday by using getter member functions:
 
 ```C++
   std::cout << "On " << wills_birthday.getMonth() << "/"
@@ -325,7 +326,7 @@ Let's say that we have a `Date` ADT object that holds my birthday (`wills_birthd
 
 See how you can use these getters just like you were accessing member variables, albeit with a slightly different syntax? That's really cool!
 
-Now, let's give the `Date` ADT users the opportunity to change the values of member variables by writing setters:
+Now, let's give the Date class users the opportunity to change the values of member variables by writing setters:
 
 ```C++
 struct Date {
@@ -356,7 +357,7 @@ private:
 };
 ```
 
-Now we have all the functionality that we had before, and protection! Wait, really? The setter functions don't actually "sanitize" the caller's input -- they just mindlessly take what the caller passes as an argument and set the member variables. So, we are still stuck with the possibility that the Date ADT user does something stupid like:
+Now we have all the functionality that we had before, and protection! Wait, really? The setter functions don't actually "sanitize" the caller's input -- they just mindlessly take what the caller passes as an argument and set the member variables. So, we are still stuck with the possibility that the Date class user does something stupid like:
 
 ```C++
   Date d;
@@ -400,7 +401,7 @@ private:
 };
 ```
 
-If we were to use this version of the `Date` ADT in our code,
+If we were to use this version of the Date class in our code,
 
 ```C++
   Date d;
@@ -415,15 +416,15 @@ the output would be
 d.getYear(): 2021
 ```
 
-See how the `Date` ADT says, "You want to assign to me a bogus year? Well, I'm not going to do it!"?
+See how the `Date` class says, "You want to assign to me a bogus year? Well, I'm not going to do it!"?
 
 Now we are getting somewhere.
 
 ## The Difference Between a Class and a Struct
 
-We hinted above that there is a second way to declare implementations of ADTs in C++. In addition to the `struct` keyword, we can use the `class` keyword. In fact, it is more common to see ADT implementations declared with the `class` keyword than with the `struct` keyword. ADTs are so often implemented with the `class` keyword that ADT implementations are commonly referred to as _classes_ in C++ (even if they are declared with the `struct` keyword -- I know, it's confusing!).
+We hinted above that there is a second way to declare implementations of ADTs in C++. In addition to the `struct` keyword, we can use the `class` keyword. In fact, it is more common to see ADT implementations declared with the `class` keyword than with the `struct` keyword.
 
-There is only one small difference between a class declared with the `class` keyword and a class declared with a `struct` keyword: By default, all the member variables and the member functions in an ADT declared with `struct` have `public` accessibility and all the member variables and the member functions in an ADT implementation whose declaration/definition begins with `class` have `private` accessibility. To see the implications of these defaults, let's simply copy and paste the newest version of the Date ADT implementation declaration and change the `struct` to `class`:
+In _almost_ every way, `class` and `struct`-declared classes are identical. There is only one small difference between a class declared with the `class` keyword and a class declared with a `struct` keyword: By default, all the member variables and the member functions in an ADT implemented with `struct` have `public` accessibility and all the member variables and the member functions in an ADT implementation whose declaration/definition begins with `class` have `private` accessibility. To see the implications of these defaults, let's simply copy and paste the newest version of the Date ADT implementation declaration and change the `struct` to `class`:
 
 ```C++
 class Date {
@@ -484,7 +485,7 @@ date_struct.cpp:30:8: note: declared private here
    30 |   void setYear(int new_year) {
 ```
 
-Our use of the `class` keyword to implement the ADT means that everything (i.e., member functions and variables) is `private`, at least by default. We are feeling the impact of our decision to use `class` here: our getter and setter member functions are no longer `public` and, therefore, cannot be invoked on instances of the `Date` type. The good news is that there is a simple fix -- we'll just add the `public` access specifier above the declaration/definition of the getter/setter member functions:
+Our use of the `class` keyword to implement the ADT means that everything (i.e., member functions and variables) is `private`, at least by default. We are feeling the impact of our decision to use `class` here: our getter and setter member functions are no longer `public` and, therefore, cannot be invoked on instances of the Date class. The good news is that there is a simple fix -- we'll just add the `public` access specifier above the declaration/definition of the getter/setter member functions:
 
 ```C++
 class Date {
@@ -557,14 +558,14 @@ struct Date{
 };
 ```
 
-Then, to create an instance of a `Date` ADT we could simply write
+Then, to create an instance of a Date class we could simply write
 
 ```C++
   Date d{2,9,1982};
 ```
 That code declared _and_ initialized `d` at the same time.
 
-If we tried to write that same syntax with the code for the more robust Date ADT implementation that we have now, the compiler would be angry with us. Once we declared that certain variables are private, we could no longer declare and initialize a `Date` ADT using the _aggregate initialization_ syntax from above. Does it mean that we are stuck writing code that looks like
+If we tried to write that same syntax with the code for the more robust Date ADT implementation that we have now, the compiler would be angry with us. Once we declared that certain variables are private, we could no longer declare and initialize a Date class using the _aggregate initialization_ syntax from above. Does it mean that we are stuck writing code that looks like
 
 ```C++
   Date d{};
@@ -573,17 +574,21 @@ If we tried to write that same syntax with the code for the more robust Date ADT
   d.setYear(1982);
 ```
 
-instead? Of course not -- that's _way_ too much typing. In fact, C++ gives us the power to declare/initialize classes in much more powerful ways than we could above! That power comes from special member functions defined in classes that are called _constructors_. They are called constructors because they are used to, well, construct instances of `class`es and `struct`s that implement ADTs. Constructors are used to initialize member variables and do other work that must be done at the moment that an object is instantiated so that the instance is ready to function from the jump!
+instead? Of course not -- that's _way_ too much typing. In fact, C++ gives us the power to declare/initialize classes in much more powerful ways than we could above! That power comes from special member functions defined in classes that are called _constructors_. They are called constructors because they are used to, well, construct instances of `class`es and `struct`s that implement ADTs. The code that you write in a constructors is executed when an instance of that class is, uhm, constructed. Most programmers use the opportunity to have code execute at the moment of instantiation in order to initialize member variables and do other work that must precede all other operations.
 
-The most basic form of a constructor is called the _default_ constructor. The default constructor for a class gets invoked when an instance of the ADT is declared/defined without specifying any special starting values. For the Date ADT implementation `Date`, that would look something like:
+The most basic form of a constructor is called the _default_ constructor. The default constructor for a class gets invoked when an instance of the class is declared/defined without specifying any special starting values. For the Date ADT implementation Date class, that would look something like:
 
 ```C++
   Date d{};
 ```
 
+To reiterate, the code above would trigger the execution of the default constructor for the Date class, if one existed.[^always]
+
+[^always]: Note, it [_always_](https://en.cppreference.com/w/cpp/language/default_constructor) does exist, we just might not write it ourselves or even see it!
+
 A constructor is like any other member function, expect for when it's not!
 
-First things first: it's declaration has a special syntax. Like a member function, the declaration of the constructor goes inside the declaration of the class implementing the ADT. However, the declaration of the constructor does not have a return type and its name must match exactly the name of the class. Here's how you declare/define the default constructor for the `Date` ADT:
+First things first: it's declaration has a special syntax. Like a member function, the declaration of the constructor goes inside the declaration of the class implementing the ADT. However, the declaration of the constructor does not have a return type and its name must match exactly the name of the class. Here's how you declare/define the default constructor for the Date class:
 
 ```C++
 class Date {
@@ -608,9 +613,9 @@ but the output will probably surprise you:
 d.getYear(): 21845
 ```
 
-Again, the utility of a default constructor is to set the class's member variables to reasonable initial values, even if the user of the class did not. The implementation of the `Date` class's default constructor shown above did, well, nothing -- it certainly did _not_ initialize the member variables, that's for sure. As a result, the member variables were left in an uninitialized state and, as a result, we got the funny output shown above.
+Again, the utility of a default constructor is to set the class's member variables to reasonable initial values, even if the user of the class did not when they instantiated an object. The implementation of the Date class's default constructor shown above did, well, nothing -- it certainly did _not_ initialize the member variables, that's for sure. As a result, the member variables were left in an uninitialized state and, as a result, we got the funny output shown above.
 
-Let's fix this by actually writing a meaningful implementation of the default constructor of the `Date` class:
+Let's fix this by actually writing a meaningful implementation of the default constructor of the Date class:
 
 ```C++
 class Date {
@@ -638,7 +643,7 @@ we will get reasonable output:
 d.getYear(): 1
 ```
 
-Wohoo! We still don't quite have the old functionality back, though. We wanted to be able to declare/define an instance of a `Date` and set it to a particular date all in one line. In order to do that we can write another constructor -- this one will take three parameters: the initial month, the initial day and the initial year. As we said earlier, constructors are declared/defined like normal member functions (with that odd exception that they have no return value and their name must match the name of the class). Therefore, the syntax for declaring/defining a constructor that takes parameters should look very familiar.
+Wohoo! We still don't quite have the old functionality back, though. We wanted to be able to declare/define an instance of a Date class and set it to a particular date all in one line. In order to do that we can write another constructor -- this one will take three parameters: the initial month, the initial day and the initial year of the about-to-be-created instance of a Date class. As we said earlier, constructors are declared/defined like normal member functions (with that odd exception that they have no return value and their name must match the name of the class). Therefore, the syntax for declaring/defining a constructor that takes parameters should look very familiar.
 
 ```C++
 class Date {
@@ -715,7 +720,7 @@ Great idea. Now, how do we write that in code? It's easy:
   }
 ```
 
-The `Date()` after the `:` is in the place of the _member initializer list_ and is called the _delegated constructor._  Delegated constructors are something that you will cover in the future. You can read more about it on [C++ Reference,](https://en.cppreference.com/w/cpp/language/constructor) if you are curious. For now, just understand that this is the syntax for letting this constructor temporarily delegate (as the name implies) control (again, at least temporarily) to a different constructor to do some work before this constructor does its work! In other words, when the user declares/defines an instance of a `Date` class with initial values for the month, day and year, the default constructor will run first (because it is the delegated constructor for the constructor with three parameters) and then the setters in the body of the parameterized constructor are called.
+The `Date()` after the `:` is in the place of the _member initializer list_ and is called the _delegated constructor._  Delegated constructors are something that you will cover in the future. You can read more about it on [C++ Reference,](https://en.cppreference.com/w/cpp/language/constructor) if you are curious. For now, just understand that this is the syntax for letting this constructor temporarily delegate (as the name implies) control (again, at least temporarily) to a different constructor to do some work before this constructor does its work! In other words, when the user declares/defines an instance of a Date class with initial values for the month, day and year, the default constructor will run first (because it is the delegated constructor for the constructor with three parameters) and then the setters in the body of the parameterized constructor are called.
 
 Because the setters properly sanitize their arguments before setting the value of the corresponding member variable, we are guaranteed to prevent invalid values for the month, day or year from creeping in. With this code in place, if we execute
 
@@ -745,7 +750,9 @@ There is no limit to the number of different constructors you can write for a cl
   }
 ```
 
-What is happening here? First, look at the parameter: it's a reference to an instance of a (unchangeable, i.e., `const`ant) `Date`. Next, look at the body: it is setting the values of the member variables of the object being constructed to the values of the member variables of the `Date` instance passed as a parameter. (Brief aside: Why can this code access the member variables of the `other_date` without going through the getters? I thought that those member variables were `private`? They are `private`. But, remember: you can always access private member variables of a class in the implementation of that class!). The result is that this constructor is constructing a new instance of a `Date` that is a _copy_ of an existing instance of a `Date`. We can use it like this:
+What is happening here? First, look at the parameter: it's a reference to an instance of a (unchangeable, i.e., `const`ant) Date class. Next, look at the body: it is setting the values of the member variables of the object being constructed to the values of the member variables of the Date instance passed as a parameter.[^access_aside] The result is that this constructor is constructing a new instance of a Date that is a _copy_ of an existing instance of a Date. We can use it like this:
+
+[^access_aside]: Brief aside: Why can this code access the member variables of the `other_date` without going through the getters? I thought that those member variables were `private`? They are `private`. But, remember: you can always access private member variables of a class in the implementation of that class!
 
 ```C++
   Date february_ninth_nineteeneightytwo{2, 9, 1982};
