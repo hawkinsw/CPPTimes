@@ -12,7 +12,7 @@ What has already happened? Well, we know that the program started executing at t
 
 ![](./graphics/pointers-paused-program-memory1.png)
 
-Here memory is visualized here as a two dimensional "spreadsheet" of cells, each of which holds a single byte. The byte at the top left of the diagram has address 0 and the byte at the bottom left has address 24 + 7 = 31 (add the value at the beginning of the row with the value at the beginning of the column).
+Here memory is visualized as a two dimensional "spreadsheet" of cells, each of which holds a single byte. The byte at the top left of the diagram has address 0 and the byte at the bottom right has address 24 + 7 = 31 (add the value at the beginning of the row with the value at the beginning of the column).
 
 >Note: See the C++ Times special long-form reporting on variables in memory in [previous editions](./variables-memory.md).
 
@@ -37,7 +37,7 @@ What's the expression to get the value of `c2`?
 c2
 ```
 
-Recall that every variable in C++ has some associated space in memory where its value is stored _and_ we can write expressions (like the ones above) to get the variable's value. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
+Recall that every variable in C++ has some associated space in memory where its value is stored. All semester we have written expressions to get a variable's _value_. But, can we write an expression to retrieve the _address of_ a variable? Yes, we can! The expressions
 
 ```C++
 &c1
@@ -49,7 +49,23 @@ and
 &c2
 ```
 
-evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively, the addresses of those variables in the (conceptual) computer's memory. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operators like `+`, `-`) . The operand to the address-of operator must be an expression whose value identifies an object (for our purposes, this is usually a variable).
+evaluate to `5` (again, `0x5`) and `11` (`0xb`), respectively, the addresses of those variables in the (conceptual) computer's memory. Because using `&` in front of a variable in an expression gets the address of the variable, the `&` is called the _address-of_ operator. 
+
+To reiterate, 
+
+```C++
+&c1
+```
+
+and 
+
+```C++
+&c2
+```
+
+might have odd values, but they are _just_ expressions. 
+
+The address-of operator is a _unary operator_ (an operator that takes a single operand. c.f.: binary operators like `+`, `-`) . The operand to the address-of operator must be an expression whose value identifies an object (for our purposes, this is usually a variable).
 
 >Note: Yes, the use of `&` here may at first seem confusing -- we learned earlier about using the `&` sigil to declare/define a reference variable and the following code snippet shows both uses of `&`:
 
@@ -63,12 +79,12 @@ void foer(std::string &str) {
 int main() {
   std::string a_string;
   
-  auto address_of_a_string = &a_string;
+  auto address_of_a_string{&a_string};
   foer(a_string);
 } 
 ```
 
-> Although the confusion is palpable now, as you learn more about pointers, you will see how reference variables and pointers are closely related and, therefore, understand why the language designers have chosen to reuse the `&` for reference variables.
+> The `&` in the declaration of the parameter for the `foer` function is used to identify a reference parameter. The `&` in the declaration/definition of the `address_of_a_string` is the address-of operator. Although the confusion is palpable now, as you learn more about pointers, you will see how reference variables and pointers are closely related and, therefore, you will understand why the language designers have chosen to reuse the `&` for reference variables.
 
 ## Storing Addresses
 
@@ -78,7 +94,7 @@ Don't worry! There is a type in C++ that we can use to declare a variable that h
 
 >Note: Because "points to" and "points at" end in a preposition and it's not nice to end sentences in prepositions, some people use the synonym "targets".
 
-Just to be extra clear, there is absolutely nothing odd or unusual about a variable that points to another variable -- it has a scope, value, type and *the pointer itself even has a place in memory*!
+Just to be extra clear, there is absolutely nothing odd or unusual about a variable that points to another variable -- it has a scope, value, type and _the variable whose type is a pointer itself even has a place in memory_!
 
 ```C++
 void function() {
@@ -94,7 +110,7 @@ int main() {
 }
 ```
 
-In the snippet above, `ptr` has type *pointer to `char`* and it "points at" variable `c1`. It is really important to be aware that there is no such type in C++ as "pointer" -- the type is an entire phrase *pointer to X* where *X* is some type. That means that the type of a pointer variable specifies
+In the snippet above, `ptr` has type _pointer to `char`_ and it "points at" variable `c1`. It is really important to be aware that there is no such type in C++ as "pointer" -- the type is an entire phrase _pointer to X_ where _X_ is some type. That means that the type of a pointer variable specifies
 
 1.  that the variable is a pointer, _and_
 2.  the type of the variable at its target.
@@ -116,7 +132,9 @@ The variable's name? Nope! Not all variables have names and names are not unique
 
 ## Optional: The size of a `pointer to _type_` variable
 
-We know that all variables occupy space in memory. Just _how much_ space in memory do pointers-to-`X`-type variables use? To answer this question requires some advanced calculations, but I think that we can handle it.
+> If you are primarily interested in learning about pointers, feel free to skip reading this section.
+
+We know that all variables occupy space in memory. But just _how much_ space in memory do pointers-to-`X`-type variables use? To answer this question requires some advanced calculations, but I think that we can handle it.
 
 Because the storage for variables can occur anywhere in memory, a pointer-to-`X`-type variable needs to be able to store the address of every single byte of memory in the system. Therefore, the space allocated to storage for an instance of a pointer-to-`X`-type variables must contain enough space to represent each of the possible addresses that it could hold.
 
@@ -210,7 +228,7 @@ This table demonstrates the meaning of the assignment statement for pointers. As
 
 ## Dereferencing Pointer-to-`X` Variables
 
-When I was growing up, there was a game called *Chutes and Ladders*.
+When I was growing up, there was a game called [_Chutes and Ladders_](https://shop.hasbro.com/en-us/product/chutes-and-ladders-game/1095F835-5056-9047-F548-2F4D0AEF4ACC).
 
 ![](./graphics/chutes-and-ladders.jpg)
 
@@ -237,7 +255,7 @@ Just before `function` completes its execution in the program above,
 
 Look carefully at rows 3, 6 and 7 and make sure you understand why those expressions have the values they do. 
 
-Besides being useful to get the value at the target of the pointer, the dereference operator can be used in an assignment statement to _set_ the value of the variable at the target. Let's say that the programmer adds
+Besides being useful to get the value at the target of the pointer, the dereference operator can be used in an assignment statement to identify the destination for an assignment. Let's say that the programmer adds
 
 ```C++
 *ptr = 'S'
