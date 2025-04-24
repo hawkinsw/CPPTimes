@@ -7,17 +7,17 @@ HBO's hit comedy/drama _Succession_ has put estate planners in the spotlight. Th
 
 ### Just What Is Object-Oriented Programming, Really?
 
-Now that we are talking about abstract data types (ADTs) we are starting to get in to the pieces of C++ that make it really shine! Because ADTs meet C++'s definition of a type (they define the range of valid values and the range of valid operations, right?), the language's support for ADTs gives programmers the power to create _their own types_ in the language. In other words, C++ treats the classes that we write (that implement ADTs!) just like the fundamental types built in to the language! How cool is that?
+Now that we are talking about abstract data types (ADTs) we are starting to get in to the pieces of C++ that make it really shine! Because ADTs meet C++'s definition of a type (they define the range of valid values and the range of valid operations, right?), the language's support for implementing ADTs means that C++ programmers have the power to create _their own types_ in the language. In other words, C++ treats the classes that we write (that implement ADTs, remember?!) just like the fundamental types built in to the language! How cool is that?
 
-Object-oriented programming (OOP) is a style of programming (a _paradigm_) where programs are designed around a series of objects that interact with one another programmatically. Well, what are objects? Objects are _instances_ of classes which are, themselves, a way to operationalize ADTs! In other words, OOP is a programming paradigm that relies on the data and process abstraction of ADTs.
+Object-oriented programming (OOP) is a style of programming (a _paradigm_) where programs are designed around a set of objects that interact with one another programmatically. Well, what are objects? Objects are _instances_ of classes which are, themselves, a way to operationalize ADTs! In other words, OOP is a programming paradigm that relies on the data and process abstraction of ADTs.
 
 OOP is powerful because we humans are good at organizing our thoughts and algorithms the way that we organize our daily communications and behaviors. In real life, we manipulate objects and communicate with one another to accomplish tasks. In OOP, we write our algorithms the same way -- by specifying how to manipulate objects and directing communication between and among them. The only difference? Are the objects physical (real life) or logical (programming)?
 
-The objects that object-oriented programmers manipulate are clearly *not* real, tangible things. However, some of the objects are instances of classes that implement ADTs that _do_ model things that exist in the real world -- a car on a dealer's lot, a Frosty (there is _only_ one flavor) on the Wendy's menu, a blouse on Rent the Runway, etc. But, some of the objects are instances of classes that implement ADTs that model things that only exist in the computer -- files, the windows of an application, the button that launches the web browser, etc. In both cases, computer programs written in the OOP paradigm models rely on the fact that these objects are instances of classes that implement ADTs that have associated behaviors (their range of valid operations) and characteristics (their range of valid values). 
+The objects that object-oriented programmers manipulate are clearly _not_ real, tangible things. However, some of the objects are instances of classes that implement ADTs that _do_ model things that exist in the real world -- a car on a dealer's lot, a Frosty (there is _only_ one flavor) on the Wendy's menu, a blouse on Rent the Runway, etc. But, some of the objects are instances of classes that implement ADTs that model things that only exist in the computer -- files, the windows of an application, the button that launches the web browser, etc. In both cases, computer programs written in the OOP paradigm rely on the fact that these objects are instances of classes that implement ADTs that have associated behaviors (their range of valid operations) and characteristics (their range of valid values). 
 
-We already know the name for the data that an object contains -- it's members (in C++ they are specifically called member variables). We have not talked about actions, yet, though. The actions are specified like the other process abstraction we have seen (the function) but they have additional special powers. They are special because they are "attached" to objects. The attachment means that those special functions have access to an object and its member variables without requiring a user of the function to specify the object as an argument. These special functions are called _member functions_.
+We already know the name for the data that an object contains -- it's members (in C++ they are specifically called member variables). We have not talked about actions, yet, though. The actions are specified like the other process abstraction we have seen (the function) but they have additional special powers. They are special because when they are invoked they are "attached" to objects. The attachment means that those special functions have access to an object and its member variables without requiring a user of the function to specify the object as an argument. These special functions are called _member functions_.
 
-Let's consider an ADT that holds information about a Mercedes AMG:
+Let's consider a class that implements an ADT for a Mercedes AMG:
 
 ```C++
 struct AMG {
@@ -35,7 +35,9 @@ Great. Now, let's write a program that instantiates a variable of that type (in 
         AMG wills_amg{};
 ```
 
-To be clear (again!), `AMG` is the type (in the same way that `int` is the type or `char` is the type). `wills_amg` is the object (or instance) of that type. It's the difference between the script for a play and the actual performance. It's the difference between a house's blueprint and the house itself (or houses, if you think of a planned community). It's the difference between the rubber stamp and the imprints it leaves on the paper. I think that you get the point!
+To be clear (again!), `AMG` is the type (in the same way that `int` is a type or `char` is a type). `wills_amg` is the object (or instance) of that type. 
+
+The difference between an instance and a type, to reiterate what was discussed in the [previous issue](./OOPIntro.md), is like the difference between the script for a play and the actual performance. Or the difference between a house's blueprint and the house itself (or houses, if you think of a planned community). Or the difference between the rubber stamp and the imprints it leaves on the paper. I think that you get the point!
 
 Take a second to think about the values of each of the members of `wills_amg` at this point in the program. Do they have values? Why, or why not?
 
@@ -49,12 +51,12 @@ We'll assign some values to each member variable of the ADT that are specific to
   wills_amg.price = 162900;
 ```
 
-Remember: Because we are manipulating the values of the member variables of a particular instance of the AMG ADT, the values of member variables of other _instances_ of this type are completely unaffected.
+Remember: Because we are manipulating the values of the member variables of a particular instance of the implementation of the AMG ADT, the values of member variables of other _instances_ of this type are completely unaffected.
 
 What if I wanted to write a function that prints out all the information about an AMG? I have two options:
 
-1.  I could write a function that has a parameter for each of the different values that characterize an AMG, or
-2.  I could write a function that has a single parameter -- the AMG ADT.
+1.  I could write a function that has a parameter for each of the different attributes that characterize an AMG, or
+2.  I could write a function that has a single parameter -- the instance of the implementation of the AMG ADT.
 
 I choose the latter, because I am lazy! So, we will write a function that looks like this:
 
@@ -100,7 +102,9 @@ I am sure that you see what I see -- lots of nearly identical code!
 
 ### Is A
 
-What is common between a Tesla and an AMG? That's right, they are both vehicles: A Tesla _is a_ vehicle; An AMG _is a_ vehicle. As we dig into our discussion on OOP, we will return to the _Is-A_ relationship!
+It would be great if we could get rid of that duplication. We are using OOP because we like the way that analogizes with real life. So, what fact about a Tesla and an AMG _in the real world_ would give us the "right" to remove some of that duplication?
+
+Let's not overlook the obvious: They are both vehicles: A Tesla _is a_ vehicle; An AMG _is a_ vehicle. As we dig into our discussion on OOP, we will return to the _Is-A_ relationship!
 
 According to our ADTs a Tesla and an AMG both have some of the same characteristics. I think that we should combine them into a single ADT so that we can save some typing! Let's call this ADT a Vehicle and implement it with a `struct`:
 
@@ -114,13 +118,17 @@ struct Vehicle {
 };
 ```
 
-Now, how can we write out the _Is A_ relationship in C++? Simple, with the `:` :
+Now, how can we write out the _Is A_ relationship in C++? In other words, how can we write ...
+
+> A Tesla is a vehicle.
+
+Simple, with the `:` :
 
 ```C++
 struct Tesla : Vehicle {};
 ```
 
-With that, we have programmatically stated that a Tesla _is a_ Vehicle and declared an ADT named Tesla that _inherits_ all the Vehicle's attributes (member variables) without having to rewrite them all! In C++ we say that the Tesla ADT _derives_ from the Vehicle ADT. Furthermore, we say that Tesla is a _derived_ ADT and that Vehicle is a _base_ ADT. These are important terms to remember as we continue through our exploration of OOP.
+With that, we have programmatically stated that a Tesla _is a_ Vehicle and declared an implementation of an ADT named Tesla that _inherits_ all the Vehicle's attributes (member variables) without having to rewrite them all! In C++ we say that the Tesla class _derives_ from the Vehicle class. Furthermore, we say that Tesla is a _derived_ class and that Vehicle is a _base_ class. These are important terms to remember as we continue through our exploration of OOP.
 
 But, Teslas are no ordinary vehicles -- they are EVs which means that they have a special attribute that not every vehicle has -- a range. We could write
 
@@ -130,13 +138,30 @@ struct Tesla : Vehicle {
 };
 ```
 
-which will add a `range` member variable on top of the member variables that it inherits from Vehicle. As a result, the Tesla ADT now has 6 member variables instead of just the 5 of a Vehicle. Be especially careful -- just because we augment the Tesla ADT with an extra member variable does not mean that we are dismissing all the member variables that we have inherited from the Vehicle ADT.
+which will add a `range` member variable on top of the member variables that it inherits from Vehicle. As a result, the Tesla class that implements the Tesla ADT now has 6 member variables instead of just the 5 of a Vehicle. Be especially careful -- just because we augment the Tesla class with an extra member variable does not mean that we are dismissing all the member variables that we have inherited from the Vehicle ADT.
 
 All that with so little typing! Pretty cool!
 
 ### Member Functions
 
-In both programs, our "print" function required a parameter -- the car to print! What if we could somehow associate a print function with an instance of a Vehicle ADT so that the function could use the Vehicle ADT's member variables without needing the Vehicle ADT object to be passed as a parameter? We would like this special type of function, one which is associated with an instance of the ADT, to have access to that ADT's attributes. If this sounds like a job for a special type of function that is a member of the implementation of the ADT (what is called a _member function_ in C++),  that's because it is!
+In both programs, our "print" function required a parameter -- the car to print! What if we could somehow associate a print function with an instance of a class that implements the Vehicle ADT so that function could use the Vehicle class's member variables without needing the object to be passed as a parameter? 
+
+That's a mouthful, I know. So, here's another way to think of it: How can we write
+
+```C++
+void print(const Vehicle &veh) {
+  std::cout << "A " << veh.model_year << " Tesla "
+            << "with " << veh.wheels << " wheels, " << veh.doors
+            << " doors and " << veh.horsepower << " horsepower, costs $"
+            << veh.price << ".\n";
+}
+```
+
+without making the user of the function give the instance of the Vehicle explicitly? 
+
+We need some special type of function that is somehow associated with an instance of the class implementing the ADT, to have access to that instance's attributes. Just like in real life, access to the coolest places is usually reserved for members! Get it? _Members_.
+
+How about if we call this special type of function that is a member of a class a _member function_.
 
 Declaring/defining a member function is just like declaring/defining a function, except that you do it _inside_ the declaration of the `struct`/`class` implementing the ADT:
 
@@ -156,7 +181,7 @@ struct Vehicle {
 };
 ```
 
-Seeing a use of the `Vehicle::print` (yes, that's how you write its name!), member function before dissecting its implementation will help clarify some haziness:
+Seeing a use of the `Vehicle::print` (yes, that's how you write its name!) member function before dissecting its implementation will help clarify some haziness:
 
 Though member functions are declared like ordinary functions, invoking them requires a special syntax.
 
@@ -194,28 +219,53 @@ int main() {
 }
 ```
 
-`wills_tesla.print()` is read as "calling the member function `print` on the object `wills_tesla`". When the `print` member function is invoked this way, the member variables used in the implementation hold the values of those variables in `wills_tesla`. In other words, the program above will print:
+`wills_tesla.print()` is read as "calling the member function `print` on the object `wills_tesla`". When the `print` member function is invoked this way, any place where the code for that member function refers to member variables, those actions will read/update values specific to `wills_tesla`. In other words, the program above will print:
 
 ```
 A 2020 vehicle with 4 wheels, 2 doors and 577 horsepower, costs $162900.
 ```
 
-Pretty cool!
+but 
 
-Now, let's turn our attention quickly back to the implementation of the `Vehicle::print` member function. There are a few important things to notice about the `print` member function:
+
+```C++
+int main() {
+  Tesla kates_tesla{};
+
+  kates_tesla.model_year = 2023;
+  kates_tesla.doors = 2;
+  kates_tesla.wheels = 4;
+  kates_tesla.horsepower = 450;
+  kates_tesla.price = 32900;
+
+  kates_tesla.print();
+}
+```
+
+will print
+
+```
+A 2023 vehicle with 4 wheels, 2 doors and 450 horsepower, costs $32900.
+```
+
+No matter that the code for the `print` member function does not change, the values of the member variables do when that member function is invoked on different instances.
+
+Really cool!
+
+Now that we've seen how a user of the Tesla class would use the member function, let's turn back to the implementation. There are a few important things to notice about the `print` member function:
 
 1.  We changed the name to `print` from `printTesla` or `printAMG`. Why?
     1.  Because this print member function applies to _all_ vehicles and not just Teslas or AMGs; and
     2.  Because this member function can only be "called on" a vehicle -- repeating that semantic information in the member function's name would be redundant.
-2.  `model_year`, `wheels`, `doors`, `horsepower` and `price` do not need any indirection through an instance of a Vehicle ADT. Their appearance in this code refers to the values of those member variables on which the member function is called.
+2.  `model_year`, `wheels`, `doors`, `horsepower` and `price` can be used just like that. Behind the scenes, C++ handles associating those variables with the right instance each time the member function is called. 
 
 ### There's A Problem
 
 Okay, two.
 
-First, we have that awkward bit in the output about "vehicle" -- our program does not tell the user the specific vehicle model. Second, the member function cannot print information about the Tesla's range because only the derived Tesla ADT (and not the Vehicle ADT in which this member function is declared/defined) contains a member variable named `range`. What's cool is that the solution to these two problems is the same: _member function overriding_.
+First, we have that awkward bit in the output about "vehicle" -- our program does not tell the user the specific vehicle model. Second, the member function cannot print information about the Tesla's range because only the derived Tesla class (and not the Vehicle class in which this member function is declared/defined) contains a member variable named `range`. What's cool is that the solution to these two problems is the same: _member function overriding_.
 
-C++ gives the programmer the power to _override_ a member function defined in a base class in a derived class. When the programmer overrides a member function from a base ADT in a derived ADT, it is like they are customizing the behavior of the member function in a certain way. Let's see how we could customize the `print` member function of the Tesla ADT to fix both the problems we outlined above:
+C++ gives the programmer the power to _override_ a member function defined in a base class in a derived class. When the programmer overrides a member function from a base class in a derived class, it is like they are customizing the behavior of the member function in a certain way. Let's see how we could customize the `print` member function of the Tesla class to fix both the problems we outlined above:
 
 ```C++
 struct Vehicle {
@@ -267,6 +317,8 @@ A 2020 Tesla with 4 wheels, 2 doors, 577 horsepower and 320 costs $162900.
 ```
 
 as output! Very cool.
+
+What about the opposite situation: a programmer wants to accept the default implementation of `print` from the base class. Well, they just don't do anything! Simply omitting the declaration/definition in a derived class will give C++ the go ahead to search "up" the inheritance hierarchy (drumroll please) ...
 
 ### An Inheritance Hierarchy
 
