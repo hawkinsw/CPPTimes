@@ -18,7 +18,7 @@ Left to its own devices, compilers are only aware of the language's reserved wor
 
 > Note: As we go throughout the semester, we will learn how to declare things other than variables. Just remember that a declaration is nothing more than a way to introduce a name into a program and telling the language how to interpret that name.
 
-Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although variable declaration and definition in can happen separately in C++, they most often occur simultaneously.
+Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although variable declaration and definition of variables can happen separately in C++, they most often occur simultaneously.
 
 Because every value in C++ has a type, and variables have values, it stands to reason that variables have types.
 
