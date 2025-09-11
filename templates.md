@@ -1,6 +1,6 @@
 ## What's News
 
-With the rise in inflation hitting consumers hard, shoppers who would normally turn to the brand-name Tide, Cheerios and Quaker Oats are now buying Wide Out liquid detergent, Dour-Os whole-wheat cereal, and Shaker Notes steel-cut grains. But, not all is lost -- those bashful buyers are learning about how these products are useful for their original purpose and so much more.
+With new, higher tariffs on goods from overseas, shoppers who would normally turn to the brand-name Tide, Cheerios and Quaker Oats have switched to Wide Out liquid detergent, Dour-Os whole-wheat cereal, and Shaker Notes steel-cut grains. To get even more value for their dollar, these bashful buyers are turning to social media to swap tips on how these products are useful for _more_ than just their intended purpose.
 
 ## Leftovers
 
@@ -12,10 +12,14 @@ In the case of pizza, we order our pizza when we are really hungry and sometimes
 
 Tupperware is a good, simple container for keeping food fresh and we can use it to store our leftover pizza.
 
-Let’s translate this discussion into the world of the computer by defining a `Pizza` data structure (using a `class`) to represent pizzas. `Pizza` will have a single member variable – a `std::string` that holds the name of the type of pizza. `Pizza` will have a getter member function named `getDish` that returns the type of the pizza (as a `std::string`). `Pizza` will also have a member function named `isFresh` that returns whether the pizza is still fresh (as a `bool`). The `isFresh` function will take two parameters:
+Let’s translate this discussion into the world of the computer by defining a _Stored Pizza_ abstract data type (ADT) and implementing it with a data structure (using a `class`). The _Stored Pizza_ ADT will have a single characteristic -- the name of the type -- and a single behavior -- _is it fresh?_ -- that will respond with a determination of whether the leftover slice is fresh.
+
+We can implement this _Stored Pizza_ ADT with a `StoredPizza` class in C++. The class will have a single data member – a `std::string` that holds the name of the type of pizza.[^getter] `StoredPizza` will also have a member function named `isFresh` that returns whether the pizza is still fresh (as a `bool`). The `isFresh` function will take two parameters:
 
 1. The date the pizza was originally baked (as a `std::chrono::year_month_day`); and
 2. Whether the pizza has been sealed up after being stored (as a `bool`).
+
+[^getter]: We will write a _getter_ for that data member, too, but I bet you already thought of that!
 
 As good C++ developers should, we separate the declaration of the `Pizza` class from its implementation:
 
@@ -27,9 +31,9 @@ As good C++ developers should, we separate the declaration of the `Pizza` class 
 #include <string>
 #include <chrono>
 
-class Pizza {
+class StoredPizza {
 public:
-  Pizza(std::string dish) : m_dish(dish){};
+  StoredPizza(std::string dish) : m_dish(dish){};
   std::string getDish() const;
   bool isFresh(std::chrono::year_month_day date, bool sealed) const;
 
@@ -44,10 +48,10 @@ private:
 #include <chrono>
 #include <tupperware/pizza.hpp>
 
-std::string Pizza::getDish() const {
+std::string StoredPizza::getDish() const {
   return m_dish;
 }
-bool Pizza::isFresh(std::chrono::year_month_day date, bool sealed) const {
+bool StoredPizza::isFresh(std::chrono::year_month_day date, bool sealed) const {
   const std::chrono::time_point now{std::chrono::system_clock::now()};
   const std::chrono::year_month_day today{
       std::chrono::floor<std::chrono::days>(now)};
@@ -57,11 +61,21 @@ bool Pizza::isFresh(std::chrono::year_month_day date, bool sealed) const {
 }
 ```
 
-Other than the fancy C++ *stuff* that we need to handle dates (i.e., `std::chrono::year_month_day`), there's nothing here that we haven't already seen before! Cool!
+Other than the fancy C++ _stuff_ that we need to handle dates (i.e., `std::chrono::year_month_day`), there's nothing here that we haven't already seen before! Cool!
 
 ## Nothing Outlasts the Energizer Bunny
 
-I'm not sure that it's true, but I always heard that unused batteries will last longer if they are stored in a sealed container. Whether it's folklore or real science, let's assume that we might want to store batteries in our container. To do so we'll need a data structure representing a battery. It will have *largely* the same interface as `Pizza` (an important point we will return to at the conclusion of this issue of the *C++ Times*). 
+The ADT we designed above is not _really_ an ADT for a slice of leftover Pizza -- it's much more reuseable than that. What we really designed was an ADT that can be used to store _something_ that has a type and could, after not being used for some time, go bad.
+
+Software engineers are always attempting to make the most of the code that they have already written (software reuse), so let's see whether we can reuse the code we wrote above for other purposes.[^reuse]
+
+[^reuse]: We will talk more about reuse when we work through C++ Interlude 5 in _Walls and Mirrors_.
+
+I'm not sure that it's true, but I always heard that unused batteries will last longer if they are stored in a sealed container. Whether it's folklore or real science, let's assume that we might want to store excess batteries in the same way that we store excess Pizz _AA_.
+
+Playing  a trick on ourselves will make the (soon to be revealed) dramatic conclusion of all our work so much sweeter ...  pretend that we don't remember the code that we wrote above.
+
+To implement an object-oriented solution to storing excess batters, we'll need a _Stored Battery_ ADT that has a _type_ characteristic (i.e., AA, AAA, 9 Volt, etc.) and a _is it fresh?_ behavior. Let's implement that ADT in C++ as the `StoredBattery` class:
 
 `battery.hpp`
 ```C++
@@ -70,9 +84,9 @@ I'm not sure that it's true, but I always heard that unused batteries will last 
 
 #include <chrono>
 
-class Battery {
+class StoredBattery {
   public:
-    Battery(std::string size): m_size(size) {};
+    StoredBattery(std::string size): m_size(size) {};
     bool isFresh(std::chrono::year_month_day date, bool sealed) const;
   private:
     std::string m_size;
@@ -86,7 +100,7 @@ class Battery {
 #include <chrono>
 #include <tupperware/battery.hpp>
 
-bool Battery::isFresh(std::chrono::year_month_day date, bool sealed) const {
+bool StoredBattery::isFresh(std::chrono::year_month_day date, bool sealed) const {
   const std::chrono::time_point now{std::chrono::system_clock::now()};
   const std::chrono::year_month_day today{
       std::chrono::floor<std::chrono::days>(now)};
@@ -95,25 +109,30 @@ bool Battery::isFresh(std::chrono::year_month_day date, bool sealed) const {
   return std::chrono::days{15} > difference;
 }
 ```
+Okay, wow -- are you as shocked as me at the similarities between the implementations of the _Stored Battery_ ADT and the _Stored Pizza_ ADT? It's really remarkable: they have largely the same _interface_ (an important point we will return to at the conclusion of this issue of the _C++ Times_).
 
 ## Tupperware
 
-Let’s return now to the Tupperware, the container that is going to hold our leftover pizza and batteries -- no, not in the same container, that would be silly! Again, we will translate this physical concept into a computational concept by defining a Tupperware *ADT*.
+We can clearly see that there is _something_ that we could abstract -- it seems like what we really want to do is to, once and for all, forget about batteries and slices of pizza and start by thinking about sealable storage tools that can store _something_. There is no more well known storage technology than the reliable Tupperware container.
+
+Let's design the _Tupperware_ ADT to be a container that could hold leftover pizza or batteries -- no, not in the same container, that would be silly!
 
 The Tupperware ADT will support two behaviors:
 
-1. *getContents*: The method will return the contents of the Tupperware container.
-2. *areContentsFresh*: The method will return true/false depending on whether the contents of the container are fresh.
+1. _get contents_: Will get the contents of the Tupperware container.
+2. _is it fresh?_: Will return true/false depending on whether the contents of the container are fresh.
 
 and have one attribute:
 
-1. *sealed_date*: The date the contents were initially sealed in the Tupperware.
+1. _sealed date_: The date the contents were initially sealed in the Tupperware.
 
-The algorithms for both methods are relatively straightforward – for *getContents* the ADT will simply supply its contents and for *areContentsFresh* the ADT will simply invoke the `isFresh` method of its contents (using the *sealed_date* and `true` as the arguments to the member function). 
+The algorithm for the _is it fresh?_ behavior simply relies on the fact that whatever is stored in a piece of Tupperware can determine whether it is fresh if you give it the date on which it was sealed away. Remember, what is being stored in the Tupperware is _itself_ an ADT and as long as everything stored in a piece of Tupperware has the _is it fresh?_ behavior, then we are good!
 
-We can follow the best practices of object-oriented design and *implement* a base class named `Tupperware` that is the data structure that implements the Tupperware ADT (Again, remember what our *Walls and Mirrors* authors say: a data structure is not the same as an ADT – the former implements the latter!). Then we can create derived classes for Tupperware that hold different types of items. 
+The algorithms for the _get contents_ behavior is equally straightforward: simply supply the contents of what is being stored!
 
-Here we go ...
+Let's follow the best practices of object-oriented design and _implement_ a base class named `Tupperware` that is the data structure that implements the Tupperware ADT. Then we can create derived classes for Tupperware that hold different types of items. 
+
+Here we go ... with a partial implementation that gets us set up with a constructor, a member variable to track the sealed date (`m_sealed_date`) and a getter function for that member variable (`getSealedDate`).
 
 ```C++
 #include <chrono>
@@ -123,10 +142,6 @@ public:
   Tupperware(std::chrono::year_month_day sealed_ymd)
       : m_sealed_date{sealed_ymd} {
   }
-
-  virtual bool areContentsFresh() const {
-    return false;
-  };
 
 private:
   std::chrono::year_month_day m_sealed_date{};
@@ -138,26 +153,65 @@ protected:
 };
 ```
 
-I know what you are thinking right now ... "Well, smarty, you left out the implementation of a `getContents` member function to implement the *getContents* behavior!" You're right, I did. But, I will fire back at you ... "The Tupperware `class` is supposed to be an implementation of the Tupperware ADT; the Tupperware ADT can *contain* any *type* of thing; If it can contain any *type* of thing, what should be the return type of the `getContents` member function? 
+Great ... now, let's add a member function that will implement the _get contents_ behavior ...
 
-I know, right? We've hit a roadblock. Because there is no *single* type that can represent everything that we could possibly store in the Tupperware (while maintaining type safety -- one of the reasons we chose C++ in the first place!), we cannot declare/define a `getContents` member function in the base class.
+```C++
+#include <chrono>
 
-But that's one of the selling points of object-oriented design and programming -- move shared functionality into base classes for reuse! So, what are we doing here? It's an important, important problem that we have to solve.
+class Tupperware {
+public:
+  Tupperware(??? contents, std::chrono::year_month_day sealed_ymd)
+      : m_contents{contents}, m_sealed_date{sealed_ymd} {
+  }
 
-But first, let's implement some Tupperware data structures that hold different types of items.
+
+  ??? getContents() const {
+
+  }
+
+private:
+  ??? m_contents{};
+  std::chrono::year_month_day m_sealed_date{};
+
+protected:
+  std::chrono::year_month_day getSealedDate() const {
+    return m_sealed_date;
+  }
+};
+```
+
+I know what you are thinking right now ... "Well, smarty, you have some `???`s there ..." 
+
+In my defense, what _could_ I possibly write? 
+
+The Tupperware `class` is supposed to be an implementation of the Tupperware ADT and the Tupperware ADT can _contain_ any _type_ of thing. To write down the code for the `getContents` member function, I would have to be able to write down its return type which would depend on the type of what is in the Tupperware. But, again, I want to implement the Tupperware ADT so that it can hold _any_ type. The minute I write down the declaration/definition of that `getContents` member function and specify a particular type, I've ruined our work and turned a _generic_ data structure into a bespoke data structure that cannot be as easily reused.
+
+We could somehow create a new type that is generic and amorphous and is designed to hold _any_ type of thing. There are plenty of [languages](https://www.typescriptlang.org/docs/handbook/basic-types.html#any) that will let you do just that. But, it's really unsatisfying because the user of the implementation of the Tupperware ADT would put in an object with a specific _type_ and (through `getContents`) get back an object with a _different type_. 
+
+If you are a gamer, this analogy might help: the solution I just described would be akin to putting a "+1 Life"-giving carrot (for instance) into our character's belt but getting back a loot box when we went to eat it. We put in a carrot and we should get back a carrot. Sure, _we_ know that the loot box holds a carrot, but no one else would -- especially the compiler! 
+
+Once our carrot, to continue the analogy, goes into our belt, its like putting a piece of pizza in our tupperware -- the information about the type of the carrot is gone! Because the compiler would not be able to say for sure that what is in that loot box is a carrot, it would not let us write code that directed our character to eat what is in the loot box. 
+
+We choose C++ when we start implementing object-oriented solutions because of its support for type safety and because the compiler is able to help the programmer that uses the Tupperware class. The compiler can check that the type of what the programmer puts in is the type of what the programmer gets back when they open their container. 
+
+We've hit a roadblock. Because there is no _single_ type that can represent everything that we could possibly store in the Tupperware, we cannot declare/define a `getContents` member function in the base class.
+
+And no, we cannot accept defeat. The style of organizing our code that we are pursuing is one of the selling points of object-oriented design and programming (moving shared functionality into base classes for reuse!). So, what are we doing here? It's an important, important problem that we have to solve.
+
+Let's write some less-than-ideal code and see if we get any brainstorms ...
 
 ## Tupperware for Pizza
 
-We will first code a data structure that implements the Tupperware ADT containing a pizza. We will call it the `TupperwareForPizza` class.
+We will first code a data structure that implements the Tupperware ADT especially for containing pizza. We will call it the `TupperwareForPizza` class.
 
 ```C++
 class TupperwareForPizza : public Tupperware {
 public:
-  TupperwareForPizza(Pizza leftover_pizza,
+  TupperwareForPizza(StoredPizza leftover_pizza,
                      std::chrono::year_month_day sealed_ymd)
       : Tupperware{sealed_ymd}, m_leftover_pizza(leftover_pizza){};
 
-  Pizza getContents() const {
+  StoredPizza getContents() const {
     return m_leftover_pizza;
   }
   bool areContentsFresh() const override {
@@ -165,23 +219,23 @@ public:
   }
 
 private:
-  Pizza m_leftover_pizza;
+  StoredPizza m_leftover_pizza;
 };
 ```
 
-Notice how it is *only* in the `TupperwareForPizza` class that we can correctly implement the `getContents` member function corresponding to the *getContents*  behavior of the Tupperware ADT. Why? Because it is only in this derived class that we know for sure the return type (`Pizza`) of that member function!
+Notice how it is _only_ in the `TupperwareForPizza` class that we can correctly implement the `getContents` member function corresponding to the _get contents_  behavior of the Tupperware ADT. Why? Because it is only in this derived class that we know for sure the return type (`StoredPizza`) of that member function!
 
 ## Tupperware for Batteries
 
-We're all charged up so let's keeping going. We will code a data structure that implements the Tupperware ADT that holds batteries. We will call the data structure implementing the Tupperware ADT for batteries the `TupperwareForBattery` class.
+We're all charged up so let's keeping going. We will code a data structure that implements the Tupperware ADT uniquely built to hold batteries. We will call the data structure implementing the Tupperware ADT for batteries the `TupperwareForBattery` class.
 
 ```C++
 class TupperwareForBattery : public Tupperware {
 public:
-  TupperwareForBattery(Battery battery, std::chrono::year_month_day sealed_ymd)
+  TupperwareForBattery(StoredBattery battery, std::chrono::year_month_day sealed_ymd)
       : Tupperware{sealed_ymd}, m_stored_battery{battery} {};
 
-  Battery getContents() const {
+  StoredBattery getContents() const {
     return m_stored_battery;
   }
   bool areContentsFresh() const override {
@@ -189,43 +243,49 @@ public:
   }
 
 private:
-  Battery m_stored_battery;
+  StoredBattery m_stored_battery;
 };
 ```
 
 ## One Of These Things Is (Not) Like The Other
 
-There's something very *odd* about these two classes (`TupperwareForBattery` and `TupperwareForPizza`, that is). Let's put them side-by-side and see what we can see
+There's something very _odd_ about these two classes (`TupperwareForBattery` and `TupperwareForPizza`, that is). Let's put them side-by-side and see what we can see
 
-![](./graphics/TupperwareSxS.png)
+![](./graphics/tupperwaresxs.png)
 
-Yes, yes, I am starting to see it. What happens if we just obscure the words `Pizza` and `Battery`? I bet that we will start to see some more really, well, odd coincidences:
+Yes, yes, I am starting to see it. What happens if we just obscure the words `StoredPizza` and `StoredBattery`? I bet that we will start to see some more really, well, odd coincidences:
 
-![](./graphics/TupperwareSxSTemplateHoles.png)
+![](./graphics/tupperwaresxs-holes.png)
 
 ## Generic Programming
 
-Well, what's amazing about our discovery is that the coincidence is really *no* coincidence at all! It's actually something called *generic programming*. The person who coined the term *generic programming* had this to say about the concept:
+Well, what's amazing about our discovery is that the coincidence is really _no_ coincidence at all! It's actually something called *generic programming*. The person who coined the term _generic programming_ had this to say about the concept:
 
 > "By generic programming, we mean the definition of algorithms and data structures at an abstract​ or generic level, thereby accomplishing many related programming tasks simultaneously."
 
 The two implementations that we have written so far of the Tupperware ADT are specific to the types of objects that they contain – pizza and batteries. However, Tupperware can hold other types of contents. We could put in turkey, markers, crayons, paint, rolls of tape, etc.
 
-Well, if we continued down the path of making a specific implementation of the Tupperware ADT for each of the types of objects that Tupperware can hold, we would get tired of copy-and-paste very quickly! More importantly, we would end up with a lot of code that looked very similar and would be very difficult to adapt – every change that we wanted to make to the algorithms that underly our implementation of the Tupperware ADT would have to be made in several spots. Errors would multiply and be hard to fix! Nothing about that sounds good!
+Well, if we continued down the path of making a specific implementation of the Tupperware ADT for each of the types of objects that Tupperware can hold, we would get tired of copy-and-paste very quickly! More importantly, we would end up with a lot of code that looked very similar and would be very difficult to adapt – every change that we wanted to make to the algorithms that underlie our implementation of the Tupperware ADT would have to be made in several spots. Errors would multiply and be hard to fix! Nothing about that sounds good!
 
 ## Generic Programming With Templates
 
-In C++ we can utilize the theoretical concept of generic programming through templates. You can think of a template as a generic set of code that the compiler will use to "stamp out" particular versions of that code that are customized by a set of parameters. Because the differences between the forms of the classes ("many forms") is based on the template parameter, the process of stamping out specialized versions of the template involves parameters, this type of polymorphism is known as *parametric polymorphism*. There are similarities between parametric polymorphism and function overloading. The latter (known as *ad-hoc* polymorphism), however, is different because the functionality of each overloaded definition can be different. In parametric polymorphism, the functionality of every different form is identical -- it's just the types that change.
+In C++ we can utilize the theoretical concept of generic programming through templates. You can think of a template as a generic set of code that the compiler will use to "stamp out" particular versions of that code that are customized by a set of parameters. 
+
+You could also thinking about templates as a way to have variables whose contents are _types_ and _not_ _values_! Now _that_ is mind blowing!
+
+Because the differences between the forms of the classes ("many forms") is based on the template parameter, the process of stamping out specialized versions of the template involves parameters which is why this type of polymorphism is known as _parametric polymorphism_. There are similarities between parametric polymorphism and function overloading. The latter (known as _ad-hoc_ polymorphism), however, is different because the functionality of each overloaded definition can be different. In parametric polymorphism, the functionality of every different form is identical -- it's just the types that change.
 
 > Note: You can write class and function templates. We will deal primarily with class templates in this course.
 
-Think back to when we talked about how you can instantiate objects from classes. Said another way, objects are instances of classes. In the same way, albeit with a slightly different syntax, you can instantiate class templates to get actual classes. Rephrasing, instantiations of class templates are instances of classes. How cool!
+Think back to when we talked about how you can instantiate objects from classes. Said another way, objects are instances of classes. In the same way, albeit with a slightly different syntax, you can instantiate class templates to get actual classes. It's like going up one level in some meta hierarchy!
 
-I know that “instantiations of class templates” is not the most sublime of English phrases. However, that’s the best that the C++ standard can do for us.
+Rephrasing, instantiations of class templates are instances of classes. How cool!
+
+I know that "instantiations of class templates" is not the most sublime of English phrases. However, that’s the best that the C++ standard can do for us.
 
 How would we phrase this relationship if we were writing a question for the SAT/ACT? 
 
-*class : object :: class template : instantiation of class template.*
+**class : object :: class template : instantiation of class template.**
 
 I hated those tests!
 
@@ -238,20 +298,28 @@ class CLASSNAME {
 };
 ```
 
-Conceptually (although not always practically), throughout the implementation of `CLASSNAME` you can use `TYPENAME` in any place that you can use a type. When the user of that class template instantiates it, they will provide you with an actual type.
+You can think of
+```C++
+template <typename TYPENAME>
+```
+
+as declaring a variable whose contents are types and whose scope is the entire declaration/definition of `CLASSNAME`. With a _variable for types_ named `TYPENAME` in scope throughout the implementation of `CLASSNAME` you can use `TYPENAME` in any place that you can use a type. When the user of that class template instantiates it, they will provide you with an actual type (what C++ calls a _template argument_).
 
 > Note: You can specify that your class template uses additional typenames – [look up the exact syntax for declaring class templates for additional details](https://en.cppreference.com/w/cpp/language/class_template).
 
+If the power of templates is not immediately obvious, I bet that once you see it in action you will be very impressed.
+
 ## Brand X Sealable Plastic Container
 
-It's time to deploy our knowledge. Let's rewrite the `Tupperware` class as a class template and use generic programming:
+It's time to deploy our knowledge. Let's rewrite the `Tupperware` class as a class template and use generic programming. What will happen is that we can write one class template that will replace _both_ `TupperwareForPizza` _and_ `TupperwareForBattery` (and `TupperwareForPickleballs`, when we inevitably want to write that class):
 
 ```C++
 #include <chrono>
 #include <concepts>
 #include <type_traits>
 
-template <typename ContentType> class Tupperware {
+template <typename ContentType> 
+class Tupperware {
 public:
   Tupperware(ContentType contents, std::chrono::year_month_day sealed_ymd)
       : m_contents{contents}, m_sealed_date{sealed_ymd} {
@@ -270,7 +338,7 @@ private:
 };
 ```
 
-Now *that* is cool. What have we accomplished?
+Now _that_ is cool. What have we accomplished?
 
 1. Notice that there is no longer a class hierarchy. There is only one class template for *all* Tupperware. 
 2. We've reduced the amount of code by 2/3! Good code is code that is never written. The best code is code that you can remove.
@@ -323,13 +391,13 @@ int main() {
 
   std::string pizza_topping{"pepperoni"};
   Pizza pepperoni_pizza{pizza_topping};
-  Tupperware<Pizza> pizza_container{pepperoni_pizza, one_month_ago};
+  Tupperware<StoredPizza> pizza_container{pepperoni_pizza, one_month_ago};
 
   std::cout << "Is my pizza still fresh? " << std::boolalpha
             << pizza_container.areContentsFresh() << "\n";
 ```
 
-For the `Tupperware<Pizza>` instantiation of the `Tupperware` class template, think of `Pizza` replacing `ContentsType`. In other words, you can think of `Tupperware<Pizza>` as being a class defined like
+For the `Tupperware<StoredPizza>` instantiation of the `Tupperware` class template, think of `StoredPizza` replacing `ContentsType`. In other words, you can think of `Tupperware<Pizza>` as being a class defined like
 
 ```C++
 class Tupperware8723 {
@@ -355,23 +423,28 @@ In fact, that’s not very different from how the compiler actually deals with c
 
 I know, I know ... "Will, you say these things but never give us enough information to verify that you aren't lying!" 
 
-Well, look no further than here: [C++ Insights](https://cppinsights.io/s/7e5ca240). 
+Well, look no further than here: [C++ Insights](https://cppinsights.io/s/f511495e). 
 
 > Note: The code in the left pane is exactly what we have written together here, just smushed in to one file.
 
-Press the *play* button at the top for C++ Insights to work its magic and then look at the code in the right pane. In particular, look at lines 98 to 156:
+Press the _play_ button at the top for C++ Insights to work its magic. In particular, look at line 83 of the code that we wrote:
+
+![](./graphics/tupperware-insights2.png)
+
+That code is instantiating a `Tupperware` class template with the template parameter of `StoredBattery`. Let's see what the compiler does with that:
 
 ![](./graphics/tupperware-insights.png)
 
-
 I *told* you!!
 
-The power of templates is incredible. Some people believe that they are hard to comprehend and use. Yes, the syntax is a bit odd and the semantics are sometimes hard to grasp, but those are complications and not complexities. You *can* be good at using templates.
+The power of templates is incredible. Some people believe that they are hard to comprehend and use. Yes, the syntax is a bit odd and the semantics are sometimes hard to grasp, but those are complications and not complexities. You _can_ be good at using templates.
 
 ## All Is Not Happy in the Land of C++
 
-If you look closely at the code in the `Tupperware` class template, we are making a very important assumption about the `ContentsType` type. What is it? We are assuming that the `ContentsType` type is itself a class and the class contains a member function named `isFresh()`.
+If you look closely at the code in the `Tupperware` class template, we are making a very important assumption about the `ContentsType` type. What is it?
 
-Instantiating this class template with `Battery` or `Pizza` will work just fine because those classes define an `isFresh()` method.
+Well, spoiler alert: We are assuming that the `ContentsType` type is itself a class and the class contains a member function named `isFresh()`.
 
-What will happen if we attempt to instantiate a `Tupperware` class template with, say, an `int` or a `double`?
+Instantiating this class template with `StoredBattery` or `StoredPizza` arguments will work just fine because those classes define an `isFresh()` method.
+
+What would happen if we attempt to instantiate a `Tupperware` class template with, say, an `int` or a `double`?
