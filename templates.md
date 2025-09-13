@@ -261,7 +261,9 @@ Yes, yes, I am starting to see it. What happens if we just obscure the words `St
 
 Well, what's amazing about our discovery is that the coincidence is really _no_ coincidence at all! It's actually something called *generic programming*. The person who coined the term _generic programming_ had this to say about the concept:
 
-> "By generic programming, we mean the definition of algorithms and data structures at an abstract​ or generic level, thereby accomplishing many related programming tasks simultaneously."
+> "By generic programming, we mean the definition of algorithms and data structures at an abstract​ or generic level, thereby accomplishing many related programming tasks simultaneously."[^stepanov]
+
+[^stepanov]: David R. Musser and Alexander A. Stepanov, Generic Programming, in P. Gianni, ed., _Symbolic and Algebraic Computation: International Symposium ISSAC 1988_, Lecture Notes in Computer Science v. 38, Springer-Verlag, Berlin, 1989, pp. 13-25.
 
 The two implementations that we have written so far of the Tupperware ADT are specific to the types of objects that they contain – pizza and batteries. However, Tupperware can hold other types of contents. We could put in turkey, markers, crayons, paint, rolls of tape, etc.
 
