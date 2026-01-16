@@ -6,7 +6,7 @@ You can contact the _Times_' editorial department any time at [hawkinwh@ucmail.u
 
 ## What's News
 
-Now that the Microsoft has [signed an agreement to source electricity from the undamaged reactor at Three Mile Island](https://www.technologyreview.com/2024/09/26/1104516/three-mile-island-microsoft/), there will be enough excess energy in the grid managed by [PJM Interconnection](https://en.wikipedia.org/wiki/PJM_Interconnection) to support C++ developers in Ohio who are training generative AI models to conquer the game of Connect 4.
+Now that the Meta has signed on to build [a new source of nuclear energy in Pike County](https://about.fb.com/news/2026/01/meta-nuclear-energy-projects-power-american-ai-leadership/), there will be enough excess energy in the grid managed by [PJM Interconnection](https://en.wikipedia.org/wiki/PJM_Interconnection) to support C++ developers in Ohio who are training generative AI models to conquer the game of Connect 4.
 
 ## Nail the Basics
 
@@ -26,20 +26,33 @@ We can easily codify and formalize the rules for playing Connect 4 and increase 
 
 Great. That's very succinct and encompasses the entirety of the game. It's a good place to start. However, there are lots of unanswered questions: What is a "play"? What does it mean to "win"? When does a turn end and control of the board switch between the players?
 
-In order to answer those questions, we repeatedly refine our initial description and add more and more detail. Let's assume that there are two players, Player A and Player B:
+In order to answer those questions, we repeatedly refine our initial description by adding more and more detail. Let's assume that there are two players, Player A and Player B:
 
 1. Decide between Player A and B who goes first.
 2. Take turns making a play until someone wins.
 
 Good. Let's add additional refinement:
 
-![](./graphics/Connect4Algorithm.png)
+
+1. Decide between Player A and B who goes first.
+1. First player makes a play.
+1. Check whether first player won
+   - If yes, game is over and first player wins.
+   - Otherwise, continue ...
+4. Second player makes a play.
+1. Check whether second player won
+   - If yes, game is over and second player wins.
+   - Otherwise, continue ...
+6. First player makes a play.
+1. Check whether first player won (that's a mouthful!)
+   - If yes, game is over and first player wins.
+   - Otherwise, continue ...
 
 Okay, this is starting to get repetitive. But, by adding details to our description of the game play, we are making progress in the process of refining our initial, succinct _but complete_ algorithm for playing Connect 4. In the process of refining, we are not making our algorithm any more correct. We are simply making it more explicit.
 
 ## Fake Programming is *Real*ly Important 
 
-Although we are not yet programming in the truest sense of the word, we are completing a very important part of the software engineering and design process: writing _pseudocode_. Pseudocode is a type of programming language that looks like a combination of natural language and _actual_ programming language. We use pseudocode when designing a programming solution the same way that we use an outline when writing an essay -- to organize our thoughts.[^1]
+Although we are not yet programming in the truest sense of the word, we are completing a very important part of the software engineering and design process: writing _pseudocode_. Pseudocode is written in a type of programming language that looks like a combination of natural language and _actual_ programming language. We use pseudocode when designing a programming solution the same way that we use an outline when writing an essay -- to organize our thoughts.[^1]
 
 [^1]: You _do_ write an outline for all your essays, right?
 
@@ -60,7 +73,7 @@ What we generate by turning an algorithm (usually written in pseudocode) into so
 
 ## Shout From the Rooftops
 
-Although our solution is still very broad and, in some ways, very vague, we are slowly chipping away at the details. Each time we return to our algorithm and tweak it further, we are adding more details -- we are refining the description step by step. We are doing something that professional programmers do all the time -- [_stepwise refinement_](https://www.cs.cornell.edu/courses/JavaAndDS/stepwise/stepwise.html).
+Although our solution is still very broad and, in some ways, very vague, we are slowly chipping away at the details. Each time we return to our algorithm and tweak it further by adding more details we are refining the description step by step. This iterative process (study algorithm, tweak, study algorithm, tweak, ...) is something that professional programmers do all the time -- [_stepwise refinement_](https://www.cs.cornell.edu/courses/JavaAndDS/stepwise/stepwise.html).
 
 This technique is really important. When we start thinking about solving a problem, we focus as much as possible on the big picture. In the case of Connect 4, we talk about players, taking turns, winning, losing, etc. During our initial algorithm design, we pretended that we had good definitions for those terms and, for example, good ways to determine who won and lost. We wrote our algorithm as if they existed. 
 
@@ -95,6 +108,8 @@ Woah! Much simpler.
 
 What did we just do? Well, we deployed something that all good programmers use -- a variable. A _variable_ is the name of a place in memory that holds a value that can change over time. While you and I are playing our game, the "memory" is just our brain (until I fool you into thinking that it's actually my turn twice in a row!). When we are programming in C++, that memory will be _(non)volatile_ storage.
 
+Before moving on, notice something really important about the variable that we just introduced: the name for the variable (_Active Player_) is really descriptive of its contents. Although we could have chosen to name the variable _v_ or _x_ or _abracadabra_, that would not have been nearly as memorable, or descriptive.
+
 ## Abstract Art
 
 Earlier we discussed a very important term, abstraction, but I failed to give you a good definition. And I'm still not going to spell it out precisely!
@@ -109,7 +124,7 @@ I will say that there are myriad ways that computer scientists use abstraction a
 Doing Steps (2) and (3) repeatedly will (basically) give you a close approximation of a complete Connect 4 game. We could even give those two statements a name -- something like _make a play and check for winner_. Then, in a loop, our code for Connect 4 would be:
 
 ```
-While there is no winner,
+while there is no winner,
 do the statements in (make a play and check for winner).
 ```
 
