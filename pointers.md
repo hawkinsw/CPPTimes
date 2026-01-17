@@ -140,7 +140,7 @@ Because the storage for variables can occur anywhere in memory, a pointer-to-`X`
 
 Almost all of today's computers have more than $10$ gigabytes of memory. Consider the tablet computer on which I am penning this column -- it has $32$ GB of RAM! In order to uniquely identify every byte of memory on my tablet, I would need $34,359,738,368$ values. Now, here's the math!
 
-The computer can only handle $1$s and $0$s. So, how can you use those two values to represent decimals? Let's assign $1$, $2$, $3$, $4$, $5$, ... to a unique combination of a sequence of $1$s and $0$s. For example,
+The computer can only handle `1`s and `0`s. So, how can you use those two values to represent decimals? Let's assign $1$, $2$, $3$, $4$, $5$, ... to a unique combination of a sequence of `1`s and `0`s. For example,
 
 $$
 0000 = 0 \\
@@ -161,7 +161,7 @@ $$
 1111 = 15 \\
 $$
 
-Count up the lines above and note that there are 16 unique combinations possible of 4 `1`s/`0`s that can be used to represent the numbers $0$ through $15$. Mathematically, for a sequence of $n$ 1s and 0s, there are $2^n$ different combinations (e.g., $2^4=(2*2*2*2)=16$). So, in order to represent $34,359,738,368$ (the number of bytes of memory that my computer holds!) we would need
+Count up the lines above and note that there are 16 unique combinations possible of 4 `1`s/`0`s that can be used to represent the numbers $0$ through $15$. Mathematically, for a sequence of $n$ `1`s and `0`s, there are $`2^n`$ different combinations (e.g., $`2^4=(2*2*2*2)=16`$). So, in order to represent $34,359,738,368$ (the number of bytes of memory that my computer holds!) we would need
 
 $$
 2^n = 34359738368\\
@@ -169,7 +169,7 @@ n = log_2(34359738368)\\
 n = 35
 $$
 
-$35$ $1$s and $0$s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of $64$ $1$s/$0$s are better for representing addresses of bytes in memory! That's why they say that modern computers are so-called _64-bit computers_ as opposed to the 32-bit computers of the late 1990s. Every $1$/$0$ combination is represented in hardware by a bit and, remember, there are $8$ bits per byte. So a pointer-to-`X`-type variable occupies $64 / 8 = 8$ bytes of space! How cool is that?
+$35$ `1`s and `0`s. Because that's oddly specific to my tablet and computer scientists like to make things future-proof, they specified that sequences of $64$ `1`s/`0`s are better for representing addresses of bytes in memory! That's why they say that modern computers are so-called _64-bit computers_ as opposed to the 32-bit computers of the late 1990s. Every `1`/`0` combination is represented in hardware by a bit and, remember, there are $8$ bits per byte. So a pointer-to-`X`-type variable occupies $64 / 8 = 8$ bytes of space! How cool is that?
 
 ## Reassigning Pointers
 Remember the program from above: 
