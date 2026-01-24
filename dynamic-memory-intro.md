@@ -143,3 +143,14 @@ bool file_contains_credentials(const std::string &filename) {
 ```
 
 Now, no matter how it happens, when the function terminates, the destructor for `FileAccess` will get called and the underlying file handle will be properly closed! So, so cool!
+
+```C++
+int main() {
+  FlexibleOrder forder{};
+  Item item1{"banana"}, item2{"natural peanut butter"};
+  forder.add(item1);
+  forder.add(item2);
+...
+  return 0;
+}
+```
