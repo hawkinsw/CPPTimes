@@ -18,13 +18,17 @@ Left to its own devices, compilers are only aware of the language's reserved wor
 
 > Note: As we go throughout the semester, we will learn how to declare things other than variables. Just remember that a declaration is nothing more than a way to introduce a name into a program and telling the language how to interpret that name.
 
-Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although variable declaration and definition of variables can happen separately in C++, they most often occur simultaneously.
+Asking the compiler to set aside some memory for a variable we declare is known as defining a variable. Although declaration and definition of variables can happen separately in C++, they most often occur simultaneously.
+
+Every value in C++ has a type. The type associated with a variable defines, informally, the category of values that can be stored in that variable and what we can do with those values.[^type]
+
+[^type]: We will learn a more precise, technical definition of type, don't worry!
 
 Because every value in C++ has a type, and variables have values, it stands to reason that variables have types.
 
 ![](./graphics/syllogism.png)
 
-And, yes, that is what happens in C++. Therefore, a variable declaration _also_ associates a type with a variable in addition to introducing that variable's name to the compiler. This additional utility of the declaration is what we described above when we said that a declaration also tells the language how to interpret the name.
+And, yes, that is what happens in C++. The type is associated with a variable at its declaration. This additional utility of the declaration is what we described above when we said that a declaration also tells the language how to interpret the name.
 
 When a variable is defined, the compiler turns to the variable's type to determine how much memory to set aside for its value.
 
@@ -37,7 +41,7 @@ Names are intensely personal. They help us build an identity. The names for our 
 The more descriptive a variable's name, the better. That said, there are a few limitations that C++ puts on valid variable names:
 
 1. A variable cannot have the same name as a reserved word.
-2. A variable's name can consist solely of letters, numbers and `_`s.
+2. A variable's name must consist solely of letters, numbers and `_`s.
 3. A variable's name cannot start with a number.
 
 Valid variable names in C++ include: `testing`, `costOfHouse`, `final_grade`, and `numbers_over_14`.
@@ -46,7 +50,7 @@ Invalid variable names in C++ include `1st_President`, `best-friends`, and `#ofP
 
 ### Unchanging Variables
 
-Even (especially?) good programmers know that it is hard to remember the meaning of their code from one day to the next. The task of remembering the point of a snippet of code is all that much harder when there are strange numbers littered throughout the code. 
+Even (especially?) good programmers know that it is hard to remember the meaning of their code from one day to the next. The task of remembering the point of a snippet of code is all that much harder when there are strange numbers littered throughout. 
 
 For instance, consider the code below:
 
@@ -67,6 +71,6 @@ cupsOfMilk*ouncesPerCup
 
 Great! There's only one problem: We said that a variable is, uhm, _changeable_. That means that other programmers who edit our code are free to come along and change the number of ounces per cup. Reality says that is absolutely not okay but variables do not offer us any protection. The variables have given us a way to document the value's use but nothing else.
 
-Enter _constant variables_. These are variables whose value cannot change during the course of the program's execution (after they are first assigned a value) -- in a way, we shouldn't really consider them variables at all (they don't vary, after all!). 
+Enter _constant variables_. These are variables whose value cannot change during the course of the program's execution (after they are first assigned a value) -- in a way, we shouldn't really consider them variables at all (they don't, well, vary!). 
 
-In future editions of the C++ Times where the syntax of variables is introduced, we will explore the `const` keyword that is used to denote a constant variable in its declaration.
+In future editions of the C++ Times where additioal syntax of variables is discussed, we will explore the `const` keyword in a declaration/definition that is denotes a constant variable.
