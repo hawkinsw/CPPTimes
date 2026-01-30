@@ -21,11 +21,11 @@ int main() {
 }
 ```
 
-The first thing to notice is a missing `;` at the end of the _statement_ instructing us to fill a methane tank. Statements, complete instructions that define a computation, must end in a semicolon. In C++, most statements must end in a semicolon.
+The first thing to notice is a missing `;` at the end of the _statement_ instructing us to fill a methane tank. Statements, complete instructions that define a computation, usually end in semicolons in C++.
 
 The great thing about this error was that we could discover it with the help of the compiler. Any error that the compiler can detect is known as a _compile-time error_ because it is an error that happens, well, at compile time. Of course, this statement begs the question -- Just _what is_ compile time? Compile time is when the programmed is compiled. 
 
-Here is the corrected version of our code:
+Here is the updated version of our code:
 
 ```C++
 #include <iostream>
@@ -42,7 +42,7 @@ int main() {
 }
 ```
 
-If there is a compile time, then there must be another time ... the time when the program is executed. We call that the _run time_. With the fix in (i.e., the addition of the missing `;`), our code now compiles. That's half the battle. Now we need to determine what happens when the code _runs_.
+If there is a compile time, then there must be another time. That time is _run time_: the time when the program is executed. With the fix in (i.e., the addition of the missing `;`), our code now compiles. That's half the battle. Now we need to determine what happens when the code _runs_.
 
 If we run the compiled code shown above, the output (perhaps unexpectedly) looks like
 
@@ -66,7 +66,9 @@ fill methane tank.
 3. Lift off in the rocket ship.
 ```
 
-Let's see whether we can correct our bequeather's bumbles. We can add formatting information to the output so that the lines break in the proper spots. There are two ways to include information in a C++ program about where to create new lines in the output: the newline escape sequence (`\n`) and `std::endl`;
+Let's see whether we can correct our bequeather's bumbles. We can add formatting information to the output so that the lines in the output break in the proper spots. There are two ways to include information in a C++ program about where to create new lines in the output: the newline _escape sequence_[^escape] (`\n`) and `std::endl`;
+
+[^escape]: An escape sequence in a string is a pair characters: the `\` and another character. Even though an escape sequence is written with two characters, the system considers is a single character with a special meaning. The `\n` escape sequence is a newline. The `\t` is a tab character. There are [others](https://en.wikipedia.org/wiki/Bell_character), too!
 
 To use a newline escape sequence, just embed it in the string _literal_ you are printing to the screen:
 
@@ -110,4 +112,4 @@ fill methane tank.
 3. Lift off in the rocket ship.
 ```
 
-Looks like the only thing left is to claim our reward!
+Looks like the only thing left is to do as we were told and claim our reward!
