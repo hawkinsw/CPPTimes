@@ -89,13 +89,15 @@ The compiler needs our help ... and fast. How can we rescue it? Easy: Always _in
 
 > Note: Yes, of course there are situations where you want to declare/define a variable without giving it an initial value. And, when that is the case, you will _know_ it. Until then, ...
 
-For fundamental types (and it's even a good idea for compound types, too), there's [_uniform initialization_](https://isocpp.org/wiki/faq/cpp11-language#uniform-init) which requires the use of `{}` after the name of the variable in the declaration/definition. For example, if you wanted to make sure the day was calm, 
+For fundamental types (and it's even a good idea for [compound types](https://eel.is/c++draft/basic.compound), too), there's [_uniform initialization_](https://isocpp.org/wiki/faq/cpp11-language#uniform-init) which requires the use of `{}` after the name of the variable in the declaration/definition.[^uniform-init-nbs] For example, if you wanted to make sure the day was calm, 
 
 ```C++
 double wind_speed{};
 ```
 
 would declare, define and give an initial value to the `wind_speed` variable (meaning it is safe to read the variable's value immediately after declaration definition).
+
+[^uniform-init-nbs]: Note that there are several well-known best-practice guides that offer conflicting advice on whether uniform initialization is really the panacea it seems to be. The C++ Core Guidelines urge [its use](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#es23-prefer-the--initializer-syntax). Intel developer documentation [extols its virtues](https://www.intel.com/content/www/us/en/docs/sycl/introduction/latest/01-uniform-initialization.html), too. Finally, some very prominent C++ experts believe that it is a [powerful tool](https://herbsutter.com/2013/05/09/gotw-1-solution/). However, the coding style adopted by people who build LLVM argues [against its use](https://llvm.org/docs/CodingStandards.html#do-not-use-braced-initializer-lists-to-call-a-constructor). The authors of Abseil, a popular C++ library from Google, also believe that it [should not be used](https://abseil.io/tips/88).
 
 How could we fix our absent-minded AAA agent from earlier:
 
